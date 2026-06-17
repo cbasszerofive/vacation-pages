@@ -163,12 +163,28 @@ function PlaceCard({ item, expanded, onToggle, isFood }) {
           <div style={{ fontSize: 13, color: "#888", marginBottom: 6 }}>📍 {item.address}</div>
           {item.miles && <div style={{ fontSize: 13, color: "#888", marginBottom: 6 }}>📏 {item.miles} miles</div>}
           {!isFood && item.cost && <div style={{ fontSize: 13, color: "#888", marginBottom: 10 }}>💰 {item.cost}</div>}
-          {item.website && (
-            <a href={item.website} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}
-              style={{ display: "inline-block", background: zone.color, color: "#fff", borderRadius: 8, padding: "6px 14px", fontSize: 13, fontWeight: 600, textDecoration: "none" }}>
-              Open website →
-            </a>
-          )}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 4 }}>
+            {item.website && (
+              <a href={item.website} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}
+                style={{ display: "inline-block", background: zone.color, color: "#fff", borderRadius: 8, padding: "6px 14px", fontSize: 13, fontWeight: 600, textDecoration: "none" }}>
+                Open website →
+              </a>
+            )}
+            {item.address && (
+              <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.address)}`}
+                target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}
+                style={{ display: "inline-block", background: "#f0f4ff", color: "#3730a3", border: "1px solid #c7d2fe", borderRadius: 8, padding: "6px 14px", fontSize: 13, fontWeight: 600, textDecoration: "none" }}>
+                Google Maps ↗
+              </a>
+            )}
+            {item.address && (
+              <a href={`https://maps.apple.com/?q=${encodeURIComponent(item.address)}`}
+                target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}
+                style={{ display: "inline-block", background: "#f0f4ff", color: "#3730a3", border: "1px solid #c7d2fe", borderRadius: 8, padding: "6px 14px", fontSize: 13, fontWeight: 600, textDecoration: "none" }}>
+                Apple Maps ↗
+              </a>
+            )}
+          </div>
         </div>
       )}
     </div>
