@@ -249,7 +249,7 @@ function AddPlaceModal({ onClose, onAdd }) {
   const [error, setError] = useState(null);
   const [draft, setDraft] = useState(null);
   const [apiKey, setApiKey] = useState(() => {
-    try { return localStorage.getItem("anthropic_api_key") || ""; } catch { return ""; }
+    try { return localStorage.getItem("anthropic_api_key") || import.meta.env.VITE_ANTHROPIC_API_KEY || ""; } catch { return import.meta.env.VITE_ANTHROPIC_API_KEY || ""; }
   });
   const [showKey, setShowKey] = useState(false);
 
