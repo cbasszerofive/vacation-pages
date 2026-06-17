@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 
 const INITIAL_PLACES = [
   { name: "Cherry Beach", address: "Red Arrow Hwy, Harbert, MI", miles: 0.3, minutes: 2, region: "Harbert", website: "https://www.chikamingtownship.org/parks", cost: "Free; $15/day parking peak season", notes: "Secluded Lake Michigan beach; 657 ft of shoreline; short walk from the house", tags: ["beach", "free", "kids"] },
@@ -234,6 +234,40 @@ function loadAdditions() {
 }
 function saveAdditions(additions) {
   try { localStorage.setItem(ADDITIONS_KEY, JSON.stringify(additions)); } catch { /* ignore */ }
+}
+
+const GH_REPO = "cbasszerofive/vacation-pages";
+const GH_ADDITIONS_PATH = "public/additions.json";
+const GH_RAW_URL = `https://raw.githubusercontent.com/${GH_REPO}/main/${GH_ADDITIONS_PATH}`;
+const GH_TOKEN = import.meta.env.VITE_GITHUB_TOKEN || "";
+
+async function fetchSharedAdditions() {
+  try {
+    const res = await fetch(`${GH_RAW_URL}?t=${Date.now()}`);
+    if (!res.ok) return null;
+    return await res.json();
+  } catch {
+    return null;
+  }
+}
+
+async function pushSharedAdditions(additions) {
+  if (!GH_TOKEN) return;
+  const apiUrl = `https://api.github.com/repos/${GH_REPO}/contents/${GH_ADDITIONS_PATH}`;
+  const getRes = await fetch(apiUrl, {
+    headers: { Authorization: `Bearer ${GH_TOKEN}`, Accept: "application/vnd.github+json" },
+  });
+  const { sha } = await getRes.json();
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(additions, null, 2))));
+  await fetch(apiUrl, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${GH_TOKEN}`,
+      Accept: "application/vnd.github+json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ message: "Add place via app", content, sha }),
+  });
 }
 
 const fieldStyle = { width: "100%", padding: "9px 11px", borderRadius: 8, border: "1.5px solid #e0e0e0", fontSize: 14, outline: "none", boxSizing: "border-box", background: "#fafafa", fontFamily: "inherit" };
@@ -515,6 +549,15 @@ export default function TripPlanner() {
   });
   const [showAdd, setShowAdd] = useState(false);
 
+  useEffect(() => {
+    fetchSharedAdditions().then(shared => {
+      if (!shared) return;
+      saveAdditions(shared);
+      setPlaces([...INITIAL_PLACES, ...shared.places].sort((a, b) => a.minutes - b.minutes));
+      setRestaurants([...INITIAL_RESTAURANTS, ...shared.restaurants].sort((a, b) => a.minutes - b.minutes));
+    });
+  }, []);
+
   const isFood = tab === "food";
   const data = isFood ? restaurants : places;
   const tagList = isFood ? FOOD_TAGS : PLACE_TAGS;
@@ -524,13 +567,13 @@ export default function TripPlanner() {
   const handleAddPlace = (entry, targetTab) => {
     const byMinutes = arr => [...arr, entry].sort((a, b) => a.minutes - b.minutes);
     const curr = loadAdditions();
-    if (targetTab === "food") {
-      setRestaurants(byMinutes);
-      saveAdditions({ ...curr, restaurants: [...curr.restaurants, entry] });
-    } else {
-      setPlaces(byMinutes);
-      saveAdditions({ ...curr, places: [...curr.places, entry] });
-    }
+    const next = targetTab === "food"
+      ? { ...curr, restaurants: [...curr.restaurants, entry] }
+      : { ...curr, places: [...curr.places, entry] };
+    if (targetTab === "food") setRestaurants(byMinutes);
+    else setPlaces(byMinutes);
+    saveAdditions(next);
+    pushSharedAdditions(next).catch(console.error);
     setTab(targetTab);
     setActiveTags([]);
     setSearch("");
