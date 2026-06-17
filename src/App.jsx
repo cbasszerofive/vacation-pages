@@ -11,6 +11,7 @@ const INITIAL_PLACES = [
   { name: "Oselka Marina", address: "514 W Water St, New Buffalo, MI", miles: 9.2, minutes: 14, region: "New Buffalo", website: "https://www.oselkamarina.com", cost: "Varies (charters available)", notes: "Private marina with lakefront walking access and charter rentals", tags: ["water"] },
   { name: "New Buffalo Public Beach", address: "200 Marquette Dr, New Buffalo, MI", miles: 9.1, minutes: 14, region: "New Buffalo", website: "https://www.newbuffaloexplored.com/new-buffalo-beach", cost: "Free / Parking fee", notes: "Large public beach; playground, concessions, foot wash stations", tags: ["beach", "kids"] },
   { name: "Michigan City Boat Tour (Emita II)", address: "Washington Park, Michigan City, IN", miles: 17.2, minutes: 28, region: "Michigan City", website: "https://www.harborcountryadventures.com/michigan-city-boat-tours/", cost: "Varies (book ahead)", notes: "Cruise up the channel past Washington Park, out to Lake Michigan, past the lighthouse and along the Indiana Dunes. Mon–Thu at 2pm CST, Memorial Day–Labor Day. Tours sell out — arrive 30 min early. Call (269) 231-5867 to confirm. Weather permitting.", tags: ["water", "kids", "adventure"] },
+  { name: "Sarett Nature Center", address: "2300 Benton Center Rd, Benton Township, MI 49022", miles: 15.4, minutes: 22, region: "Benton Harbor", website: "https://www.sarett.com", cost: "Free (donations welcome)", notes: "350-acre Michigan Audubon wetlands preserve; 5+ miles of boardwalk trails through marshes, forest & prairie; exceptional birding. Open dawn to dusk daily.", tags: ["nature", "hiking", "free", "kids"] },
   { name: "Skellville (Skeleton Scenes)", address: "2400 M-139, Benton Harbor, MI", miles: 19.8, minutes: 26, region: "Benton Harbor", website: "https://skellville.net", cost: "$1/vehicle", notes: "Quirky outdoor folk-art skeleton display. Mon–Sat 10am–5pm", tags: ["quirky", "cheap"] },
   { name: "Music Bingo on The Patio", address: "Coach's Bar & Grill, 2528 W. Glenlord Rd, Stevensville, MI", miles: 22.4, minutes: 28, region: "Stevensville", website: "https://www.facebook.com/share/1DqAY39TbH/", cost: "Free to play; win $15–30 gift cards", notes: "Mondays 6–8pm, Jun 15–Sep 7. Four rounds of music bingo. Trip dates: Jun 22 & Jun 29", tags: ["evening", "free", "adult"] },
   { name: "Michigan City Lighthouse & Pier", address: "100 Heisman Harbor Rd, Michigan City, IN", miles: 17.2, minutes: 28, region: "Michigan City", website: "https://mchistorical.org", cost: "$10/adult; free under 14", notes: "Pier walk and lighthouse museum. Wed–Sun 1–4pm only", tags: ["lighthouse", "kids", "museum"] },
@@ -224,6 +225,15 @@ function stripHtml(html) {
 
 function emptyDraft(tab = "places") {
   return { name: "", address: "", miles: "", minutes: "", region: "", website: "", cost: "", type: "", notes: "", tab, tags: [] };
+}
+
+const ADDITIONS_KEY = "vacation_additions";
+function loadAdditions() {
+  try { return JSON.parse(localStorage.getItem(ADDITIONS_KEY) || '{"places":[],"restaurants":[]}'); }
+  catch { return { places: [], restaurants: [] }; }
+}
+function saveAdditions(additions) {
+  try { localStorage.setItem(ADDITIONS_KEY, JSON.stringify(additions)); } catch { /* ignore */ }
 }
 
 const fieldStyle = { width: "100%", padding: "9px 11px", borderRadius: 8, border: "1.5px solid #e0e0e0", fontSize: 14, outline: "none", boxSizing: "border-box", background: "#fafafa", fontFamily: "inherit" };
@@ -495,8 +505,14 @@ export default function TripPlanner() {
   const [activeTags, setActiveTags] = useState([]);
   const [expanded, setExpanded] = useState(null);
   const [showFilters, setShowFilters] = useState(false);
-  const [places, setPlaces] = useState(INITIAL_PLACES);
-  const [restaurants, setRestaurants] = useState(INITIAL_RESTAURANTS);
+  const [places, setPlaces] = useState(() => {
+    const { places: added } = loadAdditions();
+    return [...INITIAL_PLACES, ...added].sort((a, b) => a.minutes - b.minutes);
+  });
+  const [restaurants, setRestaurants] = useState(() => {
+    const { restaurants: added } = loadAdditions();
+    return [...INITIAL_RESTAURANTS, ...added].sort((a, b) => a.minutes - b.minutes);
+  });
   const [showAdd, setShowAdd] = useState(false);
 
   const isFood = tab === "food";
@@ -507,8 +523,14 @@ export default function TripPlanner() {
 
   const handleAddPlace = (entry, targetTab) => {
     const byMinutes = arr => [...arr, entry].sort((a, b) => a.minutes - b.minutes);
-    if (targetTab === "food") setRestaurants(byMinutes);
-    else setPlaces(byMinutes);
+    const curr = loadAdditions();
+    if (targetTab === "food") {
+      setRestaurants(byMinutes);
+      saveAdditions({ ...curr, restaurants: [...curr.restaurants, entry] });
+    } else {
+      setPlaces(byMinutes);
+      saveAdditions({ ...curr, places: [...curr.places, entry] });
+    }
     setTab(targetTab);
     setActiveTags([]);
     setSearch("");
