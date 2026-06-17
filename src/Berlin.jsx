@@ -12,52 +12,75 @@ const MUTED = 'rgba(232,230,224,0.5)';
 const days = [
   {
     date: 'Sun · Oct 25',
-    label: 'Departure',
+    label: 'Departure — Eastward Bound',
     icon: '✈️',
     activities: [
-      { text: 'Depart Cleveland Hopkins Airport', detail: 'United Airlines connecting through Newark. Flight doors: 8:50 PM.', icon: '🛫' },
-      { text: 'Overnight transatlantic flight', detail: 'Arrive Berlin ~10–11 AM local time (Berlin is UTC+1 in late October, 6 hours ahead of Cleveland).', icon: '🌙' },
+      {
+        text: 'Depart Cleveland Hopkins Airport (CLE)',
+        detail: 'United Airlines, connecting through Newark (EWR). Flight doors: 8:50 PM. Get comfortable — it\'s a long overnight flight.',
+        icon: '🛫',
+      },
+      {
+        text: 'Overnight transatlantic flight → Berlin Brandenburg (BER)',
+        detail: 'Berlin is 6 hours ahead of Cleveland. Rest on the plane.',
+        icon: '🌙',
+      },
     ],
   },
   {
     date: 'Mon · Oct 26',
-    label: 'Arrival & First Look',
+    label: 'Willkommen in Berlin',
     icon: '🏙️',
     activities: [
-      { text: 'Arrive Berlin — check in to hotel', detail: 'After an overnight flight you\'ll be tired but wired. Don\'t nap — push through into the afternoon to beat jet lag.', icon: '🏨' },
-      { text: 'Welcome dinner with group', detail: 'Venue TBD — group organizer to confirm.', icon: '🍽️', group: true },
+      {
+        text: 'Arrive Berlin — approximately 3:00 AM',
+        detail: 'Transfer to the hotel after landing. It\'s the middle of the night Berlin time — the goal is to get checked in and get a few hours of real sleep.',
+        icon: '🛬',
+      },
+      {
+        text: 'Check in — SO/ Berlin Das Lohse Hotel',
+        detail: 'Your home base for the week, right in the heart of the city.',
+        icon: '🏨',
+        highlight: true,
+      },
+      {
+        text: 'Welcome dinner at Zur letzten Instanz',
+        detail: 'Berlin\'s oldest restaurant, established 1621. The name means "Last Instance" — there\'s a courthouse next door. Napoleon reportedly warmed himself by the tile stove here in 1806 during his occupation of Berlin; Beethoven and Charlie Chaplin also dined here. Dark wood, low ceilings, tile stoves — properly old. Traditional Berlin food: order the Eisbein (slow-roasted pork knuckle) or Königsberger Klopse (meatballs in caper cream sauce). A great way to meet your fellow travelers.',
+        icon: '🍺',
+        group: true,
+        link: { label: 'Website', href: 'https://www.zurletzteninstanz.com' },
+      },
     ],
     free: {
       label: 'Free Time — Afternoon',
-      notes: 'Best strategy after a transatlantic flight: stay on your feet, eat something good, get daylight. Late October means sunset around 5:30 PM, so the golden hour comes early.',
+      notes: 'After a 3 AM arrival and a morning rest, you\'ll have the afternoon before the welcome dinner. Keep it easy — you\'ll be running on limited sleep. Late October means sunset around 5:30 PM, so the golden hour comes early.',
       ideas: [
-        { place: 'Café Einstein Stammhaus', detail: 'Grand Viennese coffeehouse on Kurfürstenstraße — dark wood, marble, white-jacketed waiters. Perfect for Christina\'s first Berlin coffee and a Apfelstrudel to stabilize after the flight.', link: 'https://maps.app.goo.gl/KWPgK7N5YSt3MxYP8' },
-        { place: 'Five Elephant (Kreuzberg)', detail: 'One of Berlin\'s best specialty coffee roasters. Also famous for their cheesecake. A 15-minute U-Bahn ride from most central hotels.', link: 'https://maps.app.goo.gl/Q2kZ5h95Z7e7S7aH6' },
-        { place: 'Walk Unter den Linden to Brandenburg Gate', detail: 'Berlin\'s grand boulevard — 1.4km lined with linden trees from the palace to the Gate. Classic first-look stroll with easy photo stops. Takes ~30 minutes leisurely.', link: 'https://maps.app.goo.gl/VLUzqZY6HtJuHRfU6' },
-        { place: 'Hackescher Markt & the Höfe', detail: 'A complex of eight interconnected Art Nouveau courtyards filled with boutiques, cafés, and galleries. Good for an easy wander without a plan.', link: 'https://maps.app.goo.gl/hNqE3RiZJX7GVMYP7' },
+        { place: 'Café Einstein Stammhaus', detail: 'Grand Viennese coffeehouse — dark wood, marble, white-jacketed waiters. Perfect for Christina\'s first Berlin coffee and an Apfelstrudel to settle in after the flight.', link: 'https://maps.app.goo.gl/KWPgK7N5YSt3MxYP8' },
+        { place: 'Walk Unter den Linden to Brandenburg Gate', detail: 'Berlin\'s grand boulevard — 1.4km lined with linden trees from the palace to the Gate. Classic first-look stroll. ~30 minutes leisurely, easy photo stops along the way.', link: 'https://maps.app.goo.gl/VLUzqZY6HtJuHRfU6' },
+        { place: 'Hackescher Markt & the Höfe', detail: 'A complex of eight interconnected Art Nouveau courtyards filled with boutiques and cafés. Good for a gentle wander with no agenda.', link: 'https://maps.app.goo.gl/hNqE3RiZJX7GVMYP7' },
       ],
     },
   },
   {
     date: 'Tue · Oct 27',
-    label: 'Jewish Memorial & City Tour',
+    label: 'Stories, Architecture & Cabaret',
     icon: '🕍',
     activities: [
       { text: 'Buffet breakfast', icon: '🥐', group: true },
       {
         text: 'Memorial to the Murdered Jews of Europe (Holocaust Memorial)',
-        detail: '2,711 concrete stelae of varying heights covering 4.7 acres, designed by Peter Eisenman and opened in 2005. The above-ground field is disorienting by design — the ground undulates, the stelae grow taller as you move inward. The underground Information Center tells individual stories with names and photographs. Free entry; allow 1–2 hours. Steps from Brandenburg Gate.',
+        detail: '2,711 concrete stelae of varying heights covering 4.7 acres, designed by Peter Eisenman (opened 2005). The above-ground field is disorienting by design — the ground undulates, the blocks grow taller as you move inward. The underground Information Center tells individual victims\' stories with names and photographs. Free entry; allow 1–2 hours. Steps from Brandenburg Gate.',
         icon: '🕍', group: true,
         link: { label: 'Google Maps', href: 'https://maps.app.goo.gl/LfCwBxULmTTw5L9j7' },
       },
       {
         text: 'Private coach panoramic city tour with local guide',
-        detail: 'Will cover Berlin\'s major landmarks: Brandenburg Gate, Reichstag (glass dome by Norman Foster), Checkpoint Charlie, East Side Gallery, Potsdamer Platz, Unter den Linden, and the division between former East and West. A good way to get oriented before exploring on your own.',
+        detail: 'Covers Berlin\'s major landmarks: Brandenburg Gate, Reichstag, Checkpoint Charlie, East Side Gallery, Potsdamer Platz, and the former division between East and West. A good way to get oriented before exploring on foot.',
         icon: '🚌', group: true,
       },
       {
         text: 'Dinner & live performance at Bar Jeder Vernunft',
-        detail: 'The legendary Mirror Tent (Spiegelzelt) in the Tiergarten — an Art Nouveau mirror-and-velvet tent from 1912, seating ~230 in a chandelier-lit interior that feels like another century. Shows blend cabaret, chanson, comedy, and jazz; past performers include Ute Lemper, k.d. lang, and Max Raabe. Time Out called it "one of the most cabaret experiences of its kind in Berlin." Smart casual dress. Performances typically in German but very accessible.',
+        detail: 'The legendary Mirror Tent (Spiegelzelt) in the Tiergarten — an Art Nouveau mirror-and-velvet tent from 1912, seating ~230 in a chandelier-lit interior that feels like another century. Shows blend cabaret, chanson, comedy, and jazz. Past performers include Ute Lemper, k.d. lang, and Max Raabe. Time Out called it "one of the most cabaret experiences of its kind in Berlin." Smart casual dress.',
         icon: '🎭', group: true,
         link: { label: 'Website', href: 'https://bar-jeder-vernunft.de/en' },
       },
@@ -65,124 +88,147 @@ const days = [
   },
   {
     date: 'Wed · Oct 28',
-    label: 'Sachsenhausen & Potsdam',
+    label: 'Reflection & Royal Splendor',
     icon: '🏛️',
     activities: [
       { text: 'Breakfast', icon: '🥐', group: true },
       {
         text: 'Sachsenhausen Concentration Camp Memorial',
-        detail: 'About 30 minutes north of Berlin in Oranienburg. Opened in 1936 as the SS\'s model concentration camp; approximately 200,000 prisoners were held here between 1936–1945, tens of thousands of whom died. The memorial and museum complex includes the original barracks, punishment cells, execution sites, and a thorough permanent exhibition. Wear comfortable shoes — most of the site is outdoor walking on gravel. Budget 2–3 hours. Emotionally heavy; the group will likely be quiet on the ride to Potsdam.',
+        detail: 'About 30 minutes north of Berlin in Oranienburg. Opened 1936 as the SS\'s model concentration camp; approximately 200,000 prisoners were held here, tens of thousands of whom died. The memorial complex includes original barracks, punishment cells, execution sites, and a thorough permanent exhibition. Wear comfortable shoes — extensive outdoor walking on gravel. Budget 2–3 hours. Emotionally heavy; the group will likely be quiet on the coach to Potsdam.',
         icon: '🕯️', group: true,
         link: { label: 'Google Maps', href: 'https://maps.app.goo.gl/bJHFtJoSVrdFqaLK8' },
       },
       {
         text: 'Potsdam — Marble Palace & Sanssouci',
-        detail: 'Sanssouci (French for "without a care") was Frederick the Great\'s personal retreat, not Prussia\'s formal palace — it\'s intimate and strange. A single-story rococo building perched atop six terraced levels of grapevines. Built 1747; Frederick is buried here under the terrace among his greyhounds, per his wishes. The 300-hectare park holds multiple palaces and follies. The Marble Palace (Marmorpalais) sits on the shore of Heiliger See — neoclassical, built for Frederick William II in the 1790s. UNESCO World Heritage Site since 1990. Late October means fewer crowds; autumn foliage in the park can be beautiful.',
+        detail: 'Sanssouci (French for "without a care") was Frederick the Great\'s personal retreat — intimate and unusual. A single-story rococo palace perched atop six terraced levels of grapevines, built 1747. Frederick is buried here under the terrace among his greyhounds, per his own wishes. The 300-hectare park holds multiple palaces and follies. The Marble Palace (Marmorpalais) sits on the shore of Heiliger See — neoclassical, built for Frederick William II in the 1790s. UNESCO World Heritage Site. Late October means fewer crowds and autumn foliage.',
         icon: '🌿', group: true,
         link: { label: 'Google Maps', href: 'https://maps.app.goo.gl/oLbw4QvHa7bV2Qcu5' },
       },
     ],
     free: {
       label: 'Free Time — Evening',
-      notes: 'The biggest open evening of the trip. You\'ll be back in Berlin after Potsdam — good energy for dinner somewhere memorable and an evening walk.',
+      notes: 'The biggest open evening of the trip. You\'ll be back in Berlin after Potsdam — good energy for dinner somewhere memorable and a walk.',
       ideas: [
-        { place: 'Nobelhart & Schmutzig', detail: '"Brutally local" tasting menu — only ingredients from within 200km of Berlin. One of the city\'s most talked-about restaurants. Book a week or more ahead.', link: 'https://maps.app.goo.gl/2vsPcVfJjfeBivAy8' },
-        { place: 'Ottenthal', detail: 'Cozy Austrian restaurant in Charlottenburg — outstanding wine list, schnitzel done properly, warm atmosphere. A lower-key but excellent choice.', link: 'https://maps.app.goo.gl/JpkMkEEjmhZjhNEH9' },
-        { place: 'Spree riverbank walk (Museumsinsel area)', detail: 'The stretch along the Spree past Museum Island and the Berlin Cathedral is beautiful at night — lit bridges, reflections on the water. Easy 20-minute walk from Mitte.', link: 'https://maps.app.goo.gl/j2WFJ8JPRS1LMJnXA' },
-        { place: 'Gendarmenmarkt at night', detail: 'Berlin\'s most beautiful square — French Cathedral, German Cathedral, and Konzerthaus. Often has a market beginning in November. 5 minutes from Unter den Linden.', link: 'https://maps.app.goo.gl/yiHDENGGM1nfJCGU7' },
+        { place: 'Nobelhart & Schmutzig', detail: '"Brutally local" tasting menu — only ingredients from within 200km of Berlin. One of the city\'s most talked-about restaurants. Book at least a week ahead.', link: 'https://maps.app.goo.gl/2vsPcVfJjfeBivAy8' },
+        { place: 'Ottenthal', detail: 'Cozy Austrian restaurant in Charlottenburg — outstanding wine list, excellent schnitzel, warm atmosphere. Lower-key but genuinely excellent.', link: 'https://maps.app.goo.gl/JpkMkEEjmhZjhNEH9' },
+        { place: 'Spree riverbank walk (Museumsinsel)', detail: 'The stretch along the Spree past Museum Island and the Berlin Cathedral is beautiful lit up at night — bridges, reflections on the water. Easy 20-minute walk from Mitte.', link: 'https://maps.app.goo.gl/j2WFJ8JPRS1LMJnXA' },
+        { place: 'Gendarmenmarkt at night', detail: 'Berlin\'s most beautiful square — French Cathedral, German Cathedral, and Konzerthaus flanking a wide open plaza. Five minutes from Unter den Linden.', link: 'https://maps.app.goo.gl/yiHDENGGM1nfJCGU7' },
       ],
-      avoid: ['Zur letzten Instanz', 'Bar Jeder Vernunft', 'Babel at Gropius Bau', 'Mittelalter dinner venue'],
+      avoid: ['Bar Jeder Vernunft', 'Zur letzten Instanz', 'Babel at Gropius Bau', 'Mittelalter dinner venue'],
     },
   },
   {
     date: 'Thu · Oct 29',
-    label: 'Opera Night',
+    label: 'Art, Memory & Opera',
     icon: '🎼',
     activities: [
       { text: 'Breakfast', icon: '🥐', group: true },
       {
-        text: 'Opera performance',
-        detail: 'Venue and title TBD — group organizer to confirm. Berlin has three world-class opera houses: the Staatsoper Unter den Linden (most prestigious; neoclassical building on the famous boulevard, recently renovated), the Deutsche Oper in Charlottenburg (large repertoire house), and the Komische Oper (known for bold, inventive staging). All are exceptional.',
-        icon: '🎼', group: true,
+        text: 'Topography of Terror Museum',
+        detail: 'Built on the exact site of the former SS and Gestapo headquarters. Outdoor and indoor exhibitions document the Nazi terror apparatus in clinical, powerful detail. Free entry. Puts much of what you\'ve already seen in Berlin into a broader context.',
+        icon: '🏛️', group: true,
+        link: { label: 'Google Maps', href: 'https://maps.app.goo.gl/Q8tHH1BhCGPeKP1F6' },
       },
-      { text: 'Remainder of day TBD', icon: '📋' },
+      {
+        text: 'Lunch included — Babel at the Gropius Bau',
+        detail: 'The Martin-Gropius-Bau is a grand neo-Renaissance exhibition hall adjacent to the Topography of Terror. Babel is the in-house restaurant: seasonal menu, good natural light, a calm midday stop. A local guide will walk you through the building and the surrounding area, including the nearby car-free village of Lichde and its marketplace for a taste of local food.',
+        icon: '🍽️', group: true,
+        link: { label: 'Google Maps', href: 'https://maps.app.goo.gl/Q8tHH1BhCGPeKP1F6' },
+      },
+      {
+        text: 'Deutsche Oper Berlin',
+        detail: 'One of Germany\'s finest and largest opera houses, in Charlottenburg. World-class productions across the full operatic repertoire. Even if opera is new to you, this is a world-class experience worth dressing up for. Program to be announced May 2026.',
+        icon: '🎼', group: true,
+        link: { label: 'Website', href: 'https://www.deutscheoperberlin.de/en' },
+      },
     ],
   },
   {
     date: 'Fri · Oct 30',
-    label: 'Museums & Medieval Dinner',
-    icon: '🏺',
+    label: 'Day at Leisure',
+    icon: '🗓️',
     activities: [
-      { text: 'Breakfast', icon: '🥐', group: true },
       {
-        text: 'Babel restaurant at the Gropius Bau',
-        detail: 'The Martin-Gropius-Bau is a neo-Renaissance landmark exhibition hall near the former site of the Gestapo HQ (now the Topography of Terror memorial, open-air and free — worth a quick look before or after lunch). Babel is the in-house restaurant: seasonal menu, good natural light, a calm midday stop between a heavy morning and a theatrical evening.',
-        icon: '🍴', group: true,
-        link: { label: 'Google Maps', href: 'https://maps.app.goo.gl/Q8tHH1BhCGPeKP1F6' },
-      },
-      { text: 'Museum visit (TBD — group organizer to confirm)', icon: '🏺', group: true },
-      {
-        text: 'Mittelalter medieval dinner',
-        detail: 'An immersive themed dinner experience: no modern cutlery (eat with hands and a knife), period costumes on the staff, mead and ale, live entertainment including juggling, music, and comedy. Usually runs 2.5–3 hours. Loud, theatrical, and very fun — a good antidote to a historically heavy day.',
-        icon: '⚔️', group: true,
+        text: 'Activities TBD — check with group organizer',
+        detail: 'This day is not specified in the official ORMACO itinerary. Confirm with your trip organizer whether activities are planned.',
+        icon: '📋',
       },
     ],
   },
   {
     date: 'Sat · Oct 31',
-    label: 'Symphony & Berlin\'s Oldest Restaurant',
+    label: 'Museum Island & Symphony Night',
     icon: '🎻',
     activities: [
       { text: 'Breakfast', icon: '🥐', group: true },
       {
-        text: 'Berlin Philharmonic',
-        detail: 'One of the greatest orchestras in the world. The Philharmonie concert hall (1963, Hans Scharoun) places the orchestra at the center with audience seating rising around it in "vineyard" terraces — there is no bad seat. Acoustics are considered among the finest anywhere. The building itself is a major work of architecture: asymmetric, golden, and unlike anything else. Smart dress; arrive early to walk the foyer.',
-        icon: '🎻', group: true,
-        link: { label: 'Website', href: 'https://www.berliner-philharmoniker.de/en/' },
+        text: 'Museum Island (Museumsinsel)',
+        detail: 'A UNESCO World Heritage site — five world-class museums on a small island in the Spree River. The Pergamon holds massive reconstructed ancient gates (the Pergamon Altar, the Ishtar Gate of Babylon). The Neues Museum houses the famous bust of Nefertiti. The Alte Nationalgalerie has 19th-century European paintings. Allow a full morning; it\'s easy to spend 3+ hours here.',
+        icon: '🏛️', group: true,
+        link: { label: 'Google Maps', href: 'https://maps.app.goo.gl/WZ3BHQAaJFV2vrG99' },
       },
       {
-        text: 'Dinner at Zur letzten Instanz',
-        detail: 'Berlin\'s oldest restaurant, established 1621 — the name means "Last Instance," a nod to the courthouse next door. Napoleon reportedly warmed himself by the tile stove in 1806 during his occupation of Berlin; Beethoven and Charlie Chaplin also dined here. Located in the historic Nikolaiviertel (Nicholas Quarter). Dark wood, low ceilings, tile stoves, properly old. Order the Eisbein (slow-roasted pork knuckle) — it\'s the signature dish and what Berliners order here. Also excellent: Königsberger Klopse (meatballs in caper cream sauce).',
-        icon: '🍺', group: true,
-        link: { label: 'Website', href: 'https://www.zurletzteninstanz.com' },
+        text: 'Rundfunk-Sinfonieorchester Berlin — evening symphony',
+        detail: 'One of Germany\'s most prestigious orchestras, founded in 1923. Performs at the Berliner Philharmonie or the Haus des Rundfunks depending on the program. A beautiful capstone to a day in the arts. Program to be announced May 2026.',
+        icon: '🎻', group: true,
       },
     ],
   },
   {
     date: 'Sun · Nov 1',
-    label: 'Free Day',
-    icon: '🗺️',
+    label: 'Democracy, Memory & Farewell Feast',
+    icon: '🏰',
     activities: [
-      { text: 'Farewell dinner with group — evening', detail: 'Venue TBD — group organizer to confirm.', icon: '🥂', group: true },
+      { text: 'Breakfast', icon: '🥐', group: true },
+      {
+        text: 'Bundestag — glass dome tour',
+        detail: 'Germany\'s parliament building, topped by Sir Norman Foster\'s iconic glass dome (1999). A spiral walkway winds up inside for panoramic views over the city. The dome is symbolically transparent — you can look down into the plenary chamber below. Free with advance registration.',
+        icon: '🏛️', group: true,
+        link: { label: 'Google Maps', href: 'https://maps.app.goo.gl/3JNf9y9xzpRB5JYRA' },
+      },
+      {
+        text: 'Brandenburg Gate, Holocaust Memorial & Tiergarten walk',
+        detail: 'A guided walk through the historic district connecting the landmarks at the heart of Berlin\'s divided and reunified history. The Tiergarten is Berlin\'s central park — 210 hectares of woodland in the middle of the city.',
+        icon: '🚶', group: true,
+      },
+      {
+        text: 'Mittelalter medieval dinner — farewell feast',
+        detail: 'The group\'s final dinner together: an immersive medieval-themed experience with period costumes, mead and ale, no modern cutlery (eat with hands and a knife), and live entertainment — juggling, music, comedy. Loud, theatrical, and a genuinely fun send-off after a week of heavy culture.',
+        icon: '⚔️', group: true,
+      },
     ],
     free: {
-      label: 'Free Time — Full Afternoon',
-      notes: 'The most open window of the trip. Sunday in Berlin is relaxed — shops are largely closed (Germany strictly observes Sunday trading laws) except for markets, cafés, museums, and tourist-area exceptions. Best day for the East Side Gallery, souvenirs at the markets, and a museum.',
+      label: 'Free Time — Afternoon',
+      notes: 'The most open window of the trip. Note: Sunday trading laws in Germany mean most shops are closed, with exceptions for markets, cafés, museums, and tourist-area stores.',
       ideas: [
-        { place: 'East Side Gallery', detail: '1.3km of murals painted directly on the surviving Berlin Wall by international artists after reunification. Free, outdoor, always open. The "Fraternal Kiss" (Brezhnev and Honecker) and "Trabant through the wall" are the iconic shots. Allow 45–60 min to walk the full length.', link: 'https://maps.app.goo.gl/xVST3e7QdBHGb8f88' },
-        { place: 'Ampelmännchen flagship store (Hackescher Markt)', detail: 'The little East German crosswalk figure is THE Berlin souvenir. The flagship store carries mugs, magnets, shirts, and toys at every price point — ideal for 4 kids with different taste levels.', link: 'https://maps.app.goo.gl/nGUHhyCiPfPV7YZS9' },
-        { place: 'Fassbender & Rausch chocolate shop (Gendarmenmarkt)', detail: 'Billed as Europe\'s largest chocolate shop — two floors, a rooftop café, and elaborate chocolate sculptures of Berlin landmarks. Great for kid gifts and personal indulgence. The hot chocolate is exceptional for Christina.', link: 'https://maps.app.goo.gl/HHWTwUJQNUkK7eNG6' },
-        { place: 'DDR Museum', detail: 'Hands-on interactive exhibit on everyday life in East Germany — you can sit inside a simulated Trabant car, see a furnished East German apartment, and learn what the Stasi was actually monitoring. Very accessible and not overly heavy. On the Spree across from the Berlin Cathedral.', link: 'https://maps.app.goo.gl/BXRtWk5Hp5YMW1vt9' },
-        { place: 'Prenzlauer Berg neighborhood stroll', detail: 'The most pleasant Sunday-strolling neighborhood in Berlin — tree-lined streets, independent cafés, Kastanienallee boutiques, Kollwitzplatz. The weekly market at Kollwitzplatz runs Sunday mornings (closes ~2 PM). Good photo backdrop.', link: 'https://maps.app.goo.gl/Xv3e9qb7MFsWcSGU7' },
+        { place: 'East Side Gallery', detail: '1.3km of murals painted on the surviving Berlin Wall by international artists after reunification. Free, always open. The "Fraternal Kiss" and "Trabant through the wall" are the iconic shots. Allow 45–60 min to walk the length.', link: 'https://maps.app.goo.gl/xVST3e7QdBHGb8f88' },
+        { place: 'Ampelmännchen flagship store (Hackescher Markt)', detail: 'The little East German crosswalk figure is THE Berlin souvenir. The flagship carries mugs, magnets, shirts, and toys — ideal for 4 kids at every price point.', link: 'https://maps.app.goo.gl/nGUHhyCiPfPV7YZS9' },
+        { place: 'Fassbender & Rausch chocolate shop (Gendarmenmarkt)', detail: 'Billed as Europe\'s largest chocolate shop — two floors, elaborate chocolate sculptures of Berlin landmarks, and a rooftop café. Great for kid gifts. The hot chocolate is exceptional for Christina.', link: 'https://maps.app.goo.gl/HHWTwUJQNUkK7eNG6' },
+        { place: 'DDR Museum', detail: 'Hands-on exhibit on everyday life in East Germany — sit in a simulated Trabant, see a furnished East German apartment, understand what the Stasi was monitoring. Very accessible; on the Spree across from the Berlin Cathedral.', link: 'https://maps.app.goo.gl/BXRtWk5Hp5YMW1vt9' },
+        { place: 'Prenzlauer Berg neighborhood', detail: 'The most pleasant Sunday-strolling neighborhood in Berlin — tree-lined streets, independent cafés, Kastanienallee boutiques. Kollwitzplatz Sunday market (closes ~2 PM). Good photos.', link: 'https://maps.app.goo.gl/Xv3e9qb7MFsWcSGU7' },
       ],
+      avoid: ['Bundestag (morning group activity)', 'Mittelalter dinner venue (evening group activity)'],
     },
   },
   {
     date: 'Mon · Nov 2',
-    label: 'Departure',
+    label: 'Auf Wiedersehen — Departure',
     icon: '🛫',
     activities: [
-      { text: 'Depart Berlin — return to Cleveland', icon: '✈️' },
+      { text: 'Depart Berlin Brandenburg Airport (BER)', icon: '✈️' },
+      { text: 'Arrive Newark (EWR) — 11:35 PM', detail: 'Overnight layover at Newark.', icon: '🌙' },
+      { text: 'Depart Newark (EWR) — 4:00 PM (next day)', detail: 'Connecting flight home.', icon: '🛫' },
+      { text: 'Arrive Cleveland Hopkins (CLE) — 5:40 PM', icon: '🏠' },
     ],
   },
 ];
 
 const tips = [
   { icon: '🌧️', label: 'Weather', detail: 'Late October in Berlin: 8–13°C (46–55°F), overcast, occasional rain. Pack layers and a packable rain jacket. Daylight runs roughly 7:30 AM–5:30 PM.' },
-  { icon: '💶', label: 'Cash', detail: 'Berlin is unusually cash-heavy for a major European city. Many restaurants, cafés, and shops still don\'t take cards. Carry €50–100 in cash at all times. ATMs are easy to find.' },
-  { icon: '🚇', label: 'Transit', detail: 'Berlin\'s BVG network (U-Bahn, S-Bahn, trams, buses) is excellent and covers everything. A day ticket (Tageskarte) runs ~€9–10 and is worth it on free days. Validate before boarding.' },
-  { icon: '🗣️', label: 'Language', detail: 'German, but English is widely spoken in central Berlin, hotels, and tourist areas. A "Danke" (thank you) and "Bitte" (please) go a long way.' },
-  { icon: '🍽️', label: 'Tipping', detail: 'Not mandatory but appreciated. The custom is to round up or say a specific amount when paying — you tell the server what to charge, rather than leaving cash on the table. ~10% is generous.' },
+  { icon: '💶', label: 'Cash', detail: 'Berlin is unusually cash-heavy for a major European city. Many restaurants, cafés, and shops still don\'t take cards. Carry €50–100 at all times. ATMs are easy to find.' },
+  { icon: '🚇', label: 'Transit', detail: 'Berlin\'s BVG network (U-Bahn, S-Bahn, trams, buses) is excellent. A day ticket (Tageskarte) runs ~€9–10 and is worth it on free days. Validate before boarding.' },
+  { icon: '🗣️', label: 'Language', detail: 'German, but English is widely spoken in central Berlin, hotels, and tourist areas. A "Danke" and "Bitte" go a long way.' },
+  { icon: '🍽️', label: 'Tipping', detail: 'Not mandatory but appreciated. Tell the server what to charge when paying — you say a specific amount rather than leaving cash on the table. ~10% is generous.' },
 ];
 
 function TipCard() {
@@ -217,9 +263,7 @@ function FreeBlock({ free }) {
               <span style={{ fontSize: 13, fontWeight: 700, color: TEXT }}>{idea.place}</span>
               {idea.link && (
                 <a href={idea.link} target="_blank" rel="noopener noreferrer"
-                  style={{ color: GOLD, fontSize: 11, textDecoration: 'none', fontWeight: 600 }}>
-                  Maps ↗
-                </a>
+                  style={{ color: GOLD, fontSize: 11, textDecoration: 'none', fontWeight: 600 }}>Maps ↗</a>
               )}
             </div>
             <div style={{ fontSize: 13, color: MUTED, lineHeight: 1.5 }}>{idea.detail}</div>
@@ -228,7 +272,7 @@ function FreeBlock({ free }) {
       </div>
       {free.avoid && (
         <div style={{ marginTop: 12, paddingTop: 10, borderTop: `1px solid ${GOLD_BORDER}`, fontSize: 12, color: MUTED }}>
-          <span style={{ fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.5 }}>Already on group itinerary — skip for free time:</span>{' '}
+          <span style={{ fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.5 }}>Skip for free time (already on group itinerary):</span>{' '}
           {free.avoid.join(' · ')}
         </div>
       )}
@@ -250,11 +294,15 @@ function DayCard({ day }) {
         </div>
       </div>
 
-      {groupItems.map((a, i) => (
+      {[...groupItems, ...personalItems].map((a, i) => (
         <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start', marginBottom: 12 }}>
           <span style={{ fontSize: 15, flexShrink: 0, marginTop: 2 }}>{a.icon}</span>
           <div>
-            <div style={{ fontSize: 14, color: TEXT, lineHeight: 1.45, marginBottom: a.detail ? 4 : 0 }}>
+            <div style={{
+              fontSize: 14, lineHeight: 1.45, marginBottom: a.detail ? 4 : 0,
+              color: a.highlight ? GOLD : a.group ? TEXT : MUTED,
+              fontWeight: a.highlight ? 700 : 400,
+            }}>
               {a.text}
               {a.link && (
                 <> <a href={a.link.href} target="_blank" rel="noopener noreferrer"
@@ -264,16 +312,6 @@ function DayCard({ day }) {
               )}
             </div>
             {a.detail && <div style={{ fontSize: 13, color: MUTED, lineHeight: 1.55 }}>{a.detail}</div>}
-          </div>
-        </div>
-      ))}
-
-      {personalItems.map((a, i) => (
-        <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start', marginBottom: 10 }}>
-          <span style={{ fontSize: 15, flexShrink: 0, marginTop: 2 }}>{a.icon}</span>
-          <div>
-            <div style={{ fontSize: 14, color: MUTED, lineHeight: 1.45, marginBottom: a.detail ? 4 : 0 }}>{a.text}</div>
-            {a.detail && <div style={{ fontSize: 13, color: MUTED, lineHeight: 1.55, opacity: 0.7 }}>{a.detail}</div>}
           </div>
         </div>
       ))}
@@ -291,12 +329,12 @@ export default function Berlin() {
           ← Three Oaks Planner
         </Link>
         <div style={{ fontSize: 11, letterSpacing: 2.5, textTransform: 'uppercase', color: GOLD, marginBottom: 6, opacity: 0.9 }}>
-          ORMACO Trip & Tours
+          ORMACO Trip & Tours · A Music, Arts & Culture Journey
         </div>
         <h1 style={{ margin: '0 0 4px', fontSize: 30, fontWeight: 800, letterSpacing: -0.5, color: '#fff' }}>Berlin 🇩🇪</h1>
         <p style={{ margin: '0 0 14px', fontSize: 15, color: MUTED }}>October 25 – November 2, 2026 · Chris & Christina</p>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-          {[['9 days', '📅'], ['3 free time blocks', '🕐'], ['2 travelers', '👫']].map(([label, icon]) => (
+          {[['9 days', '📅'], ['3 free time blocks', '🕐'], ['30 travelers', '👥'], ['SO/ Berlin Das Lohse Hotel', '🏨']].map(([label, icon]) => (
             <span key={label} style={{ fontSize: 12, color: TEXT, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: '4px 11px' }}>
               {icon} {label}
             </span>
