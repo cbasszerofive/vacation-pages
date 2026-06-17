@@ -180,8 +180,8 @@ const days = [
   },
   {
     date: 'Sat · Oct 31',
-    label: 'Museum Island & Symphony Night',
-    icon: '🎻',
+    label: 'Museum Island, Tango & Jazz',
+    icon: '🎷',
     activities: [
       { text: 'Breakfast', icon: '🥐', group: true },
       {
@@ -196,9 +196,20 @@ const days = [
         icon: '🌤️',
       },
       {
-        text: 'Rundfunk-Sinfonieorchester Berlin — evening symphony',
-        detail: 'One of Germany\'s most distinguished orchestras, founded in 1923. A fitting musical cap to the cultural week. Program to be announced spring 2026.',
-        icon: '🎻', group: true,
+        text: 'U-Bahn to Haus des Rundfunks — U2 toward Ruhleben',
+        detail: 'Head to Theodor-Heuss-Platz (~25 min from Mitte). Your Berlin Welcome Card covers the ride — no ticket needed.',
+        icon: '🚇', group: true,
+      },
+      {
+        text: 'Jazzik #4 — "End of the Rainbow" · RSB · 7:30 PM',
+        detail: 'The Rundfunk-Sinfonieorchester Berlin performs a tango-special evening of jazz and classical crossover: works by George Gershwin, Astor Piazzolla, and Charles Trenet alongside the acclaimed Quadro Nuevo ensemble. Held in the historic Großer Sendesaal of the Haus des Rundfunks (Masurenallee 8–14, Charlottenburg) — a stunning 1930 broadcast hall with extraordinary acoustics. After the concert, the foyer opens as a milonga with tango dancing and DJ Maria Mondio.',
+        icon: '🎷', group: true,
+        link: { label: 'Concert info', href: 'https://www.rsb-online.de/en/concerts/jazzik-4-end-of-the-rainbow/' },
+      },
+      {
+        text: 'U-Bahn back to NH Collection Berlin Mitte',
+        detail: 'U2 from Theodor-Heuss-Platz toward Pankow — back in Mitte in about 25 minutes.',
+        icon: '🚇', group: true,
       },
     ],
   },
