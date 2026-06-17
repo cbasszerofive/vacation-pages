@@ -230,13 +230,58 @@ function parseJsonLoose(text) {
   return JSON.parse(text.slice(start, end + 1));
 }
 
-function stripHtml(html) {
+function extractPageContent(html) {
   try {
     const doc = new DOMParser().parseFromString(html, "text/html");
-    return (doc.body?.textContent || "").replace(/\s+/g, " ").trim();
+    const parts = [];
+
+    // JSON-LD structured data (addresses, hours, prices already structured)
+    doc.querySelectorAll('script[type="application/ld+json"]').forEach(s => {
+      try { parts.push("STRUCTURED DATA: " + s.textContent.trim()); } catch { /* ignore */ }
+    });
+
+    // Open Graph + key meta tags
+    const meta = {};
+    doc.querySelectorAll("meta[property], meta[name]").forEach(m => {
+      const k = m.getAttribute("property") || m.getAttribute("name");
+      const v = m.getAttribute("content");
+      if (k && v && (k.startsWith("og:") || ["description", "keywords"].includes(k))) meta[k] = v;
+    });
+    if (Object.keys(meta).length) parts.push("META: " + JSON.stringify(meta));
+
+    // Title
+    const title = doc.querySelector("title")?.textContent?.trim();
+    if (title) parts.push("TITLE: " + title);
+
+    // Body text
+    const body = (doc.body?.textContent || "").replace(/\s+/g, " ").trim();
+    if (body) parts.push(body);
+
+    return parts.join("\n\n").slice(0, 8000);
   } catch {
-    return html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+    return html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").slice(0, 8000);
   }
+}
+
+async function fetchPageHtml(target) {
+  const timeout = ms => AbortSignal.timeout(ms);
+
+  // Proxy 1: allorigins (returns JSON wrapper)
+  try {
+    const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(target)}`, { signal: timeout(8000) });
+    if (res.ok) {
+      const json = await res.json();
+      if (json?.contents) return json.contents;
+    }
+  } catch { /* try next */ }
+
+  // Proxy 2: corsproxy.io (returns raw HTML)
+  try {
+    const res = await fetch(`https://corsproxy.io/?${encodeURIComponent(target)}`, { signal: timeout(8000) });
+    if (res.ok) return await res.text();
+  } catch { /* try next */ }
+
+  throw new Error("PROXY");
 }
 
 function emptyDraft(tab = "places") {
@@ -362,11 +407,8 @@ function AddPlaceModal({ onClose, onAdd }) {
     setLoading(true);
     setError(null);
     try {
-      const proxyUrl = "https://api.allorigins.win/get?url=" + encodeURIComponent(target);
-      const resp = await fetch(proxyUrl);
-      if (!resp.ok) throw new Error("PROXY");
-      const json = await resp.json();
-      const text = stripHtml(json?.contents || "").slice(0, 3000);
+      const html = await fetchPageHtml(target);
+      const text = extractPageContent(html);
       if (!text) throw new Error("PROXY");
 
       const extracted = await extractWithClaude(target, text);
