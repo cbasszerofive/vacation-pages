@@ -446,6 +446,14 @@ function AddPlaceModal({ onClose, onAdd }) {
                 <Field label="Minutes" type="number" value={draft.minutes} onChange={v => update("minutes", v)} placeholder="0" />
               </div>
             </div>
+            {draft.address && draft.address.trim() && (
+              <a
+                href={`https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(ORIGIN)}&destination=${encodeURIComponent(draft.address)}`}
+                target="_blank" rel="noopener noreferrer"
+                style={{ display: "inline-flex", alignItems: "center", gap: 5, marginTop: 4, fontSize: 12, color: "#2D6A4F", fontWeight: 600, textDecoration: "none", background: "#edf7f2", border: "1px solid #a8d5be", borderRadius: 8, padding: "5px 10px" }}>
+                🗺️ Get distance from home base ↗
+              </a>
+            )}
             <Field label="Region" value={draft.region} onChange={v => update("region", v)} placeholder="City / area" />
             <Field label="Website" value={draft.website} onChange={v => update("website", v)} placeholder="https://…" />
             {draft.tab === "food"
@@ -538,6 +546,19 @@ export default function TripPlanner() {
         </div>
         <h1 style={{ margin: 0, fontSize: 26, fontWeight: 800, letterSpacing: -0.5 }}>Three Oaks Trip 🌊</h1>
         <p style={{ margin: "6px 0 0", fontSize: 14, opacity: 0.8 }}>{places.length} places · {restaurants.length} food & drink spots</p>
+        <div style={{ marginTop: 10, display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+          <span style={{ fontSize: 12, opacity: 0.7 }}>📍 Home base:</span>
+          <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ORIGIN)}`}
+            target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}
+            style={{ fontSize: 12, color: "#fff", textDecoration: "none", background: "rgba(255,255,255,0.15)", padding: "3px 10px", borderRadius: 20, border: "1px solid rgba(255,255,255,0.25)", fontWeight: 600 }}>
+            Google Maps ↗
+          </a>
+          <a href={`https://maps.apple.com/?q=${encodeURIComponent(ORIGIN)}`}
+            target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}
+            style={{ fontSize: 12, color: "#fff", textDecoration: "none", background: "rgba(255,255,255,0.15)", padding: "3px 10px", borderRadius: 20, border: "1px solid rgba(255,255,255,0.25)", fontWeight: 600 }}>
+            Apple Maps ↗
+          </a>
+        </div>
       </div>
 
       {/* Tabs */}
