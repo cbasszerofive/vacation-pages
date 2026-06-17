@@ -1,1 +1,22 @@
-{"places":[],"restaurants":[]}
+{
+  "places": [
+    {
+      "name": "South Haven South Pierhead Light",
+      "address": "South Pier, Mouth of Black River, South Haven, MI 49090",
+      "miles": 38,
+      "minutes": 45,
+      "region": "South Haven",
+      "website": "https://southhavenlight.org/",
+      "notes": "Historic lighthouse lit in 1872, still operational. Not open for public tours due to liability, but 'sneak peek' lower level access offered during HarborFest and Labor Day weekend. Sits at the west end of the South Pier at the mouth of the Black River — great photo op and walk. The Historical Association museum (Hartman School Building, 355 Hubbard St) is open Tue–Wed 9am–3pm and Sun 11am–4pm (Memorial Day through Labor Day), featuring exhibits on South Haven history, beach, cottages, and lighthouse.",
+      "tags": [
+        "lighthouse",
+        "historic",
+        "water",
+        "free",
+        "kids"
+      ],
+      "cost": "Free"
+    }
+  ],
+  "restaurants": []
+}
