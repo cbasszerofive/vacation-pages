@@ -16,6 +16,22 @@
         "kids"
       ],
       "cost": "Free"
+    },
+    {
+      "name": "Ludington Ghost Tour",
+      "address": "Ludington, MI (downtown walking tour)",
+      "miles": 98,
+      "minutes": 105,
+      "region": "Ludington",
+      "website": "https://usghostadventures.com/ludington-ghost-tour/",
+      "notes": "Evening walking ghost tour through downtown Ludington exploring eerie legends including the haunted Stearns Hotel. Guided tours with expert storytellers blending local history and paranormal lore. Rated 4.8/5 stars. Extended tour option available. Great for teens and adults. Book in advance online.",
+      "tags": [
+        "evening",
+        "historic",
+        "quirky",
+        "adventure"
+      ],
+      "cost": "$21 per person"
     }
   ],
   "restaurants": []
