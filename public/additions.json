@@ -32,6 +32,25 @@
         "adventure"
       ],
       "cost": "$21 per person"
+    },
+    {
+      "name": "Grand Mere State Park",
+      "address": "Thornton Drive, Stevensville, MI 49127",
+      "miles": 9,
+      "minutes": 15,
+      "region": "Stevensville",
+      "website": "https://www.michigan.gov/recsearch/parks/grandmere",
+      "notes": "Magnificent sand dunes, deep blowouts, and 0.5 miles of Lake Michigan shoreline accessed via two trails. Two inland lakes (South and Middle) behind the dunes popular for bluegill fishing. Great for hikers and runners. Track chair available to borrow at no cost for accessibility. Pets allowed on shoreline on 6-foot leash. Hunting occurs on Dune Trail during designated seasons — use caution. Pavilion with picnic tables and grills near main parking lot. No alcohol March 1–Sept 30 without permit. Snowshoeing allowed in winter.",
+      "tags": [
+        "beach",
+        "dunes",
+        "nature",
+        "hiking",
+        "kids",
+        "water",
+        "free"
+      ],
+      "cost": "Recreation Passport required for vehicle entry (Michigan State Park pass)"
     }
   ],
   "restaurants": []
