@@ -51,6 +51,24 @@
         "free"
       ],
       "cost": "Recreation Passport required for vehicle entry (Michigan State Park pass)"
+    },
+    {
+      "name": "Railway & Nature Adventure Garden at Fernwood Botanical Garden",
+      "address": "13988 Range Line Road, Niles, MI 49120",
+      "miles": 18,
+      "minutes": 28,
+      "region": "Niles",
+      "website": "https://www.fernwoodbotanical.org/railway-garden",
+      "notes": "Open May through October (season opens May 1). G-scale model trains wind through multiple track levels, crossing bridges, entering tunnels, passing ponds and waterfalls, and passing local landmarks made of all-natural materials. Designed by Paul Busse of Applied Imagination. Garden hours Tue–Sun 11am–4pm. Merges plant design, art, and history — beloved by kids and adults alike.",
+      "tags": [
+        "kids",
+        "garden",
+        "nature",
+        "art",
+        "quirky",
+        "saturday"
+      ],
+      "cost": "Admission to Fernwood required"
     }
   ],
   "restaurants": []
