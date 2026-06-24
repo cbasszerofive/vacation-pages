@@ -180,8 +180,8 @@ const days = [
   },
   {
     date: 'Sat · Oct 31',
-    label: 'Museum Island, Tango & Jazz',
-    icon: '🎷',
+    label: 'Museum Island & Symphony at the Philharmonie',
+    icon: '🎻',
     activities: [
       { text: 'Breakfast', icon: '🥐', group: true },
       {
@@ -196,19 +196,19 @@ const days = [
         icon: '🌤️',
       },
       {
-        text: 'U-Bahn to Haus des Rundfunks — U2 toward Ruhleben',
-        detail: 'Head to Theodor-Heuss-Platz (~25 min from Mitte). Your Berlin Welcome Card covers the ride — no ticket needed.',
+        text: 'S-Bahn to Philharmonie Berlin — S1/S2 to Potsdamer Platz',
+        detail: 'From any central S-Bahn stop, ride to Potsdamer Platz (~5–10 min from Mitte), then a 10-minute walk along the Tiergarten edge to the Philharmonie. Your Berlin Welcome Card covers the ride.',
         icon: '🚇', group: true,
       },
       {
-        text: 'Jazzik #4 — "End of the Rainbow" · RSB · 7:30 PM',
-        detail: 'The Rundfunk-Sinfonieorchester Berlin performs a tango-special evening of jazz and classical crossover: works by George Gershwin, Astor Piazzolla, and Charles Trenet alongside the acclaimed Quadro Nuevo ensemble. Held in the historic Großer Sendesaal of the Haus des Rundfunks (Masurenallee 8–14, Charlottenburg) — a stunning 1930 broadcast hall with extraordinary acoustics. After the concert, the foyer opens as a milonga with tango dancing and DJ Maria Mondio.',
-        icon: '🎷', group: true,
-        link: { label: 'Concert info', href: 'https://www.rsb-online.de/en/concerts/jazzik-4-end-of-the-rainbow/' },
+        text: 'Deutsches Symphonie-Orchester Berlin · 8:00 PM',
+        detail: 'One of the world\'s great orchestras in Berlin\'s iconic Philharmonie (Herbert-von-Karajan-Straße 1). Conductor Manfred Honeck leads a program of three works: Julia Perry\'s thunderous Short Piece for Orchestra (1952/65) — five sections that transform a single motif into a work of remarkable contrasts; Robert Schumann\'s long-neglected Violin Concerto, performed by Norwegian star violinist Vilde Frang, who has been instrumental in bringing this deeply expressive work to modern audiences; and Mahler\'s First Symphony — composed in just six weeks during an emotional upheaval, weaving in "Frère Jacques" in a haunting minor key, shifting between dreamlike lyricism and sudden jolts of reality.',
+        icon: '🎻', group: true,
+        link: { label: 'Concert info', href: 'https://www.dso-berlin.de/de/konzert/honeck-philharmonie-berlin-30-31-10-2026/' },
       },
       {
-        text: 'U-Bahn back to NH Collection Berlin Mitte',
-        detail: 'U2 from Theodor-Heuss-Platz toward Pankow — back in Mitte in about 25 minutes.',
+        text: 'S-Bahn back to NH Collection Berlin Mitte',
+        detail: 'S1/S2 from Potsdamer Platz — back in Mitte in about 10 minutes.',
         icon: '🚇', group: true,
       },
     ],
