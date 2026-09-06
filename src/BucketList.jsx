@@ -267,6 +267,7 @@ const hockingUnits = [
     note: 'One of three glass-fronted retreats set along the Hocking River — the whole front wall is the view.',
     href: 'https://hideawayonthehocking.com/rentals/the-bridge/',
     star: true,
+    areas: ['River'],
   },
   {
     name: 'The Falls',
@@ -275,6 +276,7 @@ const hockingUnits = [
     note: 'Glass-front retreat on the river, named for the water it looks onto.',
     href: 'https://hideawayonthehocking.com/rentals/the-falls/',
     star: true,
+    areas: ['River'],
   },
   {
     name: 'The Mill',
@@ -282,6 +284,7 @@ const hockingUnits = [
     tags: ['Glass retreat'],
     note: 'The third of the river retreats — same glass wall, its own stretch of bank.',
     href: 'https://hideawayonthehocking.com/rentals/the-mill/',
+    areas: ['River'],
   },
   {
     name: 'The Little Red Caboose',
@@ -319,6 +322,7 @@ const hockingUnits = [
     tags: ['Caboose'],
     note: 'Open floor plan sleeping four, with a covered porch and private fire pit looking out at the Hocking River, fields of sunflowers in season, or the Sanctuary Pond. Dogs over nine months welcome — $75 per stay, up to two, with a bed, bowl and towel provided.',
     href: 'https://hideawayonthehocking.com/rentals/the-little-brown-caboose/',
+    areas: ['River', 'Sanctuary Pond', 'Fields'],
   },
   {
     name: 'The 1890 Depot',
@@ -326,6 +330,63 @@ const hockingUnits = [
     tags: ['Depot'],
     note: 'The farm’s original 1890 train depot, restored and rentable — the piece of the property everything else is themed around.',
     href: 'https://hideawayonthehocking.com/rentals/',
+  },
+];
+
+
+// What is on the land, as opposed to where you sleep. `area` is what ties an
+// attraction to the stays near it — see the note on hockingUnits.
+const hockingAttractions = [
+  {
+    name: 'The Quarry',
+    kind: 'Pavilion',
+    area: 'Sanctuary Pond',
+    note: 'The 3,500 sq ft gathering pavilion, built around a 13-foot-wide, 20-foot-high indoor-outdoor stone fireplace. Teak tables for family-style dinners, leather sofas around the hearth, and the Sanctuary Pond beyond the glass.',
+    href: 'https://hideawayonthehocking.com/destination/the-quarry/',
+  },
+  {
+    name: 'The Sanctuary Pond',
+    kind: 'Water',
+    area: 'Sanctuary Pond',
+    note: 'Egrets, mallards and blue heron are regulars; bluegill year-round, with yellow perch and largemouth bass by spring. Cast a line, walk the path around it, or sit on one of the cushioned boulders at the edge.',
+  },
+  {
+    name: 'The Summit Hideout',
+    kind: 'Lookout',
+    area: 'The Summit',
+    note: 'A 100 sq ft wooden lean-to at one of the highest points on the farm, kitted out with loungers, nature books and binoculars. Two miles up the Summit Loop to a panorama of the Southeast Ohio foothills.',
+    href: 'https://hideawayonthehocking.com/destination/the-summit-hideout/',
+  },
+  {
+    name: 'The Angler Hideout',
+    kind: 'Hideout',
+    area: 'Farm Pond',
+    note: 'A hammock and a picnic table on the edge of the Ol’ Hayes Farm Pond, under towering pines. The quiet counterpart to the Summit climb.',
+  },
+  {
+    name: 'Kayak float on the Hocking',
+    kind: 'Water',
+    area: 'River',
+    note: 'A two-mile float along the Hayes family farm, past crops, sand bars and trees, with put-in access on the property.',
+  },
+  {
+    name: 'Eagle’s Path Trail',
+    kind: 'Trail',
+    area: 'Trails',
+    note: 'One of five private trails, which run from a half-mile stroll along the river’s edge up to the climb to the Summit.',
+    href: 'https://hideawayonthehocking.com/destination/eagles-path-trail/',
+  },
+  {
+    name: 'The U-pick garden',
+    kind: 'Farm',
+    area: 'Fields',
+    note: 'Seasonal picking on a working farm — corn and tomatoes in summer, pumpkins and sunflowers into the fall.',
+  },
+  {
+    name: 'The Happily Ever After Hideout',
+    kind: 'Hideout',
+    note: 'A named spot on the property I could only find by title — worth asking about if you are marking an occasion.',
+    href: 'https://hideawayonthehocking.com/destination/the-happily-ever-after-hideout/',
   },
 ];
 
@@ -394,6 +455,7 @@ const items = [
       { label: 'Maps', href: 'https://www.google.com/maps/search/?api=1&query=20750+River+Road+Guysville+OH+45735' },
     ],
     cabins: hockingUnits,
+    attractions: hockingAttractions,
   },
 ];
 
@@ -475,6 +537,9 @@ function CabinCard({ cabin }) {
       <div style={{ fontSize: 12.5, color: MUTED, lineHeight: 1.55 }}>{cabin.note}</div>
 
       <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center', marginTop: 'auto', paddingTop: 4 }}>
+        {(cabin.areas ?? []).map(a => (
+          <span key={a} style={{ fontSize: 10.5, color: ACCENT, background: ACCENT_DIM, border: `1px solid ${ACCENT_BORDER}`, borderRadius: 6, padding: '2px 7px' }}>📍 {a}</span>
+        ))}
         {(cabin.tags ?? []).map(t => (
           <span key={t} style={{ fontSize: 10.5, color: MUTED, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 6, padding: '2px 7px' }}>{t}</span>
         ))}
@@ -487,12 +552,14 @@ function CabinCard({ cabin }) {
   );
 }
 
-function CabinBrowser({ cabins }) {
+function CabinBrowser({ cabins, area, onClearArea, heading = 'The cabins' }) {
   const [filter, setFilter] = useState('all');
   const [sort, setSort] = useState('size');
 
   const filters = useMemo(() => filtersFor(cabins), [cabins]);
   const hasPrices = cabins.some(c => c.price);
+  // Only some properties publish where a unit sits on the land.
+  const located = cabins.filter(c => c.areas?.length).length;
 
   const counts = useMemo(
     () => Object.fromEntries(filters.map(f => [f.key, cabins.filter(f.match).length])),
@@ -501,17 +568,18 @@ function CabinBrowser({ cabins }) {
 
   const shown = useMemo(() => {
     const active = filters.find(f => f.key === filter) ?? filters[0];
-    const list = cabins.filter(active.match);
+    let list = cabins.filter(active.match);
+    if (area) list = list.filter(c => c.areas?.includes(area));
     // Units without a published figure sort last rather than jumping to front.
     if (sort === 'size') return [...list].sort((a, b) => (a.guests ?? Infinity) - (b.guests ?? Infinity));
     if (sort === 'price') return [...list].sort((a, b) => (a.price ?? Infinity) - (b.price ?? Infinity));
     return list;
-  }, [cabins, filter, sort, filters]);
+  }, [cabins, filter, sort, filters, area]);
 
   return (
     <div style={{ marginTop: 20 }}>
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 10, flexWrap: 'wrap' }}>
-        <span style={{ fontSize: 11, color: MUTED, letterSpacing: 1.5, textTransform: 'uppercase' }}>The cabins</span>
+        <span style={{ fontSize: 11, color: MUTED, letterSpacing: 1.5, textTransform: 'uppercase' }}>{heading}</span>
         <span style={{ fontSize: 12, color: MUTED }}>{shown.length} of {cabins.length}</span>
         <button
           onClick={() => setSort(s => (s === 'size' ? (hasPrices ? 'price' : 'listed') : s === 'price' ? 'listed' : 'size'))}
@@ -519,6 +587,19 @@ function CabinBrowser({ cabins }) {
           {sort === 'size' ? '↕ Smallest first' : sort === 'price' ? '↕ Cheapest first' : '↕ As listed'}
         </button>
       </div>
+
+      {area && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginBottom: 12, background: ACCENT_DIM, border: `1px solid ${ACCENT_BORDER}`, borderRadius: 10, padding: '8px 12px' }}>
+          <span style={{ fontSize: 12.5, color: TEXT }}>
+            Showing stays near <span style={{ fontWeight: 700, color: ACCENT }}>{area}</span>
+            {shown.length === 0 && ' — none of the units publish a location here'}
+          </span>
+          <button onClick={onClearArea}
+            style={{ marginLeft: 'auto', background: 'none', border: `1px solid ${ACCENT_BORDER}`, borderRadius: 20, color: ACCENT, fontSize: 11, fontWeight: 600, padding: '3px 10px', cursor: 'pointer' }}>
+            Clear
+          </button>
+        </div>
+      )}
 
       <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 14 }}>
         {filters.map(f => {
@@ -541,11 +622,70 @@ function CabinBrowser({ cabins }) {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: 10 }}>
         {shown.map(c => <CabinCard key={c.name} cabin={c} />)}
       </div>
+
+      {located > 0 && located < cabins.length && (
+        <div style={{ marginTop: 10, fontSize: 11.5, color: MUTED, lineHeight: 1.5 }}>
+          {located} of {cabins.length} units say where they sit on the land; the rest are placed somewhere on the
+          property without saying where, so they drop out when you pick a spot below.
+        </div>
+      )}
+    </div>
+  );
+}
+
+function AttractionSection({ attractions, area, onPick }) {
+  return (
+    <div style={{ marginTop: 24 }}>
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 10, flexWrap: 'wrap' }}>
+        <span style={{ fontSize: 11, color: MUTED, letterSpacing: 1.5, textTransform: 'uppercase' }}>On the land</span>
+        <span style={{ fontSize: 12, color: MUTED }}>{attractions.length} spots</span>
+        <span style={{ fontSize: 11.5, color: MUTED, marginLeft: 'auto' }}>Pick one to see the stays nearest it</span>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: 10 }}>
+        {attractions.map(a => {
+          const active = a.area && a.area === area;
+          const clickable = Boolean(a.area);
+          return (
+            <div key={a.name}
+              onClick={clickable ? () => onPick(active ? null : a.area) : undefined}
+              style={{
+                background: active ? ACCENT_DIM : 'rgba(255,255,255,0.03)',
+                border: `1px solid ${active ? ACCENT_BORDER : CARD_BORDER}`,
+                borderRadius: 12, padding: '13px 14px 12px',
+                display: 'flex', flexDirection: 'column', gap: 6,
+                cursor: clickable ? 'pointer' : 'default',
+              }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+                <span style={{ fontSize: 14, fontWeight: 700, color: active ? ACCENT : TEXT, flex: 1, lineHeight: 1.25 }}>
+                  {a.name}
+                </span>
+                <span style={{ fontSize: 11, color: MUTED, whiteSpace: 'nowrap' }}>{a.kind}</span>
+              </div>
+              <div style={{ fontSize: 12.5, color: MUTED, lineHeight: 1.55 }}>{a.note}</div>
+              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center', marginTop: 'auto', paddingTop: 4 }}>
+                {a.area && (
+                  <span style={{ fontSize: 10.5, color: active ? ACCENT : MUTED, background: 'rgba(255,255,255,0.05)', border: `1px solid ${active ? ACCENT_BORDER : 'rgba(255,255,255,0.08)'}`, borderRadius: 6, padding: '2px 7px' }}>
+                    📍 {a.area}
+                  </span>
+                )}
+                {a.href && (
+                  <a href={a.href} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}
+                    style={{ marginLeft: 'auto', color: ACCENT, fontSize: 11, textDecoration: 'none', fontWeight: 600 }}>Details ↗</a>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
 
 function ItemCard({ item }) {
+  // Picking a spot on the land narrows the stays; shared by both sections.
+  const [area, setArea] = useState(null);
+
   return (
     <div style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}`, borderRadius: 16, marginBottom: 16, overflow: 'hidden' }}>
       <div style={{ background: item.gradient, padding: '20px 18px 16px', borderBottom: `1px solid ${CARD_BORDER}` }}>
@@ -581,14 +721,25 @@ function ItemCard({ item }) {
           </div>
         ))}
 
-        {item.cabins && <CabinBrowser cabins={item.cabins} />}
+        {item.cabins && (
+          <CabinBrowser
+            cabins={item.cabins}
+            heading={item.attractions ? 'Where you’d stay' : 'The cabins'}
+            area={area}
+            onClearArea={() => setArea(null)}
+          />
+        )}
+
+        {item.attractions && (
+          <AttractionSection attractions={item.attractions} area={area} onPick={setArea} />
+        )}
 
         <div style={{ margin: '20px 0 4px', background: ACCENT_DIM, border: `1.5px solid ${ACCENT_BORDER}`, borderRadius: 12, padding: '14px 16px', fontSize: 13, color: MUTED, lineHeight: 1.55 }}>
           <span style={{ fontWeight: 700, color: ACCENT, textTransform: 'uppercase', letterSpacing: 0.5, fontSize: 12 }}>Booking</span>
           <div style={{ marginTop: 6 }}>{item.booking}</div>
         </div>
 
-        <div style={{ fontSize: 11, color: MUTED, letterSpacing: 1.5, textTransform: 'uppercase', margin: '18px 0 8px' }}>Nearby</div>
+        <div style={{ fontSize: 11, color: MUTED, letterSpacing: 1.5, textTransform: 'uppercase', margin: '18px 0 8px' }}>Nearby, off the property</div>
         <ul style={{ margin: 0, paddingLeft: 18, color: MUTED, fontSize: 13, lineHeight: 1.6 }}>
           {item.nearby.map((n, i) => <li key={i}>{n}</li>)}
         </ul>
