@@ -19,6 +19,7 @@ const rrgCabins = [
     note: 'Built 75 feet into a Gorge cliff and lit up at golden hour. The wrap-around deck slips under the cliff to a private hot tub framed by nothing but trees — no one can see in. “What really sets this place apart is the wow factor,” one guest wrote.',
     href: 'https://book.thehideaways.co/listings/422804',
     star: true,
+    reviews: 52,
   },
   {
     name: 'The Naturalist',
@@ -27,6 +28,7 @@ const rrgCabins = [
     note: 'An A-frame tucked against a towering rock face at the end of a quiet gravel drive, boulders on every side. The hot tub sits framed by cliff walls and string lights — “so romantic and peaceful,” per one guest.',
     href: 'https://book.thehideaways.co/listings/193191',
     star: true,
+    reviews: 61,
   },
   {
     name: 'The Taoist',
@@ -35,6 +37,7 @@ const rrgCabins = [
     note: 'A glass front rising straight out of a 50-ft limestone cliff, with a fire pit and Adirondack chairs waiting below. Inside, a loft looks down over the sectional and a neon sign glowing above the TV.',
     href: 'https://book.thehideaways.co/listings/192551',
     access: '4WD/AWD required',
+    reviews: 55,
   },
   {
     name: 'The Onyx',
@@ -42,6 +45,8 @@ const rrgCabins = [
     guests: 2, beds: 1, baths: 1, rating: 5.0, hotTub: true, tags: ['Couples'],
     note: 'A modern black cabin with a barrel sauna steps from the door and a telescope for the Kentucky night sky. Wall-to-wall glass, a kitchen in warm wood and deep green, and a retro orange fridge.',
     star: true,
+    href: 'https://book.thehideaways.co/listings/537238',
+    reviews: 10,
   },
   {
     name: 'The Stoic',
@@ -50,6 +55,7 @@ const rrgCabins = [
     note: 'Off-grid stillness under a starlit Gorge sky. The boulder-top hot tub — string lights on as the evening cools — is the most-loved feature here, hands down.',
     href: 'https://book.thehideaways.co/listings/193193',
     access: '4WD/AWD required',
+    reviews: 59,
   },
   {
     name: 'Tunnelvision',
@@ -57,6 +63,7 @@ const rrgCabins = [
     guests: 2, beds: 1, baths: 1, rating: 5.0, hotTub: true, tags: ['Couples'],
     note: 'Alone on a private ridge inside the Gorge Geological Area, two minutes from Nada Tunnel. Lofted queen and an oversize sofa, with a hot tub, fire pit, hammocks, and a charcoal grill outside.',
     href: 'https://book.thehideaways.co/listings/566851',
+    reviews: 2,
   },
   {
     name: 'The Blackstone',
@@ -65,6 +72,7 @@ const rrgCabins = [
     note: 'Hidden down its own gravel drive for total privacy on arrival. Golden-hour soaking in the private hot tub with treetops turning gold all around.',
     href: 'https://book.thehideaways.co/listings/559456',
     access: 'No 4WD needed',
+    reviews: 6,
   },
   {
     name: 'Drop Red Gorgeous',
@@ -73,6 +81,7 @@ const rrgCabins = [
     note: 'Modern cedar and glass tucked into the canopy, up wood steps to string-lit evenings on the deck. Sliding glass walls open the dining table straight onto the forest.',
     href: 'https://book.thehideaways.co/listings/428435',
     access: '4WD/AWD required',
+    reviews: 14,
   },
   {
     name: 'Limestone Ridge',
@@ -80,12 +89,14 @@ const rrgCabins = [
     guests: 6, beds: 2, baths: 2, rating: 5.0, hotTub: true, tags: ['Couples'],
     note: 'A modern A-frame on just under an acre, looking over the Pendegress-Murray reserve and facing the Motherlode climbing area. Coffee on the porch swing, hot tub under the stars.',
     href: 'https://book.thehideaways.co/listings/499137',
+    reviews: 12,
   },
   {
     name: 'Hidden Cave Cottage',
     tagline: 'Cozy Cottage · Hot Tub · Game Room · Cave Fire Pit',
     guests: 8, beds: 3, baths: 2, hotTub: true, tags: ['Couples'],
     note: 'A cottage with its own cave fire pit and a game room — the rare Hideaway that sleeps eight but still reads cozy.',
+    href: 'https://book.thehideaways.co/listings/585094',
   },
   {
     name: 'Moonlight Ridge',
@@ -93,6 +104,7 @@ const rrgCabins = [
     guests: 3, beds: 1, baths: 1, rating: 4.95, hotTub: false, tags: ['Couples'],
     note: 'Glows at dusk with a string-lit staircase up from the gravel drive. Vaulted wood ceilings and floor-to-ceiling windows, sliding doors straight onto the deck.',
     href: 'https://book.thehideaways.co/listings/388260',
+    reviews: 20,
   },
   {
     name: 'Cooper Pines',
@@ -100,6 +112,7 @@ const rrgCabins = [
     guests: 8, beds: 3, baths: 2, rating: 5.0, hotTub: true, tags: ['Couples', 'Family'],
     note: 'A glowing A-frame with string lights already lit and three bedrooms stacked across three levels. The deck hot tub is framed by forest on every side.',
     href: 'https://book.thehideaways.co/listings/278018',
+    reviews: 40,
   },
   {
     name: 'Shawnee Retreat',
@@ -108,18 +121,23 @@ const rrgCabins = [
     note: 'Billed as one of the best views in all of Kentucky, near Frenchburg, with a cave and waterfall on the property. The game room runs foosball, a retro arcade, and a PS5.',
     star: true,
     href: 'https://book.thehideaways.co/listings/345991',
+    reviews: 21,
   },
   {
     name: 'The Sentinel',
     tagline: 'Pickleball Court · Theater · Hot Tub · Sleeps 14',
     guests: 14, beds: 4, baths: 5, rating: 5.0, hotTub: true, tags: ['Family'],
     note: 'A grand log cabin ringed by trees — the biggest in the collection. Indoor rec space with pickleball, ping pong, and pool, plus a theater room.',
+    href: 'https://book.thehideaways.co/listings/499126',
+    reviews: 1,
   },
   {
     name: 'Greywood Reserve',
     tagline: 'Nerf Blasters · Hot Tub · Mural · Arcade · Sunset',
     guests: 12, beds: 4, baths: 4, rating: 5.0, hotTub: true, tags: ['Family'],
     note: 'A big-group cabin with a covered hot tub looking at the mountains, an arcade, a mural, and Nerf blasters in the closet. Fire pit at sunset.',
+    href: 'https://book.thehideaways.co/listings/537240',
+    reviews: 3,
   },
   {
     name: 'Pond Paradise',
@@ -127,6 +145,7 @@ const rrgCabins = [
     guests: 7, beds: 2, baths: 2, rating: 5.0, hotTub: true, tags: ['Family'],
     note: 'Seven acres of open lawn, a private fishing pond, and a covered daybed swing on the porch. “We have rented a dozen or more cabins around the gorge and this one hands down is the best!” — Steve',
     href: 'https://book.thehideaways.co/listings/384086',
+    reviews: 19,
   },
   {
     name: 'The Russet',
@@ -134,6 +153,7 @@ const rrgCabins = [
     guests: 8, beds: 3, baths: 2, rating: 5.0, hotTub: true, tags: ['Family'],
     note: 'A quiet wooded lot with a big deck and a warm, cabin-cozy king primary. Kid games inside for the in-between hours.',
     href: 'https://book.thehideaways.co/listings/250135',
+    reviews: 40,
   },
   {
     name: 'The Boone',
@@ -142,12 +162,15 @@ const rrgCabins = [
     note: 'The only double-silo in the collection, twin towers rising out of blazing fall color. Vaulted beams meet the curved wall over a navy island, and off-road trails for Jeeps and side-by-sides run from the door.',
     star: true,
     href: 'https://book.thehideaways.co/listings/432482',
+    reviews: 21,
   },
   {
     name: 'The Yoder',
     tagline: 'Romantic Silo Escape · Sleeps 2 · Hot Tub · String Light Foot Bridge',
     guests: 2, beds: 1, baths: 1, rating: 5.0, hotTub: true, tags: ['Silos', 'Couples'],
     note: 'A string-lit wooden boardwalk winds through the forest to the door. The king bedroom is a sanctuary — vaulted wood-beam ceiling, one oversized window pulling the forest inside.',
+    href: 'https://book.thehideaways.co/listings/483164',
+    reviews: 9,
   },
   {
     name: 'The Rock Haus',
@@ -155,6 +178,7 @@ const rrgCabins = [
     guests: 6, beds: 3, baths: 2, rating: 5.0, hotTub: true, tags: ['Silos', 'Family'],
     note: 'A bold primary suite under a vaulted silo ceiling, king bed and sofa nook. The hot tub hides behind a privacy wall on the wraparound deck. Side-by-side trails from the door.',
     href: 'https://book.thehideaways.co/listings/433008',
+    reviews: 10,
   },
   {
     name: 'The Holler',
@@ -162,6 +186,7 @@ const rrgCabins = [
     guests: 6, beds: 3, baths: 2, rating: 5.0, hotTub: true, tags: ['Silos', 'Family'],
     note: 'Three king beds and an open floor plan under vaulted ceilings, with a wraparound deck backing onto a creek — room for the whole group’s gear.',
     href: 'https://book.thehideaways.co/listings/412842',
+    reviews: 8,
   },
   {
     name: 'The Derby',
@@ -169,6 +194,7 @@ const rrgCabins = [
     guests: 8, beds: 3, baths: 2, rating: 5.0, hotTub: true, tags: ['Silos', 'Family'],
     note: 'Kentucky Derby-inspired, with a 50-foot wraparound deck that puts you in the trees — hot tub on one side, yard games and Adirondack chairs for the rest of the crew.',
     href: 'https://book.thehideaways.co/listings/468985',
+    reviews: 8,
   },
   {
     name: 'The Still',
@@ -176,6 +202,7 @@ const rrgCabins = [
     guests: 8, beds: 3, baths: 2, rating: 4.95, hotTub: true, tags: ['Silos', 'Family'],
     note: 'A bourbon-inspired silo with a creek view and a black silhouette above its 50-foot wraparound deck — Adirondack chairs, hot tub, and grill all staged, string lights on the privacy wall.',
     href: 'https://book.thehideaways.co/listings/389090',
+    reviews: 14,
   },
 ];
 
@@ -244,7 +271,9 @@ function CabinCard({ cabin }) {
           {cabin.name}
         </span>
         {cabin.rating && (
-          <span style={{ fontSize: 12, color: MUTED, whiteSpace: 'nowrap' }}>{cabin.rating.toFixed(2)} ★</span>
+          <span style={{ fontSize: 12, color: MUTED, whiteSpace: 'nowrap' }}>
+            {cabin.rating.toFixed(2)} ★{cabin.reviews ? ` · ${cabin.reviews}` : ''}
+          </span>
         )}
       </div>
 
