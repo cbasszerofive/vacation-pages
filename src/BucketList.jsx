@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
+import scraped from '../data/hideaways-rrg.json';
 
 const BG = '#10140f';
 const CARD_BG = '#1a1f18';
@@ -17,24 +18,30 @@ const rrgCabins = [
     tagline: '75′ High Cliffside Cabin · Panoramic Views · Hot Tub · Steam Shower',
     guests: 3, beds: 1, baths: 1, rating: 5.0, hotTub: true, tags: ['Couples'],
     note: 'Built 75 feet into a Gorge cliff and lit up at golden hour. The wrap-around deck slips under the cliff to a private hot tub framed by nothing but trees — no one can see in. “What really sets this place apart is the wow factor,” one guest wrote.',
+    id: '422804',
     href: 'https://book.thehideaways.co/listings/422804',
     star: true,
+    reviews: 52,
   },
   {
     name: 'The Naturalist',
     tagline: 'Kentucky’s Best Hot Tub Feature · Sleeps 4 · Dogs',
     guests: 4, beds: 2, baths: 1, rating: 5.0, hotTub: true, tags: ['Couples'],
     note: 'An A-frame tucked against a towering rock face at the end of a quiet gravel drive, boulders on every side. The hot tub sits framed by cliff walls and string lights — “so romantic and peaceful,” per one guest.',
+    id: '193191',
     href: 'https://book.thehideaways.co/listings/193191',
     star: true,
+    reviews: 61,
   },
   {
     name: 'The Taoist',
     tagline: 'Stargazing · Pet Friendly · Sleeps 4 · Fire Pit',
     guests: 4, beds: 2, baths: 1, rating: 5.0, hotTub: false, tags: ['Couples'],
     note: 'A glass front rising straight out of a 50-ft limestone cliff, with a fire pit and Adirondack chairs waiting below. Inside, a loft looks down over the sectional and a neon sign glowing above the TV.',
+    id: '192551',
     href: 'https://book.thehideaways.co/listings/192551',
     access: '4WD/AWD required',
+    reviews: 55,
   },
   {
     name: 'The Onyx',
@@ -42,64 +49,83 @@ const rrgCabins = [
     guests: 2, beds: 1, baths: 1, rating: 5.0, hotTub: true, tags: ['Couples'],
     note: 'A modern black cabin with a barrel sauna steps from the door and a telescope for the Kentucky night sky. Wall-to-wall glass, a kitchen in warm wood and deep green, and a retro orange fridge.',
     star: true,
+    id: '537238',
+    href: 'https://book.thehideaways.co/listings/537238',
+    reviews: 10,
   },
   {
     name: 'The Stoic',
     tagline: 'Boulder Mounted Hot Tub · Sleeps 4 · Romantic Stay',
     guests: 4, beds: 2, baths: 1, rating: 5.0, hotTub: true, tags: ['Couples'],
     note: 'Off-grid stillness under a starlit Gorge sky. The boulder-top hot tub — string lights on as the evening cools — is the most-loved feature here, hands down.',
+    id: '193193',
     href: 'https://book.thehideaways.co/listings/193193',
     access: '4WD/AWD required',
+    reviews: 59,
   },
   {
     name: 'Tunnelvision',
     tagline: 'Private · Hot Tub · Arch Views · Sleeps 2 · Pet Friendly',
     guests: 2, beds: 1, baths: 1, rating: 5.0, hotTub: true, tags: ['Couples'],
     note: 'Alone on a private ridge inside the Gorge Geological Area, two minutes from Nada Tunnel. Lofted queen and an oversize sofa, with a hot tub, fire pit, hammocks, and a charcoal grill outside.',
+    id: '566851',
     href: 'https://book.thehideaways.co/listings/566851',
+    reviews: 2,
   },
   {
     name: 'The Blackstone',
     tagline: 'Hot Tub · Outdoor Dining · Sleeps 4 · Minutes to RRG',
     guests: 4, beds: 2, baths: 2, rating: 5.0, hotTub: true, tags: ['Couples'],
     note: 'Hidden down its own gravel drive for total privacy on arrival. Golden-hour soaking in the private hot tub with treetops turning gold all around.',
+    id: '559456',
     href: 'https://book.thehideaways.co/listings/559456',
     access: 'No 4WD needed',
+    reviews: 6,
   },
   {
     name: 'Drop Red Gorgeous',
     tagline: 'New Design & Furniture · Hot Tub · Pet Friendly · Sleeps 4',
     guests: 4, beds: 2, baths: 2, rating: 5.0, hotTub: true, tags: ['Couples'],
     note: 'Modern cedar and glass tucked into the canopy, up wood steps to string-lit evenings on the deck. Sliding glass walls open the dining table straight onto the forest.',
+    id: '428435',
     href: 'https://book.thehideaways.co/listings/428435',
     access: '4WD/AWD required',
+    reviews: 14,
   },
   {
     name: 'Limestone Ridge',
     tagline: 'Rare Cliffside Views · Hot Tub · Fire Pit · Sleeps 6',
     guests: 6, beds: 2, baths: 2, rating: 5.0, hotTub: true, tags: ['Couples'],
     note: 'A modern A-frame on just under an acre, looking over the Pendegress-Murray reserve and facing the Motherlode climbing area. Coffee on the porch swing, hot tub under the stars.',
+    id: '499137',
     href: 'https://book.thehideaways.co/listings/499137',
+    reviews: 12,
   },
   {
     name: 'Hidden Cave Cottage',
     tagline: 'Cozy Cottage · Hot Tub · Game Room · Cave Fire Pit',
     guests: 8, beds: 3, baths: 2, hotTub: true, tags: ['Couples'],
     note: 'A cottage with its own cave fire pit and a game room — the rare Hideaway that sleeps eight but still reads cozy.',
+    id: '585094',
+    href: 'https://book.thehideaways.co/listings/585094',
   },
   {
     name: 'Moonlight Ridge',
     tagline: 'Private Mountain Top Escape · Sleeps 3 · Fire Pit · Modern Cabin',
     guests: 3, beds: 1, baths: 1, rating: 4.95, hotTub: false, tags: ['Couples'],
     note: 'Glows at dusk with a string-lit staircase up from the gravel drive. Vaulted wood ceilings and floor-to-ceiling windows, sliding doors straight onto the deck.',
+    id: '388260',
     href: 'https://book.thehideaways.co/listings/388260',
+    reviews: 20,
   },
   {
     name: 'Cooper Pines',
     tagline: 'Cozy RRG A-frame · Hot Tub · Forest View · Fire Pit',
     guests: 8, beds: 3, baths: 2, rating: 5.0, hotTub: true, tags: ['Couples', 'Family'],
     note: 'A glowing A-frame with string lights already lit and three bedrooms stacked across three levels. The deck hot tub is framed by forest on every side.',
+    id: '278018',
     href: 'https://book.thehideaways.co/listings/278018',
+    reviews: 40,
   },
   {
     name: 'Shawnee Retreat',
@@ -107,33 +133,45 @@ const rrgCabins = [
     guests: 12, beds: 6, baths: 6, rating: 5.0, hotTub: true, tags: ['Family'],
     note: 'Billed as one of the best views in all of Kentucky, near Frenchburg, with a cave and waterfall on the property. The game room runs foosball, a retro arcade, and a PS5.',
     star: true,
+    id: '345991',
     href: 'https://book.thehideaways.co/listings/345991',
+    reviews: 21,
   },
   {
     name: 'The Sentinel',
     tagline: 'Pickleball Court · Theater · Hot Tub · Sleeps 14',
     guests: 14, beds: 4, baths: 5, rating: 5.0, hotTub: true, tags: ['Family'],
     note: 'A grand log cabin ringed by trees — the biggest in the collection. Indoor rec space with pickleball, ping pong, and pool, plus a theater room.',
+    id: '499126',
+    href: 'https://book.thehideaways.co/listings/499126',
+    reviews: 1,
   },
   {
     name: 'Greywood Reserve',
     tagline: 'Nerf Blasters · Hot Tub · Mural · Arcade · Sunset',
     guests: 12, beds: 4, baths: 4, rating: 5.0, hotTub: true, tags: ['Family'],
     note: 'A big-group cabin with a covered hot tub looking at the mountains, an arcade, a mural, and Nerf blasters in the closet. Fire pit at sunset.',
+    id: '537240',
+    href: 'https://book.thehideaways.co/listings/537240',
+    reviews: 3,
   },
   {
     name: 'Pond Paradise',
     tagline: 'Hot Tub · Off-Road Parks · Private Fishing Pond · Sleeps 7',
     guests: 7, beds: 2, baths: 2, rating: 5.0, hotTub: true, tags: ['Family'],
     note: 'Seven acres of open lawn, a private fishing pond, and a covered daybed swing on the porch. “We have rented a dozen or more cabins around the gorge and this one hands down is the best!” — Steve',
+    id: '384086',
     href: 'https://book.thehideaways.co/listings/384086',
+    reviews: 19,
   },
   {
     name: 'The Russet',
     tagline: 'Family Cabin · Hot Tub · Kid Games · King Bed · Sleeps 8',
     guests: 8, beds: 3, baths: 2, rating: 5.0, hotTub: true, tags: ['Family'],
     note: 'A quiet wooded lot with a big deck and a warm, cabin-cozy king primary. Kid games inside for the in-between hours.',
+    id: '250135',
     href: 'https://book.thehideaways.co/listings/250135',
+    reviews: 40,
   },
   {
     name: 'The Boone',
@@ -141,43 +179,82 @@ const rrgCabins = [
     guests: 4, beds: 2, baths: 2, rating: 5.0, hotTub: true, tags: ['Silos', 'Couples'],
     note: 'The only double-silo in the collection, twin towers rising out of blazing fall color. Vaulted beams meet the curved wall over a navy island, and off-road trails for Jeeps and side-by-sides run from the door.',
     star: true,
+    id: '432482',
     href: 'https://book.thehideaways.co/listings/432482',
+    reviews: 21,
   },
   {
     name: 'The Yoder',
     tagline: 'Romantic Silo Escape · Sleeps 2 · Hot Tub · String Light Foot Bridge',
     guests: 2, beds: 1, baths: 1, rating: 5.0, hotTub: true, tags: ['Silos', 'Couples'],
     note: 'A string-lit wooden boardwalk winds through the forest to the door. The king bedroom is a sanctuary — vaulted wood-beam ceiling, one oversized window pulling the forest inside.',
+    id: '483164',
+    href: 'https://book.thehideaways.co/listings/483164',
+    reviews: 9,
   },
   {
     name: 'The Rock Haus',
     tagline: 'Unique Silo House · Hot Tub · King Beds · Sleeps 6 · SxS Trails',
     guests: 6, beds: 3, baths: 2, rating: 5.0, hotTub: true, tags: ['Silos', 'Family'],
     note: 'A bold primary suite under a vaulted silo ceiling, king bed and sofa nook. The hot tub hides behind a privacy wall on the wraparound deck. Side-by-side trails from the door.',
+    id: '433008',
     href: 'https://book.thehideaways.co/listings/433008',
+    reviews: 10,
   },
   {
     name: 'The Holler',
     tagline: 'Unique Silo Cabin · Hot Tub · Sleeps 6 · 3 King Beds · Trailer Space',
     guests: 6, beds: 3, baths: 2, rating: 5.0, hotTub: true, tags: ['Silos', 'Family'],
     note: 'Three king beds and an open floor plan under vaulted ceilings, with a wraparound deck backing onto a creek — room for the whole group’s gear.',
+    id: '412842',
     href: 'https://book.thehideaways.co/listings/412842',
+    reviews: 8,
   },
   {
     name: 'The Derby',
     tagline: 'Private Fire Pit · Outdoor Games · Hot Tub · King Bed · Trailer Parking',
     guests: 8, beds: 3, baths: 2, rating: 5.0, hotTub: true, tags: ['Silos', 'Family'],
     note: 'Kentucky Derby-inspired, with a 50-foot wraparound deck that puts you in the trees — hot tub on one side, yard games and Adirondack chairs for the rest of the crew.',
+    id: '468985',
     href: 'https://book.thehideaways.co/listings/468985',
+    reviews: 8,
   },
   {
     name: 'The Still',
     tagline: 'Unique Silo Cabin · King Bed · Private Hot Tub · Fire Pit · Trailer Friendly',
     guests: 8, beds: 3, baths: 2, rating: 4.95, hotTub: true, tags: ['Silos', 'Family'],
     note: 'A bourbon-inspired silo with a creek view and a black silhouette above its 50-foot wraparound deck — Adirondack chairs, hot tub, and grill all staged, string lights on the privacy wall.',
+    id: '389090',
     href: 'https://book.thehideaways.co/listings/389090',
+    reviews: 14,
   },
 ];
+
+// Capacities, ratings and nightly rates come from the scrape workflow
+// (data/hideaways-rrg.json, refreshed monthly); the prose, tags and access
+// notes above are editorial. Anything the scrape has not seen falls back to
+// the hand-entered value, so a stale or partial file degrades quietly.
+const scrapedById = Object.fromEntries(scraped.listings.map(l => [l.id, l]));
+
+const rrgCabinsLive = rrgCabins.map(c => {
+  const live = scrapedById[c.id] ?? {};
+  return {
+    ...c,
+    guests: live.guests ?? c.guests,
+    beds: live.bedrooms ?? c.beds,
+    baths: live.bathrooms ?? c.baths,
+    rating: live.rating ?? c.rating,
+    reviews: live.reviews ?? c.reviews,
+    href: live.url ?? c.href,
+    price: live.price,
+    priceMin: live.priceMin,
+    priceMax: live.priceMax,
+  };
+});
+
+const scrapedOn = new Date(scraped.scrapedAt).toLocaleDateString('en-US', {
+  month: 'long', day: 'numeric', year: 'numeric',
+});
 
 const items = [
   {
@@ -203,14 +280,14 @@ const items = [
       'Off-road and side-by-side parks, with several cabins offering trailer parking.',
       'Local restaurants in the Campton / Slade / Rogers area.',
     ],
-    booking: 'Listed on Airbnb and VRBO, but booking direct through their site is the cheapest option — worth comparing before locking anything in. Most cards below link straight to the direct-booking listing; five newer cabins (The Onyx, The Yoder, Hidden Cave Cottage, Greywood Reserve, The Sentinel) aren’t indexed yet, so use “All 23 cabins” for those. The Hideaways also run 5 cabins in Hocking Hills, OH and 1 in Blue Ridge, GA.',
+    booking: 'Listed on Airbnb and VRBO, but booking direct through their site is the cheapest option — worth comparing before locking anything in. Every card links straight to its direct-booking listing. Nightly rates are the median across the next twelve months, so they smooth over holidays and midweek dips rather than quoting any one date; the range beside each shows how far a given night can swing. The Hideaways also run 5 cabins in Hocking Hills, OH and 1 in Blue Ridge, GA.',
     links: [
       { label: 'Red River Gorge page', href: 'https://thehideaways.co/redrivergorge' },
       { label: 'All 23 cabins', href: 'https://thehideaways.co/red-river-gorge-cabins' },
       { label: 'Book direct', href: 'https://book.thehideaways.co' },
       { label: 'Maps', href: 'https://www.google.com/maps/search/?api=1&query=Red+River+Gorge+Kentucky' },
     ],
-    cabins: rrgCabins,
+    cabins: rrgCabinsLive,
   },
 ];
 
@@ -244,7 +321,9 @@ function CabinCard({ cabin }) {
           {cabin.name}
         </span>
         {cabin.rating && (
-          <span style={{ fontSize: 12, color: MUTED, whiteSpace: 'nowrap' }}>{cabin.rating.toFixed(2)} ★</span>
+          <span style={{ fontSize: 12, color: MUTED, whiteSpace: 'nowrap' }}>
+            {cabin.rating.toFixed(2)} ★{cabin.reviews ? ` · ${cabin.reviews}` : ''}
+          </span>
         )}
       </div>
 
@@ -261,6 +340,16 @@ function CabinCard({ cabin }) {
           </span>
         )}
       </div>
+
+      {cabin.price && (
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, flexWrap: 'wrap' }}>
+          <span style={{ fontSize: 15, fontWeight: 700, color: TEXT }}>${cabin.price}</span>
+          <span style={{ fontSize: 11.5, color: MUTED }}>typical / night</span>
+          {cabin.priceMin && (
+            <span style={{ fontSize: 11, color: MUTED, opacity: 0.8 }}>· ${cabin.priceMin}–${cabin.priceMax}</span>
+          )}
+        </div>
+      )}
 
       <div style={{ fontSize: 12.5, color: MUTED, lineHeight: 1.55 }}>{cabin.note}</div>
 
@@ -289,9 +378,9 @@ function CabinBrowser({ cabins }) {
   const shown = useMemo(() => {
     const active = FILTERS.find(f => f.key === filter) ?? FILTERS[0];
     const list = cabins.filter(active.match);
-    return sort === 'size'
-      ? [...list].sort((a, b) => a.guests - b.guests)
-      : list;
+    if (sort === 'size') return [...list].sort((a, b) => a.guests - b.guests);
+    if (sort === 'price') return [...list].sort((a, b) => (a.price ?? Infinity) - (b.price ?? Infinity));
+    return list;
   }, [cabins, filter, sort]);
 
   return (
@@ -300,9 +389,9 @@ function CabinBrowser({ cabins }) {
         <span style={{ fontSize: 11, color: MUTED, letterSpacing: 1.5, textTransform: 'uppercase' }}>The cabins</span>
         <span style={{ fontSize: 12, color: MUTED }}>{shown.length} of {cabins.length}</span>
         <button
-          onClick={() => setSort(s => (s === 'size' ? 'listed' : 'size'))}
+          onClick={() => setSort(s => (s === 'size' ? 'price' : s === 'price' ? 'listed' : 'size'))}
           style={{ marginLeft: 'auto', background: 'none', border: `1px solid ${CARD_BORDER}`, borderRadius: 20, color: MUTED, fontSize: 11, padding: '3px 10px', cursor: 'pointer' }}>
-          {sort === 'size' ? '↕ Smallest first' : '↕ As listed'}
+          {sort === 'size' ? '↕ Smallest first' : sort === 'price' ? '↕ Cheapest first' : '↕ As listed'}
         </button>
       </div>
 
@@ -412,7 +501,9 @@ export default function BucketList() {
         {items.map(item => <ItemCard key={item.id} item={item} />)}
 
         <div style={{ marginTop: 4, padding: '14px 16px', background: CARD_BG, border: `1px dashed ${CARD_BORDER}`, borderRadius: 16, fontSize: 13, color: MUTED, lineHeight: 1.55 }}>
-          <span style={{ fontWeight: 700, color: TEXT }}>Add the next one:</span> drop another object into the{' '}
+          <span style={{ fontWeight: 700, color: TEXT }}>Cabin figures last refreshed {scrapedOn}</span> by the scrape
+          workflow, which rechecks capacities, ratings and nightly rates monthly.{' '}
+          <span style={{ fontWeight: 700, color: TEXT }}>Add the next place:</span> drop another object into the{' '}
           <code style={{ background: 'rgba(255,255,255,0.06)', padding: '1px 5px', borderRadius: 4, fontSize: 12 }}>items</code> array in{' '}
           <code style={{ background: 'rgba(255,255,255,0.06)', padding: '1px 5px', borderRadius: 4, fontSize: 12 }}>src/BucketList.jsx</code> and it shows up here.
         </div>
