@@ -130,18 +130,26 @@ function extractFromDom() {
     if (!m) continue;
     const id = m[1];
 
-    // Climb to the card: the nearest ancestor that carries real content.
+    // innerText, not textContent: textContent runs block elements together, so
+    // a title ending "Sleeps 8" followed by "8 guests" reads as "Sleeps 88
+    // guests" and parses as 88 people.
+    const readText = el => (el.innerText || el.textContent || '').replace(/\s+/g, ' ').trim();
+
+    // Climb to the card: the nearest ancestor that actually carries the facts.
+    // Testing for the facts themselves rather than a text length, because a
+    // long enough title alone clears any length threshold and stops the walk
+    // at the anchor.
+    const FACTS = /\d\s*(?:guests?|bedrooms?|beds?|bath)|\$\s*\d|reviews?/i;
     let card = a;
     for (let i = 0; i < 6 && card.parentElement; i++) {
-      const t = (card.textContent || '').replace(/\s+/g, ' ').trim();
-      if (t.length > 60) break;
+      if (FACTS.test(readText(card))) break;
       card = card.parentElement;
     }
 
     const img = card.querySelector('img');
     const heading = card.querySelector('h1, h2, h3, h4, [class*="title" i], [class*="name" i]');
     const prev = byId.get(id);
-    const text = (card.textContent || '').replace(/\s+/g, ' ').trim();
+    const text = readText(card);
     if (prev && prev.text.length >= text.length) continue;
 
     byId.set(id, {
@@ -185,7 +193,10 @@ async function scrapeIndex(page, url, { timeout, captured }) {
   const merged = new Map();
   for (const d of dom) {
     const { name, tagline } = splitTitle(d.title);
-    merged.set(d.id, { id: d.id, url: d.url, title: d.title, name, tagline, image: d.image, ...parseFacts(d.text) });
+    // Drop the title before parsing: it carries its own numbers ("Sleeps 12")
+    // that otherwise collide with the card's real guest/bedroom counts.
+    const facts = parseFacts(d.title ? d.text.replace(d.title, ' ') : d.text);
+    merged.set(d.id, { id: d.id, url: d.url, title: d.title, name, tagline, image: d.image, ...facts });
   }
   // Anything the page fetched for itself wins where the DOM was silent.
   for (const [id, fromApi] of harvestJson(captured)) {
@@ -261,6 +272,20 @@ async function main() {
     if (args.debugDir) {
       await mkdir(args.debugDir, { recursive: true });
       await writeFile(join(args.debugDir, 'captured-json.json'), JSON.stringify(captured, null, 2));
+    }
+
+    // Endpoints the page called, and whether any of them mention a price.
+    // Prices are not on the listing cards, so this is the trail to follow.
+    const endpoints = new Map();
+    for (const c of captured) {
+      const key = c.url.split('?')[0];
+      const priced = /"(?:price|basePrice|averageNightlyPrice|minPrice|total)"/.test(JSON.stringify(c.body));
+      const seen = endpoints.get(key) ?? { hits: 0, priced: false };
+      endpoints.set(key, { hits: seen.hits + 1, priced: seen.priced || priced });
+    }
+    console.log(`\nAPI endpoints called (${endpoints.size}):`);
+    for (const [url, { hits, priced }] of endpoints) {
+      console.log(`  ${priced ? '[has price fields]' : '[no price fields]'} x${hits} ${url}`);
     }
   } finally {
     await browser.close();
