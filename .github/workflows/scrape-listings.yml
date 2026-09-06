@@ -1,0 +1,142 @@
+name: Scrape listings
+
+# Reusable scrape task. Run it by hand from the Actions tab, call it from
+# another workflow (`uses: ./.github/workflows/scrape-listings.yml`), or let
+# the monthly schedule refresh the data.
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: Listing index URL to scrape
+        type: string
+        default: https://book.thehideaways.co/all-listings?category=18580
+      out:
+        description: Output JSON path in the repo
+        type: string
+        default: data/hideaways-rrg.json
+      details:
+        description: Also open each listing page (slower, gets price/rating)
+        type: boolean
+        default: true
+      commit:
+        description: Commit the refreshed JSON back to this branch
+        type: boolean
+        default: false
+  workflow_call:
+    inputs:
+      url:
+        type: string
+        default: https://book.thehideaways.co/all-listings?category=18580
+      out:
+        type: string
+        default: data/hideaways-rrg.json
+      details:
+        type: boolean
+        default: true
+      commit:
+        type: boolean
+        default: false
+  schedule:
+    # 6:20 AM UTC on the 1st — prices and new cabins drift month to month.
+    - cron: '20 6 1 * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: scrape-listings-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    # `inputs` is empty on a scheduled run, so every value needs a default here.
+    env:
+      URL: ${{ inputs.url || 'https://book.thehideaways.co/all-listings?category=18580' }}
+      OUT: ${{ inputs.out || 'data/hideaways-rrg.json' }}
+      DETAILS: ${{ inputs.details == null && 'true' || inputs.details }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+        env:
+          # Browsers come from the cached install step below, not postinstall.
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+
+      - name: Resolve Playwright version
+        id: pw
+        run: echo "version=$(node -p "require('playwright/package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.pw.outputs.version }}
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Scrape
+        run: |
+          ARGS=""
+          if [ "$DETAILS" = "true" ]; then ARGS="--details"; fi
+          node scripts/scrape-listings.mjs \
+            --url "$URL" \
+            --out "$OUT" \
+            --debug-dir scrape-debug \
+            $ARGS
+
+      - name: Summarize
+        if: always()
+        run: |
+          if [ -f "$OUT" ]; then
+            node -e '
+              const d = require(require("path").resolve(process.argv[1]));
+              console.log(`### ${d.count} listings scraped\n`);
+              console.log("| Cabin | Guests | Bedrooms | Rating | Price |");
+              console.log("|---|---|---|---|---|");
+              for (const l of d.listings) {
+                console.log(`| ${l.name} | ${l.guests ?? "?"} | ${l.bedrooms ?? "?"} | ${l.rating ?? "?"} | ${l.price ? "$" + l.price : "?"} |`);
+              }
+            ' "$OUT" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "No output file produced — see the scrape-debug artifact." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload scraped JSON
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: listings-json
+          path: ${{ env.OUT }}
+          if-no-files-found: warn
+
+      # The page HTML, a screenshot and every JSON payload the site fetched.
+      # This is what to read when the selectors stop matching.
+      - name: Upload debug bundle
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scrape-debug
+          path: scrape-debug/
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Commit refreshed data
+        if: inputs.commit == true
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- "$OUT"; then
+            echo "No change in $OUT."
+          else
+            git add "$OUT"
+            git commit -m "Refresh scraped listing data"
+            git push
+          fi
