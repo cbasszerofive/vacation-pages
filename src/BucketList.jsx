@@ -313,11 +313,12 @@ const hockingUnits = [
     href: 'https://hideawayonthehocking.com/rentals/the-little-yellow-caboose/',
   },
   {
-    name: 'The fifth caboose',
-    tagline: 'Converted train caboose · Sleeps 2–4',
+    name: 'The Little Brown Caboose',
+    tagline: 'Converted train caboose · Sleeps 4 · Dogs',
+    guests: 4,
     tags: ['Caboose'],
-    note: 'Five cabooses sleep up to 19 between them; only four are named in what I could reach, so check the rentals page for this one.',
-    href: 'https://hideawayonthehocking.com/rentals/',
+    note: 'Open floor plan sleeping four, with a covered porch and private fire pit looking out at the Hocking River, fields of sunflowers in season, or the Sanctuary Pond. Dogs over nine months welcome — $75 per stay, up to two, with a bed, bowl and towel provided.',
+    href: 'https://hideawayonthehocking.com/rentals/the-little-brown-caboose/',
   },
   {
     name: 'The 1890 Depot',
