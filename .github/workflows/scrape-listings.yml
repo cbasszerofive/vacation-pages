@@ -92,6 +92,9 @@ jobs:
             --debug-dir scrape-debug \
             $ARGS
 
+      # Written to the job summary AND stdout: the logs API can read stdout,
+      # step summaries it cannot, so this is what makes a run reviewable
+      # without downloading anything.
       - name: Summarize
         if: always()
         run: |
@@ -104,9 +107,13 @@ jobs:
               for (const l of d.listings) {
                 console.log(`| ${l.name} | ${l.guests ?? "?"} | ${l.bedrooms ?? "?"} | ${l.rating ?? "?"} | ${l.price ? "$" + l.price : "?"} |`);
               }
-            ' "$OUT" >> "$GITHUB_STEP_SUMMARY"
+            ' "$OUT" | tee -a "$GITHUB_STEP_SUMMARY"
+            echo
+            echo "----- BEGIN $OUT -----"
+            cat "$OUT"
+            echo "----- END $OUT -----"
           else
-            echo "No output file produced — see the scrape-debug artifact." >> "$GITHUB_STEP_SUMMARY"
+            echo "No output file produced — see the scrape-debug artifact." | tee -a "$GITHUB_STEP_SUMMARY"
           fi
 
       - name: Upload scraped JSON
