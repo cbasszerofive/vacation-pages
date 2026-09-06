@@ -54,7 +54,9 @@ jobs:
     env:
       URL: ${{ inputs.url || 'https://book.thehideaways.co/all-listings?category=18580' }}
       OUT: ${{ inputs.out || 'data/hideaways-rrg.json' }}
-      DETAILS: ${{ inputs.details == null && 'true' || inputs.details }}
+      # Not `inputs.details == null`: GitHub's loose equality makes false ==
+      # null true, so an explicit `details: false` was silently forced back on.
+      DETAILS: ${{ github.event_name == 'schedule' && 'true' || inputs.details }}
     steps:
       - uses: actions/checkout@v4
 
@@ -102,10 +104,10 @@ jobs:
             node -e '
               const d = require(require("path").resolve(process.argv[1]));
               console.log(`### ${d.count} listings scraped\n`);
-              console.log("| Cabin | ID | Guests | Bed | Bath | Rating | Reviews | Price |");
-              console.log("|---|---|---|---|---|---|---|---|");
+              console.log("| Cabin | ID | Guests | Bed | Bath | Rating | Reviews | Median | Range |");
+              console.log("|---|---|---|---|---|---|---|---|---|");
               for (const l of d.listings) {
-                console.log(`| ${l.name} | ${l.id} | ${l.guests ?? "?"} | ${l.bedrooms ?? "?"} | ${l.bathrooms ?? "?"} | ${l.rating ?? "?"} | ${l.reviews ?? "?"} | ${l.price ? "$" + l.price : "—"} |`);
+                console.log(`| ${l.name} | ${l.id} | ${l.guests ?? "?"} | ${l.bedrooms ?? "?"} | ${l.bathrooms ?? "?"} | ${l.rating ?? "?"} | ${l.reviews ?? "?"} | ${l.price ? "$" + l.price : "—"} | ${l.priceMin ? "$" + l.priceMin + "–$" + l.priceMax : "—"} |`);
               }
             ' "$OUT" | tee -a "$GITHUB_STEP_SUMMARY"
             echo

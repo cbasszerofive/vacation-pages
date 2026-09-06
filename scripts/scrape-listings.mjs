@@ -120,6 +120,40 @@ function harvestJson(node, found = new Map(), depth = 0) {
   return found;
 }
 
+/**
+ * Nightly rates live at /listings/<id>/calendar, one entry per date — nothing
+ * on the rendered page quotes a price. Reduce each calendar to a median plus a
+ * range, which is what a "what would this cost" glance actually wants.
+ */
+function harvestCalendarPrices(captured) {
+  const byId = new Map();
+  for (const c of captured) {
+    const m = c.url.match(/\/listings\/(\d+)\/calendar/);
+    if (!m) continue;
+
+    const prices = [];
+    (function walk(node, depth = 0) {
+      if (!node || depth > 6) return;
+      if (Array.isArray(node)) { node.forEach(v => walk(v, depth + 1)); return; }
+      if (typeof node !== 'object') return;
+      const price = toNum(node.price ?? node.basePrice);
+      if (node.date && price) prices.push(price);
+      for (const v of Object.values(node)) walk(v, depth + 1);
+    })(c.body);
+
+    if (!prices.length) continue;
+    prices.sort((a, b) => a - b);
+    const mid = Math.floor(prices.length / 2);
+    byId.set(m[1], {
+      price: prices.length % 2 ? prices[mid] : Math.round((prices[mid - 1] + prices[mid]) / 2),
+      priceMin: prices[0],
+      priceMax: prices[prices.length - 1],
+      priceNights: prices.length,
+    });
+  }
+  return byId;
+}
+
 /** Read listing cards straight out of the rendered page. */
 function extractFromDom() {
   const re = /\/listings\/(\d+)/;
@@ -268,6 +302,14 @@ async function main() {
         }
       }));
     }
+
+    // Calendars are only fetched when a listing page is opened, so prices
+    // require --details.
+    const calendar = harvestCalendarPrices(captured);
+    for (const [id, prices] of calendar) {
+      if (all.has(id)) all.set(id, mergeListing(all.get(id), prices));
+    }
+    console.log(`\nnightly rates recovered for ${calendar.size} of ${all.size} listings`);
 
     if (args.debugDir) {
       await mkdir(args.debugDir, { recursive: true });
