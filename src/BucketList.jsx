@@ -256,6 +256,78 @@ const scrapedOn = new Date(scraped.scrapedAt).toLocaleDateString('en-US', {
   month: 'long', day: 'numeric', year: 'numeric',
 });
 
+
+// Hideaway on the Hocking — nine units on the Hayes family farm. No booking
+// engine we can read, so these are hand-entered from the property's own pages.
+const hockingUnits = [
+  {
+    name: 'The Bridge',
+    tagline: 'Riverfront glass retreat',
+    tags: ['Glass retreat'],
+    note: 'One of three glass-fronted retreats set along the Hocking River — the whole front wall is the view.',
+    href: 'https://hideawayonthehocking.com/rentals/the-bridge/',
+    star: true,
+  },
+  {
+    name: 'The Falls',
+    tagline: 'Riverfront glass retreat',
+    tags: ['Glass retreat'],
+    note: 'Glass-front retreat on the river, named for the water it looks onto.',
+    href: 'https://hideawayonthehocking.com/rentals/the-falls/',
+    star: true,
+  },
+  {
+    name: 'The Mill',
+    tagline: 'Riverfront glass retreat',
+    tags: ['Glass retreat'],
+    note: 'The third of the river retreats — same glass wall, its own stretch of bank.',
+    href: 'https://hideawayonthehocking.com/rentals/the-mill/',
+  },
+  {
+    name: 'The Little Red Caboose',
+    tagline: 'Converted train caboose · Sleeps 2–4',
+    tags: ['Caboose'],
+    note: 'A real caboose with a covered porch, private fire pit and full bath. Wifi, smart TV and A/C inside the steel shell.',
+    href: 'https://hideawayonthehocking.com/rentals/the-little-red-caboose/',
+    star: true,
+  },
+  {
+    name: 'The Little Blue Caboose',
+    tagline: 'Converted train caboose · Sleeps 2–4',
+    tags: ['Caboose'],
+    note: 'Same footprint as its siblings — porch, fire pit, full bath — in blue.',
+    href: 'https://hideawayonthehocking.com/rentals/the-little-blue-caboose/',
+  },
+  {
+    name: 'The Little Green Caboose',
+    tagline: 'Converted train caboose · Sleeps 2–4',
+    tags: ['Caboose'],
+    note: 'Covered porch and a fire pit of its own, tucked into the farm.',
+    href: 'https://hideawayonthehocking.com/rentals/the-little-green-caboose/',
+  },
+  {
+    name: 'The Little Yellow Caboose',
+    tagline: 'Converted train caboose · Sleeps 2–4',
+    tags: ['Caboose'],
+    note: 'The yellow one. Porch, fire pit, full bath, and the quiet of 400 acres.',
+    href: 'https://hideawayonthehocking.com/rentals/the-little-yellow-caboose/',
+  },
+  {
+    name: 'The fifth caboose',
+    tagline: 'Converted train caboose · Sleeps 2–4',
+    tags: ['Caboose'],
+    note: 'Five cabooses sleep up to 19 between them; only four are named in what I could reach, so check the rentals page for this one.',
+    href: 'https://hideawayonthehocking.com/rentals/',
+  },
+  {
+    name: 'The 1890 Depot',
+    tagline: 'The original train station',
+    tags: ['Depot'],
+    note: 'The farm’s original 1890 train depot, restored and rentable — the piece of the property everything else is themed around.',
+    href: 'https://hideawayonthehocking.com/rentals/',
+  },
+];
+
 const items = [
   {
     id: 'rrg',
@@ -289,16 +361,64 @@ const items = [
     ],
     cabins: rrgCabinsLive,
   },
+  {
+    id: 'hocking',
+    name: 'Hideaway on the Hocking',
+    emoji: '🚂',
+    tagline: 'Train cabooses and glass river retreats on a 147-year-old farm',
+    location: 'Guysville · Southeast Ohio',
+    type: '9 units on 400 acres',
+    drive: '~3.5 hr from Cleveland',
+    season: 'Fall for color, summer for the river',
+    status: 'Dreaming',
+    gradient: 'linear-gradient(160deg, #24312c 0%, #10140f 100%)',
+    why: 'Five train cabooses, three glass-fronted river retreats and the original 1890 depot, spread across 400 private acres of the Hayes family farm along the Hocking River. It is the opposite of the Gorge trip: no cliffs to climb, no 4WD drive in — just a working farm that has been in one family for 147 years, with a river running through it and somewhere very odd to sleep.',
+    highlights: [
+      { icon: '🚃', label: 'Sleeping in a caboose', detail: 'Five real cabooses, each with a covered porch, private fire pit and full bath, and modern comforts inside — wifi, smart TV, A/C. They sleep two to four apiece, nineteen between them.' },
+      { icon: '🪟', label: 'Glass on the river', detail: 'The Bridge, The Falls and The Mill are glass-fronted retreats set on the riverbank, where the front wall is the whole point.' },
+      { icon: '🥾', label: 'The land', detail: 'Five private hiking trails, ponds including the Sanctuary Pond, river and pond fishing, kayak access on the Hocking, and a seasonal U-pick garden.' },
+      { icon: '🔥', label: 'A 3,200 sq ft pavilion', detail: 'Double-sided fireplace and sofas — the gathering space that makes this work for a group rather than just a couple.' },
+      { icon: '🍽️', label: 'Dinner and a concert', detail: 'Chef Katie of River Willow Culinary runs a five-course seasonal menu on the property, and guests can book a private concert from a Southeast Ohio musician. Both are worth planning the trip around.' },
+    ],
+    nearby: [
+      'The farm itself is the destination — trails, ponds and river access without leaving the property.',
+      'Under three hours from Cincinnati; Athens and Ohio University are the nearest town of any size.',
+      'Marketed as Hocking Hills, but Guysville sits southeast of the state park proper — worth checking the drive to Old Man’s Cave before planning around it.',
+    ],
+    booking: 'Book direct through their site; there is no third-party listing engine behind it, and no public nightly rates, so the availability page or a call to (740) 764-4684 is the only way to price a date. That also means the scrape workflow cannot read this one — the figures above are hand-entered from the property’s own pages, not refreshed monthly like the Red River Gorge cabins.',
+    links: [
+      { label: 'Website', href: 'https://hideawayonthehocking.com/' },
+      { label: 'Availability', href: 'https://hideawayonthehocking.com/availability/' },
+      { label: 'Experiences', href: 'https://hideawayonthehocking.com/experiences/' },
+      { label: 'Maps', href: 'https://www.google.com/maps/search/?api=1&query=20750+River+Road+Guysville+OH+45735' },
+    ],
+    cabins: hockingUnits,
+  },
 ];
 
-const FILTERS = [
-  { key: 'all', label: 'All', match: () => true },
-  { key: 'couples', label: '💑 Couples', match: c => c.tags.includes('Couples') },
-  { key: 'family', label: '👨‍👩‍👧 Family', match: c => c.tags.includes('Family') },
-  { key: 'silos', label: '🌾 Silos', match: c => c.tags.includes('Silos') },
-  { key: 'hottub', label: '♨️ Hot tub', match: c => c.hotTub },
-  { key: 'big', label: '🎉 Sleeps 8+', match: c => c.guests >= 8 },
-];
+const TAG_ICONS = {
+  Couples: '💑', Family: '👨‍👩‍👧', Silos: '🌾',
+  Caboose: '🚃', 'Glass retreat': '🪟', Depot: '🚉',
+};
+
+/**
+ * Filters are derived from whichever tags a property's units actually carry,
+ * so a collection of silo cabins and a farm of train cabooses each get a
+ * sensible row instead of one hardcoded to the first property added.
+ */
+function filtersFor(units) {
+  const tags = [...new Set(units.flatMap(u => u.tags ?? []))];
+  return [
+    { key: 'all', label: 'All', match: () => true },
+    ...tags.map(tag => ({
+      key: tag.toLowerCase().replace(/\s+/g, '-'),
+      label: `${TAG_ICONS[tag] ?? '·'} ${tag}`,
+      match: u => u.tags?.includes(tag),
+    })),
+    ...(units.some(u => u.hotTub) ? [{ key: 'hottub', label: '♨️ Hot tub', match: u => u.hotTub }] : []),
+    ...(units.some(u => u.guests >= 8) ? [{ key: 'big', label: '🎉 Sleeps 8+', match: u => u.guests >= 8 }] : []),
+  ];
+}
 
 function Chip({ children }) {
   return (
@@ -330,9 +450,9 @@ function CabinCard({ cabin }) {
       <div style={{ fontSize: 11.5, color: MUTED, lineHeight: 1.4 }}>{cabin.tagline}</div>
 
       <div style={{ display: 'flex', gap: 10, fontSize: 12, color: TEXT, opacity: 0.85, flexWrap: 'wrap' }}>
-        <span>👥 {cabin.guests}</span>
-        <span>🛏️ {cabin.beds}</span>
-        <span>🚿 {cabin.baths}</span>
+        {cabin.guests && <span>👥 {cabin.guests}</span>}
+        {cabin.beds && <span>🛏️ {cabin.beds}</span>}
+        {cabin.baths && <span>🚿 {cabin.baths}</span>}
         {cabin.hotTub && <span>♨️ Hot tub</span>}
         {cabin.access && (
           <span style={{ color: cabin.access.startsWith('4WD') ? ACCENT : MUTED }}>
@@ -354,7 +474,7 @@ function CabinCard({ cabin }) {
       <div style={{ fontSize: 12.5, color: MUTED, lineHeight: 1.55 }}>{cabin.note}</div>
 
       <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center', marginTop: 'auto', paddingTop: 4 }}>
-        {cabin.tags.map(t => (
+        {(cabin.tags ?? []).map(t => (
           <span key={t} style={{ fontSize: 10.5, color: MUTED, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 6, padding: '2px 7px' }}>{t}</span>
         ))}
         {cabin.href && (
@@ -370,18 +490,22 @@ function CabinBrowser({ cabins }) {
   const [filter, setFilter] = useState('all');
   const [sort, setSort] = useState('size');
 
+  const filters = useMemo(() => filtersFor(cabins), [cabins]);
+  const hasPrices = cabins.some(c => c.price);
+
   const counts = useMemo(
-    () => Object.fromEntries(FILTERS.map(f => [f.key, cabins.filter(f.match).length])),
-    [cabins],
+    () => Object.fromEntries(filters.map(f => [f.key, cabins.filter(f.match).length])),
+    [cabins, filters],
   );
 
   const shown = useMemo(() => {
-    const active = FILTERS.find(f => f.key === filter) ?? FILTERS[0];
+    const active = filters.find(f => f.key === filter) ?? filters[0];
     const list = cabins.filter(active.match);
-    if (sort === 'size') return [...list].sort((a, b) => a.guests - b.guests);
+    // Units without a published figure sort last rather than jumping to front.
+    if (sort === 'size') return [...list].sort((a, b) => (a.guests ?? Infinity) - (b.guests ?? Infinity));
     if (sort === 'price') return [...list].sort((a, b) => (a.price ?? Infinity) - (b.price ?? Infinity));
     return list;
-  }, [cabins, filter, sort]);
+  }, [cabins, filter, sort, filters]);
 
   return (
     <div style={{ marginTop: 20 }}>
@@ -389,14 +513,14 @@ function CabinBrowser({ cabins }) {
         <span style={{ fontSize: 11, color: MUTED, letterSpacing: 1.5, textTransform: 'uppercase' }}>The cabins</span>
         <span style={{ fontSize: 12, color: MUTED }}>{shown.length} of {cabins.length}</span>
         <button
-          onClick={() => setSort(s => (s === 'size' ? 'price' : s === 'price' ? 'listed' : 'size'))}
+          onClick={() => setSort(s => (s === 'size' ? (hasPrices ? 'price' : 'listed') : s === 'price' ? 'listed' : 'size'))}
           style={{ marginLeft: 'auto', background: 'none', border: `1px solid ${CARD_BORDER}`, borderRadius: 20, color: MUTED, fontSize: 11, padding: '3px 10px', cursor: 'pointer' }}>
           {sort === 'size' ? '↕ Smallest first' : sort === 'price' ? '↕ Cheapest first' : '↕ As listed'}
         </button>
       </div>
 
       <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 14 }}>
-        {FILTERS.map(f => {
+        {filters.map(f => {
           const on = filter === f.key;
           return (
             <button key={f.key} onClick={() => setFilter(f.key)}
@@ -501,8 +625,9 @@ export default function BucketList() {
         {items.map(item => <ItemCard key={item.id} item={item} />)}
 
         <div style={{ marginTop: 4, padding: '14px 16px', background: CARD_BG, border: `1px dashed ${CARD_BORDER}`, borderRadius: 16, fontSize: 13, color: MUTED, lineHeight: 1.55 }}>
-          <span style={{ fontWeight: 700, color: TEXT }}>Cabin figures last refreshed {scrapedOn}</span> by the scrape
-          workflow, which rechecks capacities, ratings and nightly rates monthly.{' '}
+          <span style={{ fontWeight: 700, color: TEXT }}>Red River Gorge figures last refreshed {scrapedOn}</span> by the
+          scrape workflow, which rechecks capacities, ratings and nightly rates monthly. Hideaway on the Hocking publishes
+          no machine-readable rates, so its details are hand-entered.{' '}
           <span style={{ fontWeight: 700, color: TEXT }}>Add the next place:</span> drop another object into the{' '}
           <code style={{ background: 'rgba(255,255,255,0.06)', padding: '1px 5px', borderRadius: 4, fontSize: 12 }}>items</code> array in{' '}
           <code style={{ background: 'rgba(255,255,255,0.06)', padding: '1px 5px', borderRadius: 4, fontSize: 12 }}>src/BucketList.jsx</code> and it shows up here.
