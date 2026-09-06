@@ -144,27 +144,34 @@ function harvestCalendarPrices(captured) {
     })(c.body);
     if (!days.length) continue;
 
-    // Calendars run two years out and blocked dates carry placeholder rates
-    // (a host's way of refusing a booking), which drag a naive median far
-    // above anything you could actually pay. Price only the nights you could
-    // really book, within a horizon worth planning against.
+    // Calendars run two years out, so cut to a horizon worth planning against.
+    // Two medians, because they answer different questions: every night in the
+    // window is the cabin's typical rate, while the still-open nights are what
+    // you would actually pay booking today — higher on popular cabins, whose
+    // cheap off-peak nights are already taken.
     const horizon = new Date(Date.now() + 365 * 864e5).toISOString().slice(0, 10);
     const bookable = d =>
       d.available === undefined || d.available === 1 || d.available === true || d.available === 'available';
 
     const inHorizon = days.filter(d => d.date <= horizon);
+    if (!inHorizon.length) continue;
     const open = inHorizon.filter(bookable);
-    const use = open.length >= 10 ? open : inHorizon;
-    if (!use.length) continue;
 
-    const prices = use.map(d => d.price).sort((a, b) => a - b);
-    const mid = Math.floor(prices.length / 2);
+    const median = list => {
+      const p = list.map(d => d.price).sort((a, b) => a - b);
+      const mid = Math.floor(p.length / 2);
+      return p.length % 2 ? p[mid] : Math.round((p[mid - 1] + p[mid]) / 2);
+    };
+    const all = inHorizon.map(d => d.price).sort((a, b) => a - b);
+
     byId.set(m[1], {
-      price: prices.length % 2 ? prices[mid] : Math.round((prices[mid - 1] + prices[mid]) / 2),
-      priceMin: prices[0],
-      priceMax: prices[prices.length - 1],
-      priceNights: prices.length,
-      priceBasis: open.length >= 10 ? 'available nights, next 12 months' : 'all nights, next 12 months',
+      price: median(inHorizon),
+      priceOpen: open.length >= 10 ? median(open) : undefined,
+      priceMin: all[0],
+      priceMax: all[all.length - 1],
+      priceNights: inHorizon.length,
+      priceOpenNights: open.length,
+      priceBasis: 'median nightly rate over the next 12 months',
     });
   }
   return byId;
