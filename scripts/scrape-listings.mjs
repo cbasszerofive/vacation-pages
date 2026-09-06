@@ -131,24 +131,40 @@ function harvestCalendarPrices(captured) {
     const m = c.url.match(/\/listings\/(\d+)\/calendar/);
     if (!m) continue;
 
-    const prices = [];
+    const days = [];
     (function walk(node, depth = 0) {
       if (!node || depth > 6) return;
       if (Array.isArray(node)) { node.forEach(v => walk(v, depth + 1)); return; }
       if (typeof node !== 'object') return;
       const price = toNum(node.price ?? node.basePrice);
-      if (node.date && price) prices.push(price);
+      if (node.date && price) {
+        days.push({ date: String(node.date), price, available: node.isAvailable ?? node.available ?? node.status });
+      }
       for (const v of Object.values(node)) walk(v, depth + 1);
     })(c.body);
+    if (!days.length) continue;
 
-    if (!prices.length) continue;
-    prices.sort((a, b) => a - b);
+    // Calendars run two years out and blocked dates carry placeholder rates
+    // (a host's way of refusing a booking), which drag a naive median far
+    // above anything you could actually pay. Price only the nights you could
+    // really book, within a horizon worth planning against.
+    const horizon = new Date(Date.now() + 365 * 864e5).toISOString().slice(0, 10);
+    const bookable = d =>
+      d.available === undefined || d.available === 1 || d.available === true || d.available === 'available';
+
+    const inHorizon = days.filter(d => d.date <= horizon);
+    const open = inHorizon.filter(bookable);
+    const use = open.length >= 10 ? open : inHorizon;
+    if (!use.length) continue;
+
+    const prices = use.map(d => d.price).sort((a, b) => a - b);
     const mid = Math.floor(prices.length / 2);
     byId.set(m[1], {
       price: prices.length % 2 ? prices[mid] : Math.round((prices[mid - 1] + prices[mid]) / 2),
       priceMin: prices[0],
       priceMax: prices[prices.length - 1],
       priceNights: prices.length,
+      priceBasis: open.length >= 10 ? 'available nights, next 12 months' : 'all nights, next 12 months',
     });
   }
   return byId;
