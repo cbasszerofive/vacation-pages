@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const INITIAL_PLACES = [
   { name: "Cherry Beach", address: "Red Arrow Hwy, Harbert, MI", miles: 0.3, minutes: 2, region: "Harbert", website: "https://www.chikamingtownship.org/parks", cost: "Free; $15/day parking peak season", notes: "Secluded Lake Michigan beach; 657 ft of shoreline; short walk from the house", tags: ["beach", "free", "kids"] },
@@ -669,6 +670,15 @@ export default function TripPlanner() {
         </div>
         <h1 style={{ margin: 0, fontSize: 26, fontWeight: 800, letterSpacing: -0.5 }}>Three Oaks Trip 🌊</h1>
         <p style={{ margin: "6px 0 0", fontSize: 14, opacity: 0.8 }}>{places.length} places · {restaurants.length} food & drink spots</p>
+        {/* The other pages had no way in from here — you had to know the URL. */}
+        <div style={{ marginTop: 10, display: "flex", gap: 8, flexWrap: "wrap" }}>
+          {[["/bucketlist", "🧭 Vacation Bucket List"], ["/berlin", "🇩🇪 Berlin Itinerary"]].map(([to, label]) => (
+            <Link key={to} to={to}
+              style={{ fontSize: 12, fontWeight: 600, color: "#fff", textDecoration: "none", background: "rgba(255,255,255,0.15)", border: "1px solid rgba(255,255,255,0.25)", borderRadius: 20, padding: "4px 11px" }}>
+              {label} →
+            </Link>
+          ))}
+        </div>
         <div style={{ marginTop: 10, display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
           <span style={{ fontSize: 12, opacity: 0.7 }}>📍 Home base:</span>
           <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ORIGIN)}`}
