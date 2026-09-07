@@ -10,6 +10,61 @@ const ACCENT_DIM = 'rgba(224,160,60,0.13)';
 const ACCENT_BORDER = 'rgba(224,160,60,0.35)';
 const TEXT = '#eae8e2';
 const MUTED = 'rgba(234,232,226,0.52)';
+const DONE = '#7fb069';
+const DONE_DIM = 'rgba(127,176,105,0.14)';
+const DONE_BORDER = 'rgba(127,176,105,0.4)';
+
+// Ticks live in the browser only — nothing here is shared or synced, so a
+// different device or a cleared cache starts fresh.
+const VISITED_KEY = 'vacation-bucketlist-visited';
+
+function loadVisited() {
+  try {
+    const raw = window.localStorage.getItem(VISITED_KEY);
+    return new Set(raw ? JSON.parse(raw) : []);
+  } catch {
+    return new Set(); // private mode, blocked storage, or corrupt JSON
+  }
+}
+
+function useVisited() {
+  const [visited, setVisited] = useState(loadVisited);
+
+  const toggle = key => setVisited(prev => {
+    const next = new Set(prev);
+    if (next.has(key)) next.delete(key);
+    else next.add(key);
+    try {
+      window.localStorage.setItem(VISITED_KEY, JSON.stringify([...next]));
+    } catch {
+      // Storage unavailable: the tick still works for this session.
+    }
+    return next;
+  });
+
+  return [visited, toggle];
+}
+
+/** Stable per-thing key, namespaced so two properties can share a name. */
+const visitKey = (itemId, name) => `${itemId}::${name}`;
+
+function VisitedToggle({ on, onToggle, label }) {
+  return (
+    <button
+      onClick={e => { e.stopPropagation(); onToggle(); }}
+      aria-pressed={on}
+      title={on ? `Mark ${label} as not visited` : `Mark ${label} as visited`}
+      style={{
+        flexShrink: 0, width: 20, height: 20, lineHeight: '18px', padding: 0,
+        borderRadius: 6, cursor: 'pointer', fontSize: 12, fontWeight: 700,
+        color: on ? '#10140f' : MUTED,
+        background: on ? DONE : 'transparent',
+        border: `1px solid ${on ? DONE : 'rgba(255,255,255,0.18)'}`,
+      }}>
+      {on ? '✓' : ''}
+    </button>
+  );
+}
 
 // The Hideaways’ Red River Gorge collection — 23 cabins.
 const rrgCabins = [
@@ -390,6 +445,19 @@ const hockingAttractions = [
   },
 ];
 
+
+// Attractions around the Gorge, as opposed to on a property. No `area` on
+// these yet: the cabins do not publish where they sit relative to the arches,
+// so there is nothing honest to link them to.
+const rrgAttractions = [
+  {
+    name: 'Natural Bridge',
+    kind: 'Arch',
+    note: 'The sandstone arch the state resort park is named for, on the edge of the Red River Gorge Geological Area. Reachable on foot from the trailhead or, in season, by the sky lift — which is what makes it the one landmark in the Gorge you can see without a hike.',
+    href: 'https://redrivergorge.com/history-education/natural-bridge/',
+  },
+];
+
 const items = [
   {
     id: 'rrg',
@@ -422,6 +490,8 @@ const items = [
       { label: 'Maps', href: 'https://www.google.com/maps/search/?api=1&query=Red+River+Gorge+Kentucky' },
     ],
     cabins: rrgCabinsLive,
+    attractions: rrgAttractions,
+    attractionsLabel: 'Around the Gorge',
   },
   {
     id: 'hocking',
@@ -491,16 +561,20 @@ function Chip({ children }) {
   );
 }
 
-function CabinCard({ cabin }) {
+function CabinCard({ cabin, visited, onToggleVisited }) {
   return (
     <div style={{
-      background: 'rgba(255,255,255,0.03)',
-      border: `1px solid ${cabin.star ? ACCENT_BORDER : CARD_BORDER}`,
+      background: visited ? DONE_DIM : 'rgba(255,255,255,0.03)',
+      border: `1px solid ${visited ? DONE_BORDER : cabin.star ? ACCENT_BORDER : CARD_BORDER}`,
       borderRadius: 12, padding: '13px 14px 12px',
       display: 'flex', flexDirection: 'column', gap: 6,
     }}>
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
-        <span style={{ fontSize: 14, fontWeight: 700, color: cabin.star ? ACCENT : TEXT, flex: 1, lineHeight: 1.25 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <VisitedToggle on={visited} onToggle={onToggleVisited} label={cabin.name} />
+        <span style={{
+          fontSize: 14, fontWeight: 700, flex: 1, lineHeight: 1.25,
+          color: visited ? DONE : cabin.star ? ACCENT : TEXT,
+        }}>
           {cabin.name}
         </span>
         {cabin.rating && (
@@ -552,7 +626,8 @@ function CabinCard({ cabin }) {
   );
 }
 
-function CabinBrowser({ cabins, area, onClearArea, heading = 'The cabins' }) {
+function CabinBrowser({ cabins, area, onClearArea, heading = 'The cabins', isVisited, onToggleVisited }) {
+  const [open, setOpen] = useState(true);
   const [filter, setFilter] = useState('all');
   const [sort, setSort] = useState('size');
 
@@ -566,6 +641,8 @@ function CabinBrowser({ cabins, area, onClearArea, heading = 'The cabins' }) {
     [cabins, filters],
   );
 
+  const visitedCount = cabins.filter(c => isVisited(c.name)).length;
+
   const shown = useMemo(() => {
     const active = filters.find(f => f.key === filter) ?? filters[0];
     let list = cabins.filter(active.match);
@@ -578,17 +655,24 @@ function CabinBrowser({ cabins, area, onClearArea, heading = 'The cabins' }) {
 
   return (
     <div style={{ marginTop: 20 }}>
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 10, flexWrap: 'wrap' }}>
+      <div onClick={() => setOpen(o => !o)}
+        style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10, flexWrap: 'wrap', cursor: 'pointer' }}>
+        <span style={{ fontSize: 11, color: MUTED, width: 10 }}>{open ? '▾' : '▸'}</span>
         <span style={{ fontSize: 11, color: MUTED, letterSpacing: 1.5, textTransform: 'uppercase' }}>{heading}</span>
-        <span style={{ fontSize: 12, color: MUTED }}>{shown.length} of {cabins.length}</span>
+        <span style={{ fontSize: 12, color: MUTED }}>{open ? `${shown.length} of ${cabins.length}` : `${cabins.length}`}</span>
+        {visitedCount > 0 && (
+          <span style={{ fontSize: 11, color: DONE, background: DONE_DIM, border: `1px solid ${DONE_BORDER}`, borderRadius: 20, padding: '2px 8px' }}>
+            ✓ {visitedCount} stayed
+          </span>
+        )}
         <button
-          onClick={() => setSort(s => (s === 'size' ? (hasPrices ? 'price' : 'listed') : s === 'price' ? 'listed' : 'size'))}
+          onClick={e => { e.stopPropagation(); setSort(s => (s === 'size' ? (hasPrices ? 'price' : 'listed') : s === 'price' ? 'listed' : 'size')); }}
           style={{ marginLeft: 'auto', background: 'none', border: `1px solid ${CARD_BORDER}`, borderRadius: 20, color: MUTED, fontSize: 11, padding: '3px 10px', cursor: 'pointer' }}>
           {sort === 'size' ? '↕ Smallest first' : sort === 'price' ? '↕ Cheapest first' : '↕ As listed'}
         </button>
       </div>
 
-      {area && (
+      {open && area && (
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginBottom: 12, background: ACCENT_DIM, border: `1px solid ${ACCENT_BORDER}`, borderRadius: 10, padding: '8px 12px' }}>
           <span style={{ fontSize: 12.5, color: TEXT }}>
             Showing stays near <span style={{ fontWeight: 700, color: ACCENT }}>{area}</span>
@@ -601,7 +685,7 @@ function CabinBrowser({ cabins, area, onClearArea, heading = 'The cabins' }) {
         </div>
       )}
 
-      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 14 }}>
+      {open && <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 14 }}>
         {filters.map(f => {
           const on = filter === f.key;
           return (
@@ -617,13 +701,16 @@ function CabinBrowser({ cabins, area, onClearArea, heading = 'The cabins' }) {
             </button>
           );
         })}
-      </div>
+      </div>}
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: 10 }}>
-        {shown.map(c => <CabinCard key={c.name} cabin={c} />)}
-      </div>
+      {open && <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: 10 }}>
+        {shown.map(c => (
+          <CabinCard key={c.name} cabin={c}
+            visited={isVisited(c.name)} onToggleVisited={() => onToggleVisited(c.name)} />
+        ))}
+      </div>}
 
-      {located > 0 && located < cabins.length && (
+      {open && located > 0 && located < cabins.length && (
         <div style={{ marginTop: 10, fontSize: 11.5, color: MUTED, lineHeight: 1.5 }}>
           {located} of {cabins.length} units say where they sit on the land; the rest are placed somewhere on the
           property without saying where, so they drop out when you pick a spot below.
@@ -633,31 +720,46 @@ function CabinBrowser({ cabins, area, onClearArea, heading = 'The cabins' }) {
   );
 }
 
-function AttractionSection({ attractions, area, onPick }) {
+function AttractionSection({ attractions, area, onPick, heading = 'On the land', isVisited, onToggleVisited }) {
+  const [open, setOpen] = useState(true);
+  const visitedCount = attractions.filter(a => isVisited(a.name)).length;
+  const linkable = attractions.some(a => a.area);
+
   return (
     <div style={{ marginTop: 24 }}>
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 10, flexWrap: 'wrap' }}>
-        <span style={{ fontSize: 11, color: MUTED, letterSpacing: 1.5, textTransform: 'uppercase' }}>On the land</span>
+      <div onClick={() => setOpen(o => !o)}
+        style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10, flexWrap: 'wrap', cursor: 'pointer' }}>
+        <span style={{ fontSize: 11, color: MUTED, width: 10 }}>{open ? '▾' : '▸'}</span>
+        <span style={{ fontSize: 11, color: MUTED, letterSpacing: 1.5, textTransform: 'uppercase' }}>{heading}</span>
         <span style={{ fontSize: 12, color: MUTED }}>{attractions.length} spots</span>
-        <span style={{ fontSize: 11.5, color: MUTED, marginLeft: 'auto' }}>Pick one to see the stays nearest it</span>
+        {visitedCount > 0 && (
+          <span style={{ fontSize: 11, color: DONE, background: DONE_DIM, border: `1px solid ${DONE_BORDER}`, borderRadius: 20, padding: '2px 8px' }}>
+            ✓ {visitedCount} seen
+          </span>
+        )}
+        {open && linkable && (
+          <span style={{ fontSize: 11.5, color: MUTED, marginLeft: 'auto' }}>Pick one to see the stays nearest it</span>
+        )}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: 10 }}>
+      {open && <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: 10 }}>
         {attractions.map(a => {
           const active = a.area && a.area === area;
           const clickable = Boolean(a.area);
+          const seen = isVisited(a.name);
           return (
             <div key={a.name}
               onClick={clickable ? () => onPick(active ? null : a.area) : undefined}
               style={{
-                background: active ? ACCENT_DIM : 'rgba(255,255,255,0.03)',
-                border: `1px solid ${active ? ACCENT_BORDER : CARD_BORDER}`,
+                background: seen ? DONE_DIM : active ? ACCENT_DIM : 'rgba(255,255,255,0.03)',
+                border: `1px solid ${seen ? DONE_BORDER : active ? ACCENT_BORDER : CARD_BORDER}`,
                 borderRadius: 12, padding: '13px 14px 12px',
                 display: 'flex', flexDirection: 'column', gap: 6,
                 cursor: clickable ? 'pointer' : 'default',
               }}>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
-                <span style={{ fontSize: 14, fontWeight: 700, color: active ? ACCENT : TEXT, flex: 1, lineHeight: 1.25 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <VisitedToggle on={seen} onToggle={() => onToggleVisited(a.name)} label={a.name} />
+                <span style={{ fontSize: 14, fontWeight: 700, color: seen ? DONE : active ? ACCENT : TEXT, flex: 1, lineHeight: 1.25 }}>
                   {a.name}
                 </span>
                 <span style={{ fontSize: 11, color: MUTED, whiteSpace: 'nowrap' }}>{a.kind}</span>
@@ -677,14 +779,17 @@ function AttractionSection({ attractions, area, onPick }) {
             </div>
           );
         })}
-      </div>
+      </div>}
     </div>
   );
 }
 
-function ItemCard({ item }) {
+function ItemCard({ item, visited, onToggleVisited }) {
   // Picking a spot on the land narrows the stays; shared by both sections.
   const [area, setArea] = useState(null);
+
+  const isVisited = name => visited.has(visitKey(item.id, name));
+  const toggle = name => onToggleVisited(visitKey(item.id, name));
 
   return (
     <div style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}`, borderRadius: 16, marginBottom: 16, overflow: 'hidden' }}>
@@ -727,11 +832,20 @@ function ItemCard({ item }) {
             heading={item.attractions ? 'Where you’d stay' : 'The cabins'}
             area={area}
             onClearArea={() => setArea(null)}
+            isVisited={isVisited}
+            onToggleVisited={toggle}
           />
         )}
 
         {item.attractions && (
-          <AttractionSection attractions={item.attractions} area={area} onPick={setArea} />
+          <AttractionSection
+            attractions={item.attractions}
+            heading={item.attractionsLabel ?? 'On the land'}
+            area={area}
+            onPick={setArea}
+            isVisited={isVisited}
+            onToggleVisited={toggle}
+          />
         )}
 
         <div style={{ margin: '20px 0 4px', background: ACCENT_DIM, border: `1.5px solid ${ACCENT_BORDER}`, borderRadius: 12, padding: '14px 16px', fontSize: 13, color: MUTED, lineHeight: 1.55 }}>
@@ -758,6 +872,15 @@ function ItemCard({ item }) {
 }
 
 export default function BucketList() {
+  const [visited, toggleVisited] = useVisited();
+
+  const total = items.reduce((n, i) => n + (i.cabins?.length ?? 0) + (i.attractions?.length ?? 0), 0);
+  const done = items.reduce(
+    (n, i) => n + [...(i.cabins ?? []), ...(i.attractions ?? [])]
+      .filter(x => visited.has(visitKey(i.id, x.name))).length,
+    0,
+  );
+
   return (
     <div style={{ fontFamily: "'Segoe UI', system-ui, sans-serif", background: BG, minHeight: '100vh', color: TEXT }}>
       <div style={{ background: 'linear-gradient(160deg, #1f2a1a 0%, #10140f 100%)', borderBottom: `1px solid ${ACCENT_BORDER}`, padding: '28px 20px 24px' }}>
@@ -771,10 +894,18 @@ export default function BucketList() {
         <p style={{ margin: '0 0 14px', fontSize: 15, color: MUTED }}>
           {items.length} {items.length === 1 ? 'place' : 'places'} on the list — trips we haven&apos;t taken yet.
         </p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+          <span style={{ fontSize: 12, color: done ? DONE : MUTED, background: done ? DONE_DIM : 'rgba(255,255,255,0.06)', border: `1px solid ${done ? DONE_BORDER : 'rgba(255,255,255,0.1)'}`, borderRadius: 20, padding: '4px 11px' }}>
+            ✓ {done} of {total} ticked off
+          </span>
+          <span style={{ fontSize: 11.5, color: MUTED }}>Ticks are saved in this browser only</span>
+        </div>
       </div>
 
       <div style={{ padding: '16px 16px 48px' }}>
-        {items.map(item => <ItemCard key={item.id} item={item} />)}
+        {items.map(item => (
+          <ItemCard key={item.id} item={item} visited={visited} onToggleVisited={toggleVisited} />
+        ))}
 
         <div style={{ marginTop: 4, padding: '14px 16px', background: CARD_BG, border: `1px dashed ${CARD_BORDER}`, borderRadius: 16, fontSize: 13, color: MUTED, lineHeight: 1.55 }}>
           <span style={{ fontWeight: 700, color: TEXT }}>Red River Gorge figures last refreshed {scrapedOn}</span> by the
