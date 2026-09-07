@@ -1,0 +1,42 @@
+rules_version = '2';
+
+// Security rules for the shared "where we've been" list.
+//
+// The page is public, but the list is not: only the accounts named below can
+// read or change it. Everyone else sees the page with their own browser-local
+// ticks and no access to the shared record.
+//
+// Paste these into Firebase console -> Firestore Database -> Rules, after
+// replacing the two addresses with the Google accounts that should have access.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function allowed() {
+      return request.auth != null
+        && request.auth.token.email_verified == true
+        && request.auth.token.email in [
+             'first.person@example.com',
+             'second.person@example.com'
+           ];
+    }
+
+    match /visits/{visitId} {
+      allow read: if allowed();
+
+      // A tick always carries the identity of whoever made it: you cannot
+      // write a tick attributed to someone else.
+      allow create, update: if allowed()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.keys().hasAll(['key', 'by', 'uid', 'at']);
+
+      // Either person can untick anything — it is one shared list.
+      allow delete: if allowed();
+    }
+
+    // Nothing else in the database is reachable from the page.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

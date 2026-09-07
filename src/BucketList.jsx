@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import scraped from '../data/hideaways-rrg.json';
+import { useVisits } from './useVisits.js';
 
 const BG = '#10140f';
 const CARD_BG = '#1a1f18';
@@ -14,39 +15,54 @@ const DONE = '#7fb069';
 const DONE_DIM = 'rgba(127,176,105,0.14)';
 const DONE_BORDER = 'rgba(127,176,105,0.4)';
 
-// Ticks live in the browser only — nothing here is shared or synced, so a
-// different device or a cleared cache starts fresh.
-const VISITED_KEY = 'vacation-bucketlist-visited';
-
-function loadVisited() {
-  try {
-    const raw = window.localStorage.getItem(VISITED_KEY);
-    return new Set(raw ? JSON.parse(raw) : []);
-  } catch {
-    return new Set(); // private mode, blocked storage, or corrupt JSON
-  }
-}
-
-function useVisited() {
-  const [visited, setVisited] = useState(loadVisited);
-
-  const toggle = key => setVisited(prev => {
-    const next = new Set(prev);
-    if (next.has(key)) next.delete(key);
-    else next.add(key);
-    try {
-      window.localStorage.setItem(VISITED_KEY, JSON.stringify([...next]));
-    } catch {
-      // Storage unavailable: the tick still works for this session.
-    }
-    return next;
-  });
-
-  return [visited, toggle];
-}
-
 /** Stable per-thing key, namespaced so two properties can share a name. */
 const visitKey = (itemId, name) => `${itemId}::${name}`;
+
+
+function AccountBar({ visits }) {
+  const { status, user, signIn, signOut, localCount, mergeLocal, signedIn } = visits;
+  const [merged, setMerged] = useState(false);
+
+  const pill = {
+    fontSize: 11.5, fontWeight: 600, cursor: 'pointer', borderRadius: 20,
+    padding: '4px 11px', background: 'rgba(255,255,255,0.08)',
+    border: '1px solid rgba(255,255,255,0.18)', color: TEXT,
+  };
+
+  if (status === 'local') {
+    return <span style={{ fontSize: 11.5, color: MUTED }}>Ticks are saved in this browser only</span>;
+  }
+  if (status === 'connecting') {
+    return <span style={{ fontSize: 11.5, color: MUTED }}>Connecting…</span>;
+  }
+  if (status === 'error') {
+    return <span style={{ fontSize: 11.5, color: MUTED }}>Sync unavailable — ticks are saved in this browser</span>;
+  }
+  if (!user) {
+    return (
+      <>
+        <button onClick={signIn} style={pill}>Sign in with Google</button>
+        <span style={{ fontSize: 11.5, color: MUTED }}>to share ticks across devices</span>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <span style={{ fontSize: 11.5, color: MUTED }}>
+        Shared list · signed in as {user.displayName || user.email}
+      </span>
+      <button onClick={signOut} style={pill}>Sign out</button>
+      {signedIn && localCount > 0 && !merged && (
+        <button
+          onClick={() => { mergeLocal(); setMerged(true); }}
+          style={{ ...pill, color: DONE, borderColor: DONE_BORDER, background: DONE_DIM }}>
+          Add {localCount} tick{localCount === 1 ? '' : 's'} from this browser
+        </button>
+      )}
+    </>
+  );
+}
 
 function VisitedToggle({ on, onToggle, label }) {
   return (
@@ -561,7 +577,7 @@ function Chip({ children }) {
   );
 }
 
-function CabinCard({ cabin, visited, onToggleVisited }) {
+function CabinCard({ cabin, visited, onToggleVisited, tickedBy }) {
   return (
     <div style={{
       background: visited ? DONE_DIM : 'rgba(255,255,255,0.03)',
@@ -585,6 +601,10 @@ function CabinCard({ cabin, visited, onToggleVisited }) {
       </div>
 
       <div style={{ fontSize: 11.5, color: MUTED, lineHeight: 1.4 }}>{cabin.tagline}</div>
+
+      {visited && tickedBy && (
+        <div style={{ fontSize: 11, color: DONE }}>✓ ticked by {tickedBy}</div>
+      )}
 
       <div style={{ display: 'flex', gap: 10, fontSize: 12, color: TEXT, opacity: 0.85, flexWrap: 'wrap' }}>
         {cabin.guests && <span>👥 {cabin.guests}</span>}
@@ -626,7 +646,7 @@ function CabinCard({ cabin, visited, onToggleVisited }) {
   );
 }
 
-function CabinBrowser({ cabins, area, onClearArea, heading = 'The cabins', isVisited, onToggleVisited }) {
+function CabinBrowser({ cabins, area, onClearArea, heading = 'The cabins', isVisited, onToggleVisited, tickedBy }) {
   const [open, setOpen] = useState(true);
   const [filter, setFilter] = useState('all');
   const [sort, setSort] = useState('size');
@@ -706,7 +726,8 @@ function CabinBrowser({ cabins, area, onClearArea, heading = 'The cabins', isVis
       {open && <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: 10 }}>
         {shown.map(c => (
           <CabinCard key={c.name} cabin={c}
-            visited={isVisited(c.name)} onToggleVisited={() => onToggleVisited(c.name)} />
+            visited={isVisited(c.name)} onToggleVisited={() => onToggleVisited(c.name)}
+            tickedBy={tickedBy?.(c.name)} />
         ))}
       </div>}
 
@@ -720,7 +741,7 @@ function CabinBrowser({ cabins, area, onClearArea, heading = 'The cabins', isVis
   );
 }
 
-function AttractionSection({ attractions, area, onPick, heading = 'On the land', isVisited, onToggleVisited }) {
+function AttractionSection({ attractions, area, onPick, heading = 'On the land', isVisited, onToggleVisited, tickedBy }) {
   const [open, setOpen] = useState(true);
   const visitedCount = attractions.filter(a => isVisited(a.name)).length;
   const linkable = attractions.some(a => a.area);
@@ -764,6 +785,9 @@ function AttractionSection({ attractions, area, onPick, heading = 'On the land',
                 </span>
                 <span style={{ fontSize: 11, color: MUTED, whiteSpace: 'nowrap' }}>{a.kind}</span>
               </div>
+              {seen && tickedBy?.(a.name) && (
+                <div style={{ fontSize: 11, color: DONE }}>✓ ticked by {tickedBy(a.name)}</div>
+              )}
               <div style={{ fontSize: 12.5, color: MUTED, lineHeight: 1.55 }}>{a.note}</div>
               <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center', marginTop: 'auto', paddingTop: 4 }}>
                 {a.area && (
@@ -784,13 +808,14 @@ function AttractionSection({ attractions, area, onPick, heading = 'On the land',
   );
 }
 
-function ItemCard({ item, visited, onToggleVisited }) {
+function ItemCard({ item, visited, onToggleVisited, whoTicked }) {
   // Picking a spot on the land narrows the stays; shared by both sections.
   const [area, setArea] = useState(null);
   // The whole property folds away, so a long list can be skimmed past.
   const [open, setOpen] = useState(true);
 
   const isVisited = name => visited.has(visitKey(item.id, name));
+  const tickedBy = name => whoTicked?.(visitKey(item.id, name));
   const toggle = name => onToggleVisited(visitKey(item.id, name));
 
   const things = [...(item.cabins ?? []), ...(item.attractions ?? [])];
@@ -858,6 +883,7 @@ function ItemCard({ item, visited, onToggleVisited }) {
             onClearArea={() => setArea(null)}
             isVisited={isVisited}
             onToggleVisited={toggle}
+            tickedBy={tickedBy}
           />
         )}
 
@@ -869,6 +895,7 @@ function ItemCard({ item, visited, onToggleVisited }) {
             onPick={setArea}
             isVisited={isVisited}
             onToggleVisited={toggle}
+            tickedBy={tickedBy}
           />
         )}
 
@@ -896,7 +923,8 @@ function ItemCard({ item, visited, onToggleVisited }) {
 }
 
 export default function BucketList() {
-  const [visited, toggleVisited] = useVisited();
+  const visits = useVisits();
+  const { visited, toggle: toggleVisited } = visits;
 
   const total = items.reduce((n, i) => n + (i.cabins?.length ?? 0) + (i.attractions?.length ?? 0), 0);
   const done = items.reduce(
@@ -922,13 +950,14 @@ export default function BucketList() {
           <span style={{ fontSize: 12, color: done ? DONE : MUTED, background: done ? DONE_DIM : 'rgba(255,255,255,0.06)', border: `1px solid ${done ? DONE_BORDER : 'rgba(255,255,255,0.1)'}`, borderRadius: 20, padding: '4px 11px' }}>
             ✓ {done} of {total} ticked off
           </span>
-          <span style={{ fontSize: 11.5, color: MUTED }}>Ticks are saved in this browser only</span>
+          <AccountBar visits={visits} />
         </div>
       </div>
 
       <div style={{ padding: '16px 16px 48px' }}>
         {items.map(item => (
-          <ItemCard key={item.id} item={item} visited={visited} onToggleVisited={toggleVisited} />
+          <ItemCard key={item.id} item={item} visited={visited}
+            onToggleVisited={toggleVisited} whoTicked={visits.whoTicked} />
         ))}
 
         <div style={{ marginTop: 4, padding: '14px 16px', background: CARD_BG, border: `1px dashed ${CARD_BORDER}`, borderRadius: 16, fontSize: 13, color: MUTED, lineHeight: 1.55 }}>
