@@ -52,3 +52,43 @@ bundle to read when selectors stop matching.
 
 Note that scraping needs open network access. Claude Code web sessions run
 behind an egress proxy that blocks these hosts, so run it in CI or locally.
+
+## Saved ticks (optional Firebase sync)
+
+The bucket list page lets you tick off places you've been. With no setup those
+ticks live in `localStorage` — private to one browser. Configure Firebase and
+they move to a single shared list that both of you see, with each tick
+recording who made it.
+
+The page works either way: if the config is absent it silently stays in local
+mode, and the Firebase SDK is dynamically imported so its weight never lands on
+visitors who aren't syncing.
+
+### One-time setup
+
+1. Create a project at [console.firebase.google.com](https://console.firebase.google.com).
+2. **Authentication → Sign-in method →** enable **Google**.
+3. **Authentication → Settings → Authorized domains →** add
+   `cbasszerofive.github.io` (and `localhost` for local dev).
+4. **Firestore Database →** create a database in production mode.
+5. **Firestore → Rules →** paste `firestore.rules` from this repo, replacing the
+   two placeholder addresses with the Google accounts that should have access.
+6. **Project settings → Your apps → Web app →** register one and copy the config.
+7. Add four repository secrets (**Settings → Secrets and variables → Actions**):
+
+   | Secret | From the config object |
+   | --- | --- |
+   | `VITE_FIREBASE_API_KEY` | `apiKey` |
+   | `VITE_FIREBASE_AUTH_DOMAIN` | `authDomain` |
+   | `VITE_FIREBASE_PROJECT_ID` | `projectId` |
+   | `VITE_FIREBASE_APP_ID` | `appId` |
+
+8. Re-run the deploy (push to `main`, or run the workflow by hand).
+
+These values are public identifiers, not credentials — they ship in the
+JavaScript bundle by design. What keeps the list private is `firestore.rules`,
+which is why step 5 matters: without the email allowlist, anyone with a Google
+account could read and edit your list.
+
+For local development, put the same four values in a `.env.local` file
+(git-ignored) as `VITE_FIREBASE_API_KEY=...` and so on.
