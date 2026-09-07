@@ -787,13 +787,19 @@ function AttractionSection({ attractions, area, onPick, heading = 'On the land',
 function ItemCard({ item, visited, onToggleVisited }) {
   // Picking a spot on the land narrows the stays; shared by both sections.
   const [area, setArea] = useState(null);
+  // The whole property folds away, so a long list can be skimmed past.
+  const [open, setOpen] = useState(true);
 
   const isVisited = name => visited.has(visitKey(item.id, name));
   const toggle = name => onToggleVisited(visitKey(item.id, name));
 
+  const things = [...(item.cabins ?? []), ...(item.attractions ?? [])];
+  const doneHere = things.filter(t => isVisited(t.name)).length;
+
   return (
     <div style={{ background: CARD_BG, border: `1px solid ${CARD_BORDER}`, borderRadius: 16, marginBottom: 16, overflow: 'hidden' }}>
-      <div style={{ background: item.gradient, padding: '20px 18px 16px', borderBottom: `1px solid ${CARD_BORDER}` }}>
+      <div onClick={() => setOpen(o => !o)}
+        style={{ background: item.gradient, padding: '20px 18px 16px', borderBottom: open ? `1px solid ${CARD_BORDER}` : 'none', cursor: 'pointer' }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
           <span style={{ fontSize: 26, lineHeight: 1 }}>{item.emoji}</span>
           <div style={{ flex: 1 }}>
@@ -801,18 +807,36 @@ function ItemCard({ item, visited, onToggleVisited }) {
             <div style={{ fontSize: 20, fontWeight: 800, color: '#fff', lineHeight: 1.2 }}>{item.name}</div>
             <div style={{ fontSize: 14, color: MUTED, marginTop: 3 }}>{item.tagline}</div>
           </div>
-          <span style={{ fontSize: 11, fontWeight: 700, color: ACCENT, background: ACCENT_DIM, border: `1px solid ${ACCENT_BORDER}`, borderRadius: 20, padding: '3px 9px', whiteSpace: 'nowrap' }}>
-            {item.status}
-          </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+            <span style={{ fontSize: 11, fontWeight: 700, color: ACCENT, background: ACCENT_DIM, border: `1px solid ${ACCENT_BORDER}`, borderRadius: 20, padding: '3px 9px', whiteSpace: 'nowrap' }}>
+              {item.status}
+            </span>
+            <span style={{ fontSize: 13, color: MUTED }}>{open ? '▾' : '▸'}</span>
+          </div>
         </div>
-        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 12 }}>
-          <Chip>🏕️ {item.type}</Chip>
-          <Chip>🚗 {item.drive}</Chip>
-          <Chip>🍂 {item.season}</Chip>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 12, alignItems: 'center' }}>
+          {open ? (
+            <>
+              <Chip>🏕️ {item.type}</Chip>
+              <Chip>🚗 {item.drive}</Chip>
+              <Chip>🍂 {item.season}</Chip>
+            </>
+          ) : (
+            <>
+              {item.cabins && <Chip>🛏️ {item.cabins.length} {item.cabins.length === 1 ? 'stay' : 'stays'}</Chip>}
+              {item.attractions && <Chip>📍 {item.attractions.length} {item.attractions.length === 1 ? 'spot' : 'spots'}</Chip>}
+              <Chip>🚗 {item.drive}</Chip>
+            </>
+          )}
+          {doneHere > 0 && (
+            <span style={{ fontSize: 12, color: DONE, background: DONE_DIM, border: `1px solid ${DONE_BORDER}`, borderRadius: 20, padding: '4px 11px' }}>
+              ✓ {doneHere} of {things.length}
+            </span>
+          )}
         </div>
       </div>
 
-      <div style={{ padding: '16px 18px 18px' }}>
+      {open && <div style={{ padding: '16px 18px 18px' }}>
         <p style={{ margin: '0 0 16px', fontSize: 14, color: TEXT, lineHeight: 1.6 }}>{item.why}</p>
 
         <div style={{ fontSize: 11, color: MUTED, letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 10 }}>Why it makes the list</div>
@@ -866,7 +890,7 @@ function ItemCard({ item, visited, onToggleVisited }) {
             </a>
           ))}
         </div>
-      </div>
+      </div>}
     </div>
   );
 }
