@@ -1,5 +1,8 @@
 import { useState, useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
+import {
+  extractPageContent, extractWithClaude, fetchPageHtml, loadApiKey, saveApiKey,
+} from "./extract.js";
 
 const INITIAL_PLACES = [
   { name: "Cherry Beach", address: "Red Arrow Hwy, Harbert, MI", miles: 0.3, minutes: 2, region: "Harbert", website: "https://www.chikamingtownship.org/parks", cost: "Free; $15/day parking peak season", notes: "Secluded Lake Michigan beach; 657 ft of shoreline; short walk from the house", tags: ["beach", "free", "kids"] },
@@ -224,66 +227,8 @@ ${content}`;
 }
 
 // Pull the first {...} JSON object out of a possibly-decorated model response.
-function parseJsonLoose(text) {
-  const start = text.indexOf("{");
-  const end = text.lastIndexOf("}");
-  if (start === -1 || end === -1 || end < start) throw new Error("No JSON found in response");
-  return JSON.parse(text.slice(start, end + 1));
-}
 
-function extractPageContent(html) {
-  try {
-    const doc = new DOMParser().parseFromString(html, "text/html");
-    const parts = [];
 
-    // JSON-LD structured data (addresses, hours, prices already structured)
-    doc.querySelectorAll('script[type="application/ld+json"]').forEach(s => {
-      try { parts.push("STRUCTURED DATA: " + s.textContent.trim()); } catch { /* ignore */ }
-    });
-
-    // Open Graph + key meta tags
-    const meta = {};
-    doc.querySelectorAll("meta[property], meta[name]").forEach(m => {
-      const k = m.getAttribute("property") || m.getAttribute("name");
-      const v = m.getAttribute("content");
-      if (k && v && (k.startsWith("og:") || ["description", "keywords"].includes(k))) meta[k] = v;
-    });
-    if (Object.keys(meta).length) parts.push("META: " + JSON.stringify(meta));
-
-    // Title
-    const title = doc.querySelector("title")?.textContent?.trim();
-    if (title) parts.push("TITLE: " + title);
-
-    // Body text
-    const body = (doc.body?.textContent || "").replace(/\s+/g, " ").trim();
-    if (body) parts.push(body);
-
-    return parts.join("\n\n").slice(0, 8000);
-  } catch {
-    return html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").slice(0, 8000);
-  }
-}
-
-async function fetchPageHtml(target) {
-  const timeout = ms => AbortSignal.timeout(ms);
-
-  // Proxy 1: allorigins (returns JSON wrapper)
-  try {
-    const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(target)}`, { signal: timeout(8000) });
-    if (res.ok) {
-      const json = await res.json();
-      if (json?.contents) return json.contents;
-    }
-  } catch { /* try next */ }
-
-  // Proxy 2: corsproxy.io (returns raw HTML)
-  try {
-    const res = await fetch(`https://corsproxy.io/?${encodeURIComponent(target)}`, { signal: timeout(8000) });
-    if (res.ok) return await res.text();
-  } catch { /* try next */ }
-
-  throw new Error("PROXY");
-}
 
 function emptyDraft(tab = "places") {
   return { name: "", address: "", miles: "", minutes: "", region: "", website: "", cost: "", type: "", notes: "", tab, tags: [] };
@@ -354,14 +299,12 @@ function AddPlaceModal({ onClose, onAdd }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [draft, setDraft] = useState(null);
-  const [apiKey, setApiKey] = useState(() => {
-    try { return localStorage.getItem("anthropic_api_key") || import.meta.env.VITE_ANTHROPIC_API_KEY || ""; } catch { return import.meta.env.VITE_ANTHROPIC_API_KEY || ""; }
-  });
+  const [apiKey, setApiKey] = useState(loadApiKey);
   const [showKey, setShowKey] = useState(false);
 
   const saveKey = v => {
     setApiKey(v);
-    try { v ? localStorage.setItem("anthropic_api_key", v) : localStorage.removeItem("anthropic_api_key"); } catch { /* ignore */ }
+    saveApiKey(v);
   };
 
   const update = (field, value) => setDraft(d => ({ ...d, [field]: value }));
@@ -369,38 +312,6 @@ function AddPlaceModal({ onClose, onAdd }) {
   const toggleDraftTag = tag =>
     setDraft(d => ({ ...d, tags: d.tags.includes(tag) ? d.tags.filter(t => t !== tag) : [...d.tags, tag] }));
 
-  async function extractWithClaude(pageUrl, content) {
-    const headers = {
-      "content-type": "application/json",
-      "anthropic-version": "2023-06-01",
-      "anthropic-dangerous-direct-browser-access": "true",
-    };
-    if (apiKey) headers["x-api-key"] = apiKey;
-
-    const res = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers,
-      body: JSON.stringify({
-        model: "claude-sonnet-4-6",
-        max_tokens: 1024,
-        system: EXTRACTOR_SYSTEM,
-        messages: [{ role: "user", content: buildExtractorPrompt(pageUrl, content) }],
-      }),
-    });
-
-    if (res.status === 401 || res.status === 403) {
-      const err = new Error("auth");
-      err.code = "AUTH";
-      throw err;
-    }
-    if (!res.ok) {
-      const body = await res.text().catch(() => "");
-      throw new Error(`API error ${res.status}. ${body.slice(0, 160)}`);
-    }
-    const data = await res.json();
-    const text = data?.content?.[0]?.text || "";
-    return parseJsonLoose(text);
-  }
 
   async function fetchAndParse() {
     const target = url.trim();
@@ -412,7 +323,11 @@ function AddPlaceModal({ onClose, onAdd }) {
       const text = extractPageContent(html);
       if (!text) throw new Error("PROXY");
 
-      const extracted = await extractWithClaude(target, text);
+      const extracted = await extractWithClaude({
+        system: EXTRACTOR_SYSTEM,
+        prompt: buildExtractorPrompt(target, text),
+        apiKey,
+      });
       setDraft({
         ...emptyDraft(extracted.tab === "food" ? "food" : "places"),
         ...extracted,
