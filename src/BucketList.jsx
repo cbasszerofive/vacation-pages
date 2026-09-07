@@ -2,6 +2,8 @@ import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import scraped from '../data/hideaways-rrg.json';
 import { useVisits } from './useVisits.js';
+import { useCustomPlaces } from './useCustomPlaces.js';
+import AddBucketPlace from './AddBucketPlace.jsx';
 
 const BG = '#10140f';
 const CARD_BG = '#1a1f18';
@@ -18,6 +20,29 @@ const DONE_BORDER = 'rgba(127,176,105,0.4)';
 /** Stable per-thing key, namespaced so two properties can share a name. */
 const visitKey = (itemId, name) => `${itemId}::${name}`;
 
+
+
+/** A place added from the page, in the shape the cards expect. */
+function toItem(place) {
+  return {
+    id: place.id,
+    custom: true,
+    name: place.name,
+    emoji: place.emoji || '📍',
+    tagline: place.tagline || '',
+    location: place.location || 'Added from the page',
+    type: place.type || 'Added place',
+    drive: place.drive || 'Drive time not set',
+    season: place.season || 'Any season',
+    status: 'Dreaming',
+    gradient: 'linear-gradient(160deg, #222b2c 0%, #10140f 100%)',
+    why: place.why || '',
+    highlights: [],
+    nearby: [],
+    booking: place.addedBy ? `Added by ${place.addedBy}.` : 'Added from the page.',
+    links: place.href ? [{ label: 'Website', href: place.href }] : [],
+  };
+}
 
 function AccountBar({ visits }) {
   const { status, user, signIn, signOut, localCount, mergeLocal, signedIn } = visits;
@@ -808,7 +833,7 @@ function AttractionSection({ attractions, area, onPick, heading = 'On the land',
   );
 }
 
-function ItemCard({ item, visited, onToggleVisited, whoTicked }) {
+function ItemCard({ item, visited, onToggleVisited, whoTicked, onRemove }) {
   // Picking a spot on the land narrows the stays; shared by both sections.
   const [area, setArea] = useState(null);
   // The whole property folds away, so a long list can be skimmed past.
@@ -836,6 +861,14 @@ function ItemCard({ item, visited, onToggleVisited, whoTicked }) {
             <span style={{ fontSize: 11, fontWeight: 700, color: ACCENT, background: ACCENT_DIM, border: `1px solid ${ACCENT_BORDER}`, borderRadius: 20, padding: '3px 9px', whiteSpace: 'nowrap' }}>
               {item.status}
             </span>
+            {onRemove && (
+              <button
+                onClick={e => { e.stopPropagation(); if (window.confirm(`Remove ${item.name} from the list?`)) onRemove(); }}
+                title={`Remove ${item.name}`}
+                style={{ background: 'none', border: 'none', color: MUTED, fontSize: 14, cursor: 'pointer', padding: 0 }}>
+                ✕
+              </button>
+            )}
             <span style={{ fontSize: 13, color: MUTED }}>{open ? '▾' : '▸'}</span>
           </div>
         </div>
@@ -925,9 +958,28 @@ function ItemCard({ item, visited, onToggleVisited, whoTicked }) {
 export default function BucketList() {
   const visits = useVisits();
   const { visited, toggle: toggleVisited } = visits;
+  const custom = useCustomPlaces(visits.user);
+  const [adding, setAdding] = useState(false);
 
-  const total = items.reduce((n, i) => n + (i.cabins?.length ?? 0) + (i.attractions?.length ?? 0), 0);
-  const done = items.reduce(
+  // Hand-written entries first, then anything added from the page. Added
+  // attractions are folded into whichever entry they were filed under.
+  const allItems = useMemo(() => {
+    const added = custom.places.filter(p => p.kind !== 'attraction');
+    const extraSpots = custom.places.filter(p => p.kind === 'attraction');
+
+    const withSpots = [...items, ...added.map(toItem)].map(item => {
+      const mine = extraSpots.filter(a => a.parentId === item.id);
+      if (!mine.length) return item;
+      return {
+        ...item,
+        attractions: [...(item.attractions ?? []), ...mine.map(a => ({ ...a.attraction, custom: true, id: a.id }))],
+      };
+    });
+    return withSpots;
+  }, [custom.places]);
+
+  const total = allItems.reduce((n, i) => n + (i.cabins?.length ?? 0) + (i.attractions?.length ?? 0), 0);
+  const done = allItems.reduce(
     (n, i) => n + [...(i.cabins ?? []), ...(i.attractions ?? [])]
       .filter(x => visited.has(visitKey(i.id, x.name))).length,
     0,
@@ -944,7 +996,7 @@ export default function BucketList() {
         </div>
         <h1 style={{ margin: '0 0 4px', fontSize: 30, fontWeight: 800, letterSpacing: -0.5, color: '#fff' }}>Vacation Bucket List 🧭</h1>
         <p style={{ margin: '0 0 14px', fontSize: 15, color: MUTED }}>
-          {items.length} {items.length === 1 ? 'place' : 'places'} on the list — trips we haven&apos;t taken yet.
+          {allItems.length} {allItems.length === 1 ? 'place' : 'places'} on the list — trips we haven&apos;t taken yet.
         </p>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
           <span style={{ fontSize: 12, color: done ? DONE : MUTED, background: done ? DONE_DIM : 'rgba(255,255,255,0.06)', border: `1px solid ${done ? DONE_BORDER : 'rgba(255,255,255,0.1)'}`, borderRadius: 20, padding: '4px 11px' }}>
@@ -952,19 +1004,34 @@ export default function BucketList() {
           </span>
           <AccountBar visits={visits} />
         </div>
+        <button onClick={() => setAdding(true)}
+          style={{ marginTop: 12, fontSize: 12.5, fontWeight: 700, color: '#10140f', background: ACCENT, border: `1px solid ${ACCENT}`, borderRadius: 20, padding: '6px 14px', cursor: 'pointer' }}>
+          + Add a place
+        </button>
       </div>
 
+      {adding && (
+        <AddBucketPlace
+          items={allItems}
+          storage={custom.storage}
+          onAdd={custom.add}
+          onClose={() => setAdding(false)}
+        />
+      )}
+
       <div style={{ padding: '16px 16px 48px' }}>
-        {items.map(item => (
+        {allItems.map(item => (
           <ItemCard key={item.id} item={item} visited={visited}
-            onToggleVisited={toggleVisited} whoTicked={visits.whoTicked} />
+            onToggleVisited={toggleVisited} whoTicked={visits.whoTicked}
+            onRemove={item.custom ? () => custom.remove(item.id) : undefined} />
         ))}
 
         <div style={{ marginTop: 4, padding: '14px 16px', background: CARD_BG, border: `1px dashed ${CARD_BORDER}`, borderRadius: 16, fontSize: 13, color: MUTED, lineHeight: 1.55 }}>
           <span style={{ fontWeight: 700, color: TEXT }}>Red River Gorge figures last refreshed {scrapedOn}</span> by the
           scrape workflow, which rechecks capacities, ratings and nightly rates monthly. Hideaway on the Hocking publishes
           no machine-readable rates, so its details are hand-entered.{' '}
-          <span style={{ fontWeight: 700, color: TEXT }}>Add the next place:</span> drop another object into the{' '}
+          <span style={{ fontWeight: 700, color: TEXT }}>Add the next place</span> with the button at the top, or, for a
+          full write-up like the two above, drop another object into the{' '}
           <code style={{ background: 'rgba(255,255,255,0.06)', padding: '1px 5px', borderRadius: 4, fontSize: 12 }}>items</code> array in{' '}
           <code style={{ background: 'rgba(255,255,255,0.06)', padding: '1px 5px', borderRadius: 4, fontSize: 12 }}>src/BucketList.jsx</code> and it shows up here.
         </div>

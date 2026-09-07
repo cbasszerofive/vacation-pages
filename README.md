@@ -92,3 +92,25 @@ account could read and edit your list.
 
 For local development, put the same four values in a `.env.local` file
 (git-ignored) as `VITE_FIREBASE_API_KEY=...` and so on.
+
+## Adding places from the page
+
+Both the Three Oaks planner and the bucket list have an **Add** button that
+takes a URL, fetches the page through a CORS proxy, and asks Claude to fill in
+the fields — which you then correct before saving. If the fetch is blocked or
+no API key is available, the same form can be filled in by hand.
+
+The two pages store what you add in different places, for historical reasons:
+
+| Page | Where additions go |
+| --- | --- |
+| Three Oaks planner | `public/additions.json`, committed via the GitHub API using `VITE_GITHUB_TOKEN` |
+| Bucket list | Firestore when signed in (shared), otherwise `localStorage` |
+
+The bucket list deliberately does not use the GitHub-token route. That token
+ships in the JavaScript bundle and can write to the repository, which is a lot
+of authority to hand every visitor; the Firestore path is scoped by
+`firestore.rules` to the two accounts on the allowlist.
+
+Adding a place needs no API key if you fill the form in yourself — the key is
+only used to pre-fill fields from a link.
