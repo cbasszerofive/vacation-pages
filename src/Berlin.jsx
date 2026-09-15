@@ -44,11 +44,11 @@ const days = [
         highlight: true,
       },
       {
-        text: 'Welcome dinner at Zur letzten Instanz',
-        detail: 'Berlin\'s oldest restaurant, established 1621. The name means "Last Instance" — there\'s a courthouse next door. Napoleon reportedly warmed himself by the tile stove here in 1806; Beethoven and Charlie Chaplin also dined here. Dark wood, low ceilings, tile stoves — properly historic. Order the Eisbein (slow-roasted pork knuckle) or Königsberger Klopse (meatballs in caper cream sauce). A great way to meet your fellow travelers over hearty German food.',
+        text: 'Welcome dinner at Maximilians',
+        detail: 'A large, lively Bavarian restaurant in the heart of Mitte — wood-panelled beerhall atmosphere, long tables, big beer steins, and classic German comfort food. About a 3-minute walk from the hotel, so no transit needed on your first evening. A warm, noisy, easy place to meet your fellow travelers after the overnight flight.',
         icon: '🍺',
         group: true,
-        link: { label: 'Website', href: 'https://www.zurletzteninstanz.com' },
+        link: { label: 'Google Maps', href: 'https://www.google.com/maps/search/?api=1&query=Maximilians+Berlin+Mitte' },
       },
     ],
     free: {
@@ -69,7 +69,7 @@ const days = [
     activities: [
       { text: 'Buffet breakfast', icon: '🥐', group: true },
       {
-        text: 'Jewish Museum Berlin (Jüdisches Museum Berlin)',
+        text: 'Walk to the Jewish Museum Berlin (Jüdisches Museum Berlin)',
         detail: 'Designed by Daniel Libeskind and opened in 2001, the building itself is as powerful as the collection. Its zinc-clad zigzag facade, slashing window cuts, and interior "voids" — tall, dark, empty shafts that can\'t be entered — physically communicate absence and loss. The permanent collection covers 2,000 years of German-Jewish history: not only the Holocaust, but the full arc of Jewish life, culture, and contribution to Germany. Allow 2 hours.',
         icon: '🕍', group: true,
         link: { label: 'Google Maps', href: 'https://maps.app.goo.gl/gVKWD1oAtRkBjNdG6' },
@@ -81,7 +81,7 @@ const days = [
       },
       {
         text: 'Dinner & performance at Bar Jeder Vernunft — Sven Ratzke',
-        detail: 'The legendary Mirror Tent (Spiegelzelt) in the Tiergarten — an Art Nouveau tent from 1912 with chandelier-lit mirrors, seating ~230 in a setting that feels like another century. Tonight\'s performer is Sven Ratzke, the Dutch/German singer, entertainer, and actor whom Time Out called "one of the best cabaret performers of his generation." Expect Bowie, Brel, and vintage cabaret reimagined. Smart casual dress.',
+        detail: 'The legendary Mirror Tent (Spiegelzelt) in the Tiergarten — an Art Nouveau tent from 1912 with chandelier-lit mirrors, seating ~230 in a setting that feels like another century. Tonight\'s performer is Sven Ratzke, the Dutch/German singer, entertainer, and actor whom Time Out called "one of the best cabaret performers of his generation." Expect Bowie, Brel, and vintage cabaret reimagined. Smart casual dress. The group travels there and back by public transport — covered by your Berlin Welcome Card.',
         icon: '🎭', group: true,
         link: { label: 'Website', href: 'https://bar-jeder-vernunft.de/en' },
       },
@@ -105,6 +105,11 @@ const days = [
         icon: '🌿', group: true,
         link: { label: 'Google Maps', href: 'https://maps.app.goo.gl/oLbw4QvHa7bV2Qcu5' },
       },
+      {
+        text: 'Bag lunch — included',
+        detail: 'Lunch today is a packed bag lunch rather than a sit-down stop, so the group can maximize time at Sachsenhausen and the Potsdam palaces.',
+        icon: '🥪', group: true,
+      },
     ],
     free: {
       label: 'Free Time — Evening',
@@ -115,7 +120,7 @@ const days = [
         { place: 'Spree riverbank walk (Museumsinsel)', detail: 'The stretch along the Spree past Museum Island and the Berlin Cathedral is beautiful lit up at night — bridges, reflections on the water. Easy 20-minute walk from Mitte.', link: 'https://maps.app.goo.gl/j2WFJ8JPRS1LMJnXA' },
         { place: 'Gendarmenmarkt at night', detail: 'Berlin\'s most beautiful square — French Cathedral, German Cathedral, and Konzerthaus. Five minutes from Unter den Linden.', link: 'https://maps.app.goo.gl/yiHDENGGM1nfJCGU7' },
       ],
-      avoid: ['Bar Jeder Vernunft', 'Zur letzten Instanz', 'Beba at Gropius Bau', 'Tafelrunde Medieval Restaurant'],
+      avoid: ['Bar Jeder Vernunft', 'Maximilians', 'Beba at Gropius Bau', 'Tafelrunde Medieval Restaurant'],
     },
   },
   {
@@ -131,10 +136,10 @@ const days = [
         link: { label: 'Google Maps', href: 'https://maps.app.goo.gl/Q8tHH1BhCGPeKP1F6' },
       },
       {
-        text: 'Lunch included — Beba at the Gropius Bau (with live mini concert)',
-        detail: 'Beba serves Mediterranean and Levantine cuisine with a focus on Jewish diaspora dishes — fresh, vibrant, and culturally resonant after the morning\'s visit. A live mini concert during the buffet lunch adds another layer. The Martin-Gropius-Bau itself is a landmark neo-Renaissance exhibition hall worth exploring.',
+        text: 'Lunch included — Beba at the Gropius Bau',
+        detail: 'An artistic hub where food, design, and culture intersect. Beba serves fresh Mediterranean and Levantine cuisine with a focus on Jewish diaspora dishes — vibrant and culturally resonant after the morning\'s visit. The Gropius Bau itself is a landmark neo-Renaissance exhibition hall worth exploring, and it\'s a short walk from the Topography of Terror.',
         icon: '🍽️', group: true,
-        link: { label: 'Google Maps', href: 'https://maps.app.goo.gl/Q8tHH1BhCGPeKP1F6' },
+        link: { label: 'Google Maps', href: 'https://www.google.com/maps/search/?api=1&query=Beba+Gropius+Bau+Berlin' },
       },
     ],
     free: {
@@ -146,12 +151,12 @@ const days = [
         { place: 'Dinner in Kreuzberg or Mitte', detail: 'With a full free evening, go somewhere you\'ve been eyeing. Kreuzberg has Berlin\'s best food diversity — Turkish, Middle Eastern, and inventive modern restaurants. Mitte has the elegant options.', link: 'https://maps.app.goo.gl/Fs3hJajgumCGVimH8' },
         { place: 'Bonanza Coffee Roasters', detail: 'Berlin\'s most celebrated specialty coffee roaster — for Christina. Multiple locations; the Prenzlauer Berg roastery is the flagship.', link: 'https://maps.app.goo.gl/qSPp3dNBnM1A2Zqy6' },
       ],
-      avoid: ['Bar Jeder Vernunft', 'Zur letzten Instanz', 'Beba at Gropius Bau', 'Tafelrunde Medieval Restaurant'],
+      avoid: ['Bar Jeder Vernunft', 'Maximilians', 'Beba at Gropius Bau', 'Tafelrunde Medieval Restaurant'],
     },
   },
   {
     date: 'Fri · Oct 30',
-    label: 'Spreewald & Grand Opera',
+    label: 'Spreewald & Orpheus in the Underworld',
     icon: '🚣',
     activities: [
       { text: 'Breakfast', icon: '🥐', group: true },
@@ -171,10 +176,10 @@ const days = [
         icon: '🍽️', group: true,
       },
       {
-        text: 'Deutsche Oper Berlin — evening performance',
-        detail: 'One of Germany\'s largest and finest opera houses, in Charlottenburg. World-class productions across the full operatic repertoire — a very different experience from Bar Jeder Vernunft earlier in the week. Dress up. Performance program announced late spring 2026.',
+        text: 'Komische Oper Berlin — "Orpheus in the Underworld" · evening',
+        detail: 'Return to Berlin refreshed for one of Europe\'s premier opera houses. Jacques Offenbach\'s zany, rollicking "Orpheus in the Underworld" (1858) sends up the Orpheus myth — the gods behave badly, Orpheus would rather his wife stayed in Hades, and it all builds to the Infernal Galop, the can-can everyone knows. The Komische Oper is Berlin\'s most playful of the three opera houses, and this is a complete change of register from the Bar Jeder Vernunft cabaret. Dress up. Note that the company\'s Behrenstraße home has been undergoing a major renovation — check the venue printed on your ticket.',
         icon: '🎼', group: true,
-        link: { label: 'Website', href: 'https://www.deutscheoperberlin.de/en' },
+        link: { label: 'Website', href: 'https://www.komische-oper-berlin.de/en/' },
       },
     ],
   },
@@ -232,7 +237,7 @@ const days = [
       },
       {
         text: 'Farewell dinner — Tafelrunde Medieval Restaurant',
-        detail: 'A festive send-off: period costumes on the staff, mead and ale, no modern cutlery (eat with hands and a knife), live entertainment. Loud, theatrical, and a genuinely fun final evening together after a week of heavy culture. "Tafelrunde" means Round Table.',
+        detail: 'Head back to the hotel first to recharge and freshen up; the group travels to dinner together by public transport. A festive send-off: period costumes on the staff, mead and ale, no modern cutlery (eat with hands and a knife), live entertainment. Loud, theatrical, and a genuinely fun final evening together after a week of heavy culture. "Tafelrunde" means Round Table.',
         icon: '⚔️', group: true,
       },
     ],
