@@ -279,18 +279,13 @@ const preTrip = [
   {
     icon: '🌭',
     label: 'Pre-trip potluck — Sat, Oct 3 at NOON',
-    detail: '8187 Camp Road, Homerville, OH 44235. A chance to meet the group before departure and mix and mingle. Brats and German potato salad provided, plus other goodies. Bring your questions — there will be information on travel suggestions, foreign exchange, and more. Apparel orders get settled up this day too.',
+    detail: '8187 Camp Road, Homerville, OH 44235. A chance to meet the group before departure and mix and mingle. Brats and German potato salad provided, plus other goodies. Bring your questions — there will be information on travel suggestions, foreign exchange, and more. Bring payment for the trip apparel too; orders are settled up this day.',
     link: { label: 'Google Maps', href: 'https://www.google.com/maps/search/?api=1&query=8187+Camp+Road+Homerville+OH+44235' },
   },
   {
     icon: '📱',
     label: 'WhatsApp group — "Berlin 2026"',
     detail: 'The group will set up a WhatsApp group called Berlin 2026 so everyone can stay in touch overseas, especially if anyone gets separated. Install WhatsApp before the potluck if you don\'t already have it.',
-  },
-  {
-    icon: '👕',
-    label: 'Trip apparel — order through Rick Kirby',
-    detail: 'Optional shirts or jackets to wear on the trip and keep as a souvenir. Rick Kirby is the point person (richard_kirby@hotmail.com) now that the summer intern\'s internship has ended — send him your sizes, even if you gave them to Juni earlier, since that list didn\'t get handed off. If orders go in soon the apparel may arrive by Oct 3, and everyone settles up at the potluck.',
   },
   {
     icon: '✈️',
@@ -312,7 +307,7 @@ function PreTripCard() {
   return (
     <div style={{ background: CARD_BG, border: `1.5px solid ${GOLD_BORDER}`, borderRadius: 16, padding: '18px 18px 14px', marginBottom: 14 }}>
       <div style={{ fontSize: 12, color: GOLD, letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 4, fontWeight: 700 }}>Before You Go</div>
-      <div style={{ fontSize: 13, color: MUTED, lineHeight: 1.5, marginBottom: 14 }}>Four things to handle between now and departure.</div>
+      <div style={{ fontSize: 13, color: MUTED, lineHeight: 1.5, marginBottom: 14 }}>Three things to handle between now and departure.</div>
       {preTrip.map((t, i) => (
         <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start', marginBottom: i < preTrip.length - 1 ? 14 : 0 }}>
           <span style={{ fontSize: 16, flexShrink: 0, marginTop: 1 }}>{t.icon}</span>
