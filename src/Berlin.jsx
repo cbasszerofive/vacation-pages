@@ -39,21 +39,21 @@ const days = [
       },
       {
         text: 'Check in — NH Collection Berlin Mitte',
-        detail: 'Four-star hotel perfectly located for exploring the city\'s vibrant heart.',
+        detail: 'Four-star hotel perfectly located for exploring the city\'s vibrant heart. Official check-in is 3:00 PM, though rooms may be ready sooner. Either way you can drop your bags and head straight out — the whole day until dinner is yours to explore.',
         icon: '🏨',
         highlight: true,
       },
       {
-        text: 'Welcome dinner at Zur letzten Instanz',
-        detail: 'Berlin\'s oldest restaurant, established 1621. The name means "Last Instance" — there\'s a courthouse next door. Napoleon reportedly warmed himself by the tile stove here in 1806; Beethoven and Charlie Chaplin also dined here. Dark wood, low ceilings, tile stoves — properly historic. Order the Eisbein (slow-roasted pork knuckle) or Königsberger Klopse (meatballs in caper cream sauce). A great way to meet your fellow travelers over hearty German food.',
+        text: 'Welcome dinner at Maximilians — 6:00 PM',
+        detail: 'Booked and paid for in advance by the trip organizer. A large, lively Bavarian restaurant in the heart of Mitte — wood-panelled beerhall atmosphere, long tables, big beer steins, and classic German comfort food. About a 3-minute walk from the hotel, so no transit needed on your first evening. A warm, noisy, easy place to meet your fellow travelers after the overnight flight.',
         icon: '🍺',
         group: true,
-        link: { label: 'Website', href: 'https://www.zurletzteninstanz.com' },
+        link: { label: 'Google Maps', href: 'https://www.google.com/maps/search/?api=1&query=Maximilians+Berlin+Mitte' },
       },
     ],
     free: {
       label: 'Free Time — Afternoon',
-      notes: 'After a 7:55 AM arrival you\'ll have the afternoon to settle in and explore before the welcome dinner. Late October means sunset around 5:30 PM — make the most of the daylight.',
+      notes: 'After a 7:55 AM arrival, the day is yours until the 6:00 PM welcome dinner — hotel check-in isn\'t until 3:00 PM, so plan to explore on foot with your bags stowed. Late October means sunset around 5:30 PM, so make the most of the daylight.',
       ideas: [
         { place: 'Café Einstein Stammhaus', detail: 'Grand Viennese coffeehouse — dark wood, marble, white-jacketed waiters. Perfect for Christina\'s first Berlin coffee and an Apfelstrudel to settle in.', link: 'https://maps.app.goo.gl/KWPgK7N5YSt3MxYP8' },
         { place: 'Walk Unter den Linden to Brandenburg Gate', detail: 'Berlin\'s grand boulevard — 1.4km lined with linden trees from the palace to the Gate. Classic first-look stroll. ~30 minutes leisurely, great photos along the way.', link: 'https://maps.app.goo.gl/VLUzqZY6HtJuHRfU6' },
@@ -69,7 +69,7 @@ const days = [
     activities: [
       { text: 'Buffet breakfast', icon: '🥐', group: true },
       {
-        text: 'Jewish Museum Berlin (Jüdisches Museum Berlin)',
+        text: 'Walk to the Jewish Museum Berlin (Jüdisches Museum Berlin)',
         detail: 'Designed by Daniel Libeskind and opened in 2001, the building itself is as powerful as the collection. Its zinc-clad zigzag facade, slashing window cuts, and interior "voids" — tall, dark, empty shafts that can\'t be entered — physically communicate absence and loss. The permanent collection covers 2,000 years of German-Jewish history: not only the Holocaust, but the full arc of Jewish life, culture, and contribution to Germany. Allow 2 hours.',
         icon: '🕍', group: true,
         link: { label: 'Google Maps', href: 'https://maps.app.goo.gl/gVKWD1oAtRkBjNdG6' },
@@ -81,7 +81,7 @@ const days = [
       },
       {
         text: 'Dinner & performance at Bar Jeder Vernunft — Sven Ratzke',
-        detail: 'The legendary Mirror Tent (Spiegelzelt) in the Tiergarten — an Art Nouveau tent from 1912 with chandelier-lit mirrors, seating ~230 in a setting that feels like another century. Tonight\'s performer is Sven Ratzke, the Dutch/German singer, entertainer, and actor whom Time Out called "one of the best cabaret performers of his generation." Expect Bowie, Brel, and vintage cabaret reimagined. Smart casual dress.',
+        detail: 'The legendary Mirror Tent (Spiegelzelt) in the Tiergarten — an Art Nouveau tent from 1912 with chandelier-lit mirrors, seating ~230 in a setting that feels like another century. Tonight\'s performer is Sven Ratzke, the Dutch/German singer, entertainer, and actor whom Time Out called "one of the best cabaret performers of his generation." Expect Bowie, Brel, and vintage cabaret reimagined. Smart casual dress. The group travels there and back by public transport — covered by your Berlin Welcome Card.',
         icon: '🎭', group: true,
         link: { label: 'Website', href: 'https://bar-jeder-vernunft.de/en' },
       },
@@ -105,6 +105,11 @@ const days = [
         icon: '🌿', group: true,
         link: { label: 'Google Maps', href: 'https://maps.app.goo.gl/oLbw4QvHa7bV2Qcu5' },
       },
+      {
+        text: 'Bag lunch — included',
+        detail: 'Lunch today is a packed bag lunch rather than a sit-down stop, so the group can maximize time at Sachsenhausen and the Potsdam palaces.',
+        icon: '🥪', group: true,
+      },
     ],
     free: {
       label: 'Free Time — Evening',
@@ -115,7 +120,7 @@ const days = [
         { place: 'Spree riverbank walk (Museumsinsel)', detail: 'The stretch along the Spree past Museum Island and the Berlin Cathedral is beautiful lit up at night — bridges, reflections on the water. Easy 20-minute walk from Mitte.', link: 'https://maps.app.goo.gl/j2WFJ8JPRS1LMJnXA' },
         { place: 'Gendarmenmarkt at night', detail: 'Berlin\'s most beautiful square — French Cathedral, German Cathedral, and Konzerthaus. Five minutes from Unter den Linden.', link: 'https://maps.app.goo.gl/yiHDENGGM1nfJCGU7' },
       ],
-      avoid: ['Bar Jeder Vernunft', 'Zur letzten Instanz', 'Beba at Gropius Bau', 'Tafelrunde Medieval Restaurant'],
+      avoid: ['Bar Jeder Vernunft', 'Maximilians', 'Beba at Gropius Bau', 'Tafelrunde Medieval Restaurant'],
     },
   },
   {
@@ -131,10 +136,10 @@ const days = [
         link: { label: 'Google Maps', href: 'https://maps.app.goo.gl/Q8tHH1BhCGPeKP1F6' },
       },
       {
-        text: 'Lunch included — Beba at the Gropius Bau (with live mini concert)',
-        detail: 'Beba serves Mediterranean and Levantine cuisine with a focus on Jewish diaspora dishes — fresh, vibrant, and culturally resonant after the morning\'s visit. A live mini concert during the buffet lunch adds another layer. The Martin-Gropius-Bau itself is a landmark neo-Renaissance exhibition hall worth exploring.',
+        text: 'Lunch included — Beba at the Gropius Bau',
+        detail: 'An artistic hub where food, design, and culture intersect. Beba serves fresh Mediterranean and Levantine cuisine with a focus on Jewish diaspora dishes — vibrant and culturally resonant after the morning\'s visit. The Gropius Bau itself is a landmark neo-Renaissance exhibition hall worth exploring, and it\'s a short walk from the Topography of Terror.',
         icon: '🍽️', group: true,
-        link: { label: 'Google Maps', href: 'https://maps.app.goo.gl/Q8tHH1BhCGPeKP1F6' },
+        link: { label: 'Google Maps', href: 'https://www.google.com/maps/search/?api=1&query=Beba+Gropius+Bau+Berlin' },
       },
     ],
     free: {
@@ -146,12 +151,12 @@ const days = [
         { place: 'Dinner in Kreuzberg or Mitte', detail: 'With a full free evening, go somewhere you\'ve been eyeing. Kreuzberg has Berlin\'s best food diversity — Turkish, Middle Eastern, and inventive modern restaurants. Mitte has the elegant options.', link: 'https://maps.app.goo.gl/Fs3hJajgumCGVimH8' },
         { place: 'Bonanza Coffee Roasters', detail: 'Berlin\'s most celebrated specialty coffee roaster — for Christina. Multiple locations; the Prenzlauer Berg roastery is the flagship.', link: 'https://maps.app.goo.gl/qSPp3dNBnM1A2Zqy6' },
       ],
-      avoid: ['Bar Jeder Vernunft', 'Zur letzten Instanz', 'Beba at Gropius Bau', 'Tafelrunde Medieval Restaurant'],
+      avoid: ['Bar Jeder Vernunft', 'Maximilians', 'Beba at Gropius Bau', 'Tafelrunde Medieval Restaurant'],
     },
   },
   {
     date: 'Fri · Oct 30',
-    label: 'Spreewald & Grand Opera',
+    label: 'Spreewald & Orpheus in the Underworld',
     icon: '🚣',
     activities: [
       { text: 'Breakfast', icon: '🥐', group: true },
@@ -171,10 +176,16 @@ const days = [
         icon: '🍽️', group: true,
       },
       {
-        text: 'Deutsche Oper Berlin — evening performance',
-        detail: 'One of Germany\'s largest and finest opera houses, in Charlottenburg. World-class productions across the full operatic repertoire — a very different experience from Bar Jeder Vernunft earlier in the week. Dress up. Performance program announced late spring 2026.',
+        text: 'Komische Oper Berlin — "Orpheus in the Underworld" · evening',
+        detail: 'Return to Berlin refreshed for one of Europe\'s premier opera houses. Jacques Offenbach\'s zany, rollicking "Orpheus in the Underworld" (1858) sends up the Orpheus myth — the gods behave badly, Orpheus would rather his wife stayed in Hades, and it all builds to the Infernal Galop, the can-can everyone knows. The Komische Oper is Berlin\'s most playful of the three opera houses, and this is a complete change of register from the Bar Jeder Vernunft cabaret. Dress up. Note that the company\'s Behrenstraße home has been undergoing a major renovation — check the venue printed on your ticket.',
         icon: '🎼', group: true,
-        link: { label: 'Website', href: 'https://www.deutscheoperberlin.de/en' },
+        link: { label: 'Website', href: 'https://www.komische-oper-berlin.de/en/' },
+      },
+      {
+        text: 'How to follow along',
+        detail: 'The spoken dialogue is in German and the singing is in French, with English surtitles expected — but reading the story in advance makes the evening far easier to enjoy. Worth 10 minutes before you go.',
+        icon: '📖', group: true,
+        link: { label: 'Synopsis (Wikipedia)', href: 'https://en.wikipedia.org/wiki/Orpheus_in_the_Underworld' },
       },
     ],
   },
@@ -232,7 +243,7 @@ const days = [
       },
       {
         text: 'Farewell dinner — Tafelrunde Medieval Restaurant',
-        detail: 'A festive send-off: period costumes on the staff, mead and ale, no modern cutlery (eat with hands and a knife), live entertainment. Loud, theatrical, and a genuinely fun final evening together after a week of heavy culture. "Tafelrunde" means Round Table.',
+        detail: 'Head back to the hotel first to recharge and freshen up; the group travels to dinner together by public transport. A festive send-off: period costumes on the staff, mead and ale, no modern cutlery (eat with hands and a knife), live entertainment. Loud, theatrical, and a genuinely fun final evening together after a week of heavy culture. "Tafelrunde" means Round Table.',
         icon: '⚔️', group: true,
       },
     ],
@@ -264,6 +275,25 @@ const days = [
   },
 ];
 
+const preTrip = [
+  {
+    icon: '🌭',
+    label: 'Pre-trip potluck — Sat, Oct 3 at NOON',
+    detail: '8187 Camp Road, Homerville, OH 44235. A chance to meet the group before departure and mix and mingle. Brats and German potato salad provided, plus other goodies. Bring your questions — there will be information on travel suggestions, foreign exchange, and more. Bring payment for the trip apparel too; orders are settled up this day.',
+    link: { label: 'Google Maps', href: 'https://www.google.com/maps/search/?api=1&query=8187+Camp+Road+Homerville+OH+44235' },
+  },
+  {
+    icon: '📱',
+    label: 'WhatsApp group — "Berlin 2026"',
+    detail: 'The group will set up a WhatsApp group called Berlin 2026 so everyone can stay in touch overseas, especially if anyone gets separated. Install WhatsApp before the potluck if you don\'t already have it.',
+  },
+  {
+    icon: '✈️',
+    label: 'Flight check-in — 24 hours ahead',
+    detail: 'The German travel agency will share a booking reference code in advance. Enter your own information into the reservation with that code; 24 hours before departure you can check in and, hopefully, select seats. Watch for the code before Oct 25.',
+  },
+];
+
 const tips = [
   { icon: '🎫', label: 'Berlin Welcome Card', detail: 'All travelers receive a Berlin Welcome Card — unlimited U-Bahn, S-Bahn, bus, and tram for the full trip. You won\'t need to buy any transit tickets.' },
   { icon: '🚶', label: 'Walking', detail: 'The trip requires moderate walking up to 1.5 miles / 35 minutes at a time. If needed, the group can pool together for an Uber or taxi between stops.' },
@@ -272,6 +302,32 @@ const tips = [
   { icon: '🗣️', label: 'Language', detail: 'German, but English is widely spoken in central Berlin and tourist areas. "Danke" (thank you) and "Bitte" (please) go a long way.' },
   { icon: '🍽️', label: 'Tipping', detail: 'Tell the server what to charge when paying — say a specific amount rather than leaving cash on the table. ~10% is generous.' },
 ];
+
+function PreTripCard() {
+  return (
+    <div style={{ background: CARD_BG, border: `1.5px solid ${GOLD_BORDER}`, borderRadius: 16, padding: '18px 18px 14px', marginBottom: 14 }}>
+      <div style={{ fontSize: 12, color: GOLD, letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 4, fontWeight: 700 }}>Before You Go</div>
+      <div style={{ fontSize: 13, color: MUTED, lineHeight: 1.5, marginBottom: 14 }}>Three things to handle between now and departure.</div>
+      {preTrip.map((t, i) => (
+        <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start', marginBottom: i < preTrip.length - 1 ? 14 : 0 }}>
+          <span style={{ fontSize: 16, flexShrink: 0, marginTop: 1 }}>{t.icon}</span>
+          <div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: TEXT, marginBottom: 3 }}>
+              {t.label}
+              {t.link && (
+                <> <a href={t.link.href} target="_blank" rel="noopener noreferrer"
+                  style={{ color: GOLD, fontSize: 11, textDecoration: 'none', fontWeight: 600 }}>
+                  {t.link.label} ↗
+                </a></>
+              )}
+            </div>
+            <div style={{ fontSize: 13, color: MUTED, lineHeight: 1.55 }}>{t.detail}</div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 function TipCard() {
   return (
@@ -391,6 +447,7 @@ export default function Berlin() {
       </div>
 
       <div style={{ padding: '16px 16px 48px' }}>
+        <PreTripCard />
         <TipCard />
         {days.map((day, i) => <DayCard key={i} day={day} />)}
       </div>
