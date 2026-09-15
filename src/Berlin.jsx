@@ -39,13 +39,13 @@ const days = [
       },
       {
         text: 'Check in — NH Collection Berlin Mitte',
-        detail: 'Four-star hotel perfectly located for exploring the city\'s vibrant heart.',
+        detail: 'Four-star hotel perfectly located for exploring the city\'s vibrant heart. Official check-in is 3:00 PM, though rooms may be ready sooner. Either way you can drop your bags and head straight out — the whole day until dinner is yours to explore.',
         icon: '🏨',
         highlight: true,
       },
       {
-        text: 'Welcome dinner at Maximilians',
-        detail: 'A large, lively Bavarian restaurant in the heart of Mitte — wood-panelled beerhall atmosphere, long tables, big beer steins, and classic German comfort food. About a 3-minute walk from the hotel, so no transit needed on your first evening. A warm, noisy, easy place to meet your fellow travelers after the overnight flight.',
+        text: 'Welcome dinner at Maximilians — 6:00 PM',
+        detail: 'Booked and paid for in advance by the trip organizer. A large, lively Bavarian restaurant in the heart of Mitte — wood-panelled beerhall atmosphere, long tables, big beer steins, and classic German comfort food. About a 3-minute walk from the hotel, so no transit needed on your first evening. A warm, noisy, easy place to meet your fellow travelers after the overnight flight.',
         icon: '🍺',
         group: true,
         link: { label: 'Google Maps', href: 'https://www.google.com/maps/search/?api=1&query=Maximilians+Berlin+Mitte' },
@@ -53,7 +53,7 @@ const days = [
     ],
     free: {
       label: 'Free Time — Afternoon',
-      notes: 'After a 7:55 AM arrival you\'ll have the afternoon to settle in and explore before the welcome dinner. Late October means sunset around 5:30 PM — make the most of the daylight.',
+      notes: 'After a 7:55 AM arrival, the day is yours until the 6:00 PM welcome dinner — hotel check-in isn\'t until 3:00 PM, so plan to explore on foot with your bags stowed. Late October means sunset around 5:30 PM, so make the most of the daylight.',
       ideas: [
         { place: 'Café Einstein Stammhaus', detail: 'Grand Viennese coffeehouse — dark wood, marble, white-jacketed waiters. Perfect for Christina\'s first Berlin coffee and an Apfelstrudel to settle in.', link: 'https://maps.app.goo.gl/KWPgK7N5YSt3MxYP8' },
         { place: 'Walk Unter den Linden to Brandenburg Gate', detail: 'Berlin\'s grand boulevard — 1.4km lined with linden trees from the palace to the Gate. Classic first-look stroll. ~30 minutes leisurely, great photos along the way.', link: 'https://maps.app.goo.gl/VLUzqZY6HtJuHRfU6' },
@@ -181,6 +181,12 @@ const days = [
         icon: '🎼', group: true,
         link: { label: 'Website', href: 'https://www.komische-oper-berlin.de/en/' },
       },
+      {
+        text: 'How to follow along',
+        detail: 'The spoken dialogue is in German and the singing is in French, with English surtitles expected — but reading the story in advance makes the evening far easier to enjoy. Worth 10 minutes before you go.',
+        icon: '📖', group: true,
+        link: { label: 'Synopsis (Wikipedia)', href: 'https://en.wikipedia.org/wiki/Orpheus_in_the_Underworld' },
+      },
     ],
   },
   {
@@ -269,6 +275,30 @@ const days = [
   },
 ];
 
+const preTrip = [
+  {
+    icon: '🌭',
+    label: 'Pre-trip potluck — Sat, Oct 3 at NOON',
+    detail: '8187 Camp Road, Homerville, OH 44235. A chance to meet the group before departure and mix and mingle. Brats and German potato salad provided, plus other goodies. Bring your questions — there will be information on travel suggestions, foreign exchange, and more. Apparel orders get settled up this day too.',
+    link: { label: 'Google Maps', href: 'https://www.google.com/maps/search/?api=1&query=8187+Camp+Road+Homerville+OH+44235' },
+  },
+  {
+    icon: '📱',
+    label: 'WhatsApp group — "Berlin 2026"',
+    detail: 'The group will set up a WhatsApp group called Berlin 2026 so everyone can stay in touch overseas, especially if anyone gets separated. Install WhatsApp before the potluck if you don\'t already have it.',
+  },
+  {
+    icon: '👕',
+    label: 'Trip apparel — order through Rick Kirby',
+    detail: 'Optional shirts or jackets to wear on the trip and keep as a souvenir. Rick Kirby is the point person (richard_kirby@hotmail.com) now that the summer intern\'s internship has ended — send him your sizes, even if you gave them to Juni earlier, since that list didn\'t get handed off. If orders go in soon the apparel may arrive by Oct 3, and everyone settles up at the potluck.',
+  },
+  {
+    icon: '✈️',
+    label: 'Flight check-in — 24 hours ahead',
+    detail: 'The German travel agency will share a booking reference code in advance. Enter your own information into the reservation with that code; 24 hours before departure you can check in and, hopefully, select seats. Watch for the code before Oct 25.',
+  },
+];
+
 const tips = [
   { icon: '🎫', label: 'Berlin Welcome Card', detail: 'All travelers receive a Berlin Welcome Card — unlimited U-Bahn, S-Bahn, bus, and tram for the full trip. You won\'t need to buy any transit tickets.' },
   { icon: '🚶', label: 'Walking', detail: 'The trip requires moderate walking up to 1.5 miles / 35 minutes at a time. If needed, the group can pool together for an Uber or taxi between stops.' },
@@ -277,6 +307,32 @@ const tips = [
   { icon: '🗣️', label: 'Language', detail: 'German, but English is widely spoken in central Berlin and tourist areas. "Danke" (thank you) and "Bitte" (please) go a long way.' },
   { icon: '🍽️', label: 'Tipping', detail: 'Tell the server what to charge when paying — say a specific amount rather than leaving cash on the table. ~10% is generous.' },
 ];
+
+function PreTripCard() {
+  return (
+    <div style={{ background: CARD_BG, border: `1.5px solid ${GOLD_BORDER}`, borderRadius: 16, padding: '18px 18px 14px', marginBottom: 14 }}>
+      <div style={{ fontSize: 12, color: GOLD, letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 4, fontWeight: 700 }}>Before You Go</div>
+      <div style={{ fontSize: 13, color: MUTED, lineHeight: 1.5, marginBottom: 14 }}>Four things to handle between now and departure.</div>
+      {preTrip.map((t, i) => (
+        <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start', marginBottom: i < preTrip.length - 1 ? 14 : 0 }}>
+          <span style={{ fontSize: 16, flexShrink: 0, marginTop: 1 }}>{t.icon}</span>
+          <div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: TEXT, marginBottom: 3 }}>
+              {t.label}
+              {t.link && (
+                <> <a href={t.link.href} target="_blank" rel="noopener noreferrer"
+                  style={{ color: GOLD, fontSize: 11, textDecoration: 'none', fontWeight: 600 }}>
+                  {t.link.label} ↗
+                </a></>
+              )}
+            </div>
+            <div style={{ fontSize: 13, color: MUTED, lineHeight: 1.55 }}>{t.detail}</div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 function TipCard() {
   return (
@@ -396,6 +452,7 @@ export default function Berlin() {
       </div>
 
       <div style={{ padding: '16px 16px 48px' }}>
+        <PreTripCard />
         <TipCard />
         {days.map((day, i) => <DayCard key={i} day={day} />)}
       </div>
