@@ -306,7 +306,9 @@ const tips = [
   { icon: '🍽️', label: 'Tipping', detail: 'Tell the server what to charge when paying — say a specific amount rather than leaving cash on the table. ~10% is generous.' },
 ];
 
-const GUIDE_PDF = `${import.meta.env.BASE_URL}Berlin_Tour_2026.pdf`;
+const GUIDE_ID = '1VtdkzZx-FnRp3f2pm6PV5KMBjMbHStnA';
+const GUIDE_EMBED = `https://drive.google.com/file/d/${GUIDE_ID}/preview`;
+const GUIDE_PDF = `https://drive.google.com/file/d/${GUIDE_ID}/view`;
 
 function GuideViewer() {
   const [open, setOpen] = useState(false);
@@ -326,7 +328,7 @@ function GuideViewer() {
           style={{ color: GOLD, fontSize: 12, textDecoration: 'none', fontWeight: 600 }}>Open in new tab ↗</a>
       </div>
       {open && (
-        <iframe title="Berlin Tour 2026 participant guide" src={GUIDE_PDF}
+        <iframe title="Berlin Tour 2026 participant guide" src={GUIDE_EMBED}
           style={{ width: '100%', height: '75vh', marginTop: 14, border: `1px solid ${CARD_BORDER}`, borderRadius: 10, background: '#fff' }} />
       )}
     </div>
