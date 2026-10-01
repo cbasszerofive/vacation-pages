@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const GOLD = '#c9a84c';
@@ -305,6 +306,33 @@ const tips = [
   { icon: '🍽️', label: 'Tipping', detail: 'Tell the server what to charge when paying — say a specific amount rather than leaving cash on the table. ~10% is generous.' },
 ];
 
+const GUIDE_PDF = `${import.meta.env.BASE_URL}Berlin_Tour_2026.pdf`;
+
+function GuideViewer() {
+  const [open, setOpen] = useState(false);
+  return (
+    <div style={{ background: CARD_BG, border: `1.5px solid ${GOLD_BORDER}`, borderRadius: 16, padding: '14px 18px', marginBottom: 14 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+        <span style={{ fontSize: 20 }}>📖</span>
+        <div style={{ flex: 1, minWidth: 160 }}>
+          <div style={{ fontSize: 14, fontWeight: 700, color: TEXT }}>Participant Tour Guide (PDF)</div>
+          <div style={{ fontSize: 12, color: MUTED }}>Day-by-day routes, maps, venue photos and history</div>
+        </div>
+        <button onClick={() => setOpen(o => !o)}
+          style={{ background: GOLD_DIM, color: GOLD, border: `1px solid ${GOLD_BORDER}`, borderRadius: 20, padding: '7px 14px', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
+          {open ? 'Hide guide' : 'View guide'}
+        </button>
+        <a href={GUIDE_PDF} target="_blank" rel="noopener noreferrer"
+          style={{ color: GOLD, fontSize: 12, textDecoration: 'none', fontWeight: 600 }}>Open in new tab ↗</a>
+      </div>
+      {open && (
+        <iframe title="Berlin Tour 2026 participant guide" src={GUIDE_PDF}
+          style={{ width: '100%', height: '75vh', marginTop: 14, border: `1px solid ${CARD_BORDER}`, borderRadius: 10, background: '#fff' }} />
+      )}
+    </div>
+  );
+}
+
 function PreTripCard() {
   return (
     <div style={{ background: CARD_BG, border: `1.5px solid ${GOLD_BORDER}`, borderRadius: 16, padding: '18px 18px 14px', marginBottom: 14 }}>
@@ -449,6 +477,7 @@ export default function Berlin() {
       </div>
 
       <div style={{ padding: '16px 16px 48px' }}>
+        <GuideViewer />
         <PreTripCard />
         <TipCard />
         {days.map((day, i) => <DayCard key={i} day={day} />)}
