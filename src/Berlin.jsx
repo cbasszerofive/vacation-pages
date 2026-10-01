@@ -34,18 +34,18 @@ const days = [
     activities: [
       {
         text: 'Arrive Berlin Brandenburg (BER) — 7:55 AM',
-        detail: 'Collect luggage and transfer to the hotel.',
+        detail: 'Terminal 1, arrival level E0 (Willy-Brandt-Straße 1, Schönefeld · +49 30 6091 6091 0). Collect luggage and stay together until the group transfer is ready — the Welcome Center is on E0. A private coach takes the group to the hotel, about 45 minutes.',
         icon: '🛬',
       },
       {
         text: 'Check in — NH Collection Berlin Mitte',
-        detail: 'Four-star hotel perfectly located for exploring the city\'s vibrant heart. Official check-in is 3:00 PM, though rooms may be ready sooner. Either way you can drop your bags and head straight out — the whole day until dinner is yours to explore.',
+        detail: 'Four-star hotel perfectly located for exploring the city\'s vibrant heart. Friedrichstraße 96, 10117 Berlin · +49 30 206 266 0, right beside Friedrichstraße station (your main transit hub). Official check-in is 3:00 PM, though rooms may be ready sooner. Either way you can drop your bags and head straight out — the whole day until dinner is yours to explore.',
         icon: '🏨',
         highlight: true,
       },
       {
         text: 'Welcome dinner at Maximilians — 6:00 PM',
-        detail: 'Booked and paid for in advance by the trip organizer. A large, lively Bavarian restaurant in the heart of Mitte — wood-panelled beerhall atmosphere, long tables, big beer steins, and classic German comfort food. About a 3-minute walk from the hotel, so no transit needed on your first evening. A warm, noisy, easy place to meet your fellow travelers after the overnight flight.',
+        detail: 'Booked and paid for in advance by the trip organizer. A large, lively Bavarian restaurant in the heart of Mitte — wood-panelled beerhall atmosphere, long tables, big beer steins, and classic German comfort food. Friedrichstraße 185–190 (entrance Kronenstraße 62) · +49 30 204 505 59. About a 3-minute walk from the hotel — meet in the hotel lobby and walk over together, no transit needed on your first evening. A warm, noisy, easy place to meet your fellow travelers after the overnight flight.',
         icon: '🍺',
         group: true,
         link: { label: 'Google Maps', href: 'https://www.google.com/maps/search/?api=1&query=Maximilians+Berlin+Mitte' },
@@ -70,18 +70,18 @@ const days = [
       { text: 'Buffet breakfast', icon: '🥐', group: true },
       {
         text: 'Walk to the Jewish Museum Berlin (Jüdisches Museum Berlin)',
-        detail: 'Designed by Daniel Libeskind and opened in 2001, the building itself is as powerful as the collection. Its zinc-clad zigzag facade, slashing window cuts, and interior "voids" — tall, dark, empty shafts that can\'t be entered — physically communicate absence and loss. The permanent collection covers 2,000 years of German-Jewish history: not only the Holocaust, but the full arc of Jewish life, culture, and contribution to Germany. Allow 2 hours.',
+        detail: 'Designed by Daniel Libeskind and opened in 2001, the building itself is as powerful as the collection. Its zinc-clad zigzag facade, slashing window cuts, and interior "voids" — tall, dark, empty shafts that can\'t be entered — physically communicate absence and loss. The permanent collection covers 2,000 years of German-Jewish history: not only the Holocaust, but the full arc of Jewish life, culture, and contribution to Germany. Allow 2 hours. Lindenstraße 9–14 · +49 30 259 93 300. About a 25–30 minute walk from the hotel.',
         icon: '🕍', group: true,
         link: { label: 'Google Maps', href: 'https://maps.app.goo.gl/gVKWD1oAtRkBjNdG6' },
       },
       {
         text: 'Private coach panoramic city tour with local guide',
-        detail: 'A curated tour of Berlin\'s most iconic neighborhoods and landmarks — Brandenburg Gate, Reichstag, Checkpoint Charlie, East Side Gallery, Potsdamer Platz, Unter den Linden. A great way to understand the city\'s layered history before exploring on foot.',
+        detail: 'Afternoon coach tour with a local guide. A curated tour of Berlin\'s most iconic neighborhoods and landmarks — Brandenburg Gate, Reichstag, Checkpoint Charlie, East Side Gallery, Potsdamer Platz, Unter den Linden. A great way to understand the city\'s layered history before exploring on foot.',
         icon: '🚌', group: true,
       },
       {
         text: 'Dinner & performance at Bar Jeder Vernunft — Sven Ratzke',
-        detail: 'The legendary Mirror Tent (Spiegelzelt) in the Tiergarten — an Art Nouveau tent from 1912 with chandelier-lit mirrors, seating ~230 in a setting that feels like another century. Tonight\'s performer is Sven Ratzke, the Dutch/German singer, entertainer, and actor whom Time Out called "one of the best cabaret performers of his generation." Expect Bowie, Brel, and vintage cabaret reimagined. Smart casual dress. The group travels there and back by public transport — covered by your Berlin Welcome Card.',
+        detail: 'The legendary Mirror Tent (Spiegelzelt) in the Tiergarten — an Art Nouveau tent from 1912 with chandelier-lit mirrors, seating ~230 in a setting that feels like another century. Tonight\'s performer is Sven Ratzke, the Dutch/German singer, entertainer, and actor whom Time Out called "one of the best cabaret performers of his generation." Expect Bowie, Brel, and vintage cabaret reimagined. Schaperstraße 24, 10719 Berlin · +49 30 390 665 0 (tickets +49 30 883 15 82). Smart casual dress. Allow extra time for group movement after the show. The group travels there and back by public transport — covered by your Berlin Welcome Card.',
         icon: '🎭', group: true,
         link: { label: 'Website', href: 'https://bar-jeder-vernunft.de/en' },
       },
@@ -95,19 +95,19 @@ const days = [
       { text: 'Breakfast', icon: '🥐', group: true },
       {
         text: 'Sachsenhausen Concentration Camp Memorial',
-        detail: 'About 30 minutes north of Berlin in Oranienburg. Opened 1936 as the SS\'s model concentration camp; approximately 200,000 prisoners were held here, tens of thousands of whom died. The memorial complex includes original barracks, punishment cells, execution sites, and a thorough permanent exhibition. Wear comfortable shoes — extensive outdoor walking on gravel. Budget 2–3 hours.',
+        detail: 'Straße der Nationen 22, Oranienburg · +49 3301 200-200 — about 45–60 minutes north of Berlin by coach. Opened 1936 as the SS\'s model concentration camp; approximately 200,000 prisoners were held here, tens of thousands of whom died. The memorial complex includes original barracks, punishment cells, execution sites, and a thorough permanent exhibition. Wear comfortable shoes — extensive outdoor walking on gravel. English-language visitor information and audio guides are available. This is an emotionally demanding visit — stay with the group and follow the guide\'s meeting points. Budget 2–3 hours.',
         icon: '🕯️', group: true,
         link: { label: 'Google Maps', href: 'https://maps.app.goo.gl/bJHFtJoSVrdFqaLK8' },
       },
       {
         text: 'Potsdam — Marble Palace & Sanssouci',
-        detail: 'Sanssouci (French for "without a care") was Frederick the Great\'s personal retreat — intimate and unusual. A single-story rococo palace perched atop six terraced levels of grapevines, built 1747. Frederick is buried here under the terrace among his greyhounds, per his own wishes. The 300-hectare park holds multiple palaces and follies. The Marble Palace (Marmorpalais) sits on the shore of Heiliger See — neoclassical, built for Frederick William II in the 1790s. UNESCO World Heritage Site since 1990.',
+        detail: 'Sanssouci (French for "without a care") was Frederick the Great\'s personal retreat — intimate and unusual. A single-story rococo palace perched atop six terraced levels of grapevines, built 1747. Frederick is buried here under the terrace among his greyhounds, per his own wishes. The 300-hectare park holds multiple palaces and follies. The Marble Palace (Marmorpalais) sits on the shore of Heiliger See — neoclassical, built for Frederick William II in the 1790s. UNESCO World Heritage Site since 1990. The Marble Palace is in the Neuer Garten (about 60 minutes by coach from Sachsenhausen); plan roughly 1½ hours at Sanssouci itself — if you want to limit walking, stay near the group meeting point rather than covering the whole park. Return to Berlin is about 45–60 minutes by coach.',
         icon: '🌿', group: true,
         link: { label: 'Google Maps', href: 'https://maps.app.goo.gl/oLbw4QvHa7bV2Qcu5' },
       },
       {
         text: 'Bag lunch — included',
-        detail: 'Lunch today is a packed bag lunch rather than a sit-down stop, so the group can maximize time at Sachsenhausen and the Potsdam palaces.',
+        detail: 'Lunch today is a packed bag lunch rather than a sit-down stop, so the group can maximize time at Sachsenhausen and the Potsdam palaces. The evening is left free.',
         icon: '🥪', group: true,
       },
     ],
@@ -131,13 +131,13 @@ const days = [
       { text: 'Breakfast', icon: '🥐', group: true },
       {
         text: 'Topography of Terror Museum',
-        detail: 'Built on the exact site of the former SS and Gestapo headquarters. Outdoor and indoor exhibitions document the Nazi terror apparatus in thorough, unflinching detail. Free entry. One of the most important stops in Berlin for understanding the full context of what you\'ve seen.',
+        detail: 'Built on the exact site of the former SS and Gestapo headquarters. Outdoor and indoor exhibitions document the Nazi terror apparatus in thorough, unflinching detail. Niederkirchnerstraße 8 · +49 30 254 509-0. A walk from the hotel. Free entry — allow time for the material and regroup at the agreed meeting point. One of the most important stops in Berlin for understanding the full context of what you\'ve seen.',
         icon: '🏛️', group: true,
         link: { label: 'Google Maps', href: 'https://maps.app.goo.gl/Q8tHH1BhCGPeKP1F6' },
       },
       {
         text: 'Lunch included — Beba at the Gropius Bau',
-        detail: 'An artistic hub where food, design, and culture intersect. Beba serves fresh Mediterranean and Levantine cuisine with a focus on Jewish diaspora dishes — vibrant and culturally resonant after the morning\'s visit. The Gropius Bau itself is a landmark neo-Renaissance exhibition hall worth exploring, and it\'s a short walk from the Topography of Terror.',
+        detail: 'An artistic hub where food, design, and culture intersect. Beba serves fresh Mediterranean and Levantine cuisine with a focus on Jewish diaspora dishes — vibrant and culturally resonant after the morning\'s visit. The Gropius Bau itself is a landmark neo-Renaissance exhibition hall worth exploring, and it\'s a short walk from the Topography of Terror. Niederkirchnerstraße 7 · +49 157 31907076.',
         icon: '🍽️', group: true,
         link: { label: 'Google Maps', href: 'https://www.google.com/maps/search/?api=1&query=Beba+Gropius+Bau+Berlin' },
       },
@@ -162,7 +162,7 @@ const days = [
       { text: 'Breakfast', icon: '🥐', group: true },
       {
         text: 'Spreewald — UNESCO biosphere reserve boat tour',
-        detail: 'About 1.5 hours south of Berlin by coach. The Spreewald is a network of 300km of canals and waterways winding through ancient forests and meadows. A punt boat tour reveals a quieter, pastoral Germany that feels entirely removed from the city — flat-bottomed wooden boats, silence, birdsong, willow trees. A genuine change of pace.',
+        detail: 'About 1–1¼ hours south of Berlin by coach (the boat ride itself isn\'t on a route — just the journey out). The Spreewald is a network of 300km of canals and waterways winding through ancient forests and meadows. A punt boat tour reveals a quieter, pastoral Germany that feels entirely removed from the city — flat-bottomed wooden boats, silence, birdsong, willow trees. A genuine change of pace. Afterward the coach returns to Berlin in about 1–1¼ hours — allow a short rest and time to change before the opera.',
         icon: '🚣', group: true,
         link: { label: 'Google Maps', href: 'https://maps.app.goo.gl/Cc1RzYQiB9bJwHUf9' },
       },
@@ -177,7 +177,7 @@ const days = [
       },
       {
         text: 'Komische Oper Berlin — "Orpheus in the Underworld" · evening',
-        detail: 'Return to Berlin refreshed for one of Europe\'s premier opera houses. Jacques Offenbach\'s zany, rollicking "Orpheus in the Underworld" (1858) sends up the Orpheus myth — the gods behave badly, Orpheus would rather his wife stayed in Hades, and it all builds to the Infernal Galop, the can-can everyone knows. The Komische Oper is Berlin\'s most playful of the three opera houses, and this is a complete change of register from the Bar Jeder Vernunft cabaret. Dress up. Note that the company\'s Behrenstraße home has been undergoing a major renovation — check the venue printed on your ticket.',
+        detail: 'Return to Berlin refreshed for one of Europe\'s premier opera houses. Jacques Offenbach\'s zany, rollicking "Orpheus in the Underworld" (1858) sends up the Orpheus myth — the gods behave badly, Orpheus would rather his wife stayed in Hades, and it all builds to the Infernal Galop, the can-can everyone knows. The Komische Oper is Berlin\'s most playful of the three opera houses, and this is a complete change of register from the Bar Jeder Vernunft cabaret. Dress up. The performance is at the Schillertheater (Bismarckstraße 110, 10625 Berlin · +49 30 47 99 74 00), the company\'s temporary home while its historic Behrenstraße theatre is renovated.',
         icon: '🎼', group: true,
         link: { label: 'Website', href: 'https://www.komische-oper-berlin.de/en/' },
       },
@@ -197,7 +197,7 @@ const days = [
       { text: 'Breakfast', icon: '🥐', group: true },
       {
         text: 'Museum Island (Museumsinsel)',
-        detail: 'A UNESCO World Heritage site — five world-class museums on a small island in the Spree River. The Pergamon holds massive reconstructed ancient gates (the Ishtar Gate of Babylon, the Pergamon Altar). The Neues Museum houses the famous bust of Nefertiti. The Alte Nationalgalerie has 19th-century European painting. Allow a full morning; it\'s easy to spend 3+ hours here.',
+        detail: 'A UNESCO World Heritage site — five world-class museums on a small island in the Spree River. The Pergamon holds massive reconstructed ancient gates (the Ishtar Gate of Babylon, the Pergamon Altar). The Neues Museum houses the famous bust of Nefertiti. The Alte Nationalgalerie has 19th-century European painting. Bodestraße 1–3 · +49 30 266 42 4242 (Staatliche Museen zu Berlin), about 10–15 minutes from the hotel. The exact museum is your choice — agree a group meeting time and place before separating. Allow a full morning; it\'s easy to spend 3+ hours here.',
         icon: '🏛️', group: true,
         link: { label: 'Google Maps', href: 'https://maps.app.goo.gl/WZ3BHQAaJFV2vrG99' },
       },
@@ -212,8 +212,8 @@ const days = [
         icon: '🚇', group: true,
       },
       {
-        text: 'Deutsches Symphonie-Orchester Berlin · 8:00 PM',
-        detail: 'One of the world\'s great orchestras in Berlin\'s iconic Philharmonie (Herbert-von-Karajan-Straße 1). Conductor Manfred Honeck leads a program of three works: Julia Perry\'s thunderous Short Piece for Orchestra (1952/65) — five sections that transform a single motif into a work of remarkable contrasts; Robert Schumann\'s long-neglected Violin Concerto, performed by Norwegian star violinist Vilde Frang, who has been instrumental in bringing this deeply expressive work to modern audiences; and Mahler\'s First Symphony — composed in just six weeks during an emotional upheaval, weaving in "Frère Jacques" in a haunting minor key, shifting between dreamlike lyricism and sudden jolts of reality.',
+        text: 'Deutsches Symphonie-Orchester Berlin · Introduction 7:15 PM · Concert 8:00 PM',
+        detail: 'One of the world\'s great orchestras in Berlin\'s iconic Philharmonie (Herbert-von-Karajan-Straße 1 · +49 30 254 88-0; DSO tickets +49 30 202 987 11). Allow time to find the entrance and settle before the 7:15 PM introduction. Conductor Manfred Honeck leads a program of three works: Julia Perry\'s thunderous Short Piece for Orchestra (1952/65) — five sections that transform a single motif into a work of remarkable contrasts; Robert Schumann\'s long-neglected Violin Concerto, performed by Norwegian star violinist Vilde Frang, who has been instrumental in bringing this deeply expressive work to modern audiences; and Mahler\'s First Symphony — composed in just six weeks during an emotional upheaval, weaving in "Frère Jacques" in a haunting minor key, shifting between dreamlike lyricism and sudden jolts of reality.',
         icon: '🎻', group: true,
         link: { label: 'Concert info', href: 'https://www.dso-berlin.de/de/konzert/honeck-philharmonie-berlin-30-31-10-2026/' },
       },
@@ -232,18 +232,18 @@ const days = [
       { text: 'Buffet breakfast', icon: '🥐', group: true },
       {
         text: 'Reichstag — glass dome tour',
-        detail: 'Germany\'s parliament building, topped by Sir Norman Foster\'s iconic glass dome (1999). A spiral walkway winds up inside with panoramic views over Berlin. The dome is transparently symbolic — you can look down into the plenary chamber below. Free with advance registration.',
+        detail: 'Germany\'s parliament building, topped by Sir Norman Foster\'s iconic glass dome (1999). A spiral walkway winds up inside with panoramic views over Berlin. The dome is transparently symbolic — you can look down into the plenary chamber below. Platz der Republik 1 · +49 30 227-32152. Free, but advance registration is required — allow extra time for security.',
         icon: '🏛️', group: true,
         link: { label: 'Google Maps', href: 'https://maps.app.goo.gl/3JNf9y9xzpRB5JYRA' },
       },
       {
         text: 'Guided walk — Brandenburg Gate, Holocaust Memorial, Tiergarten',
-        detail: 'A stroll through the historic district connecting the landmarks at the heart of Berlin\'s divided and reunified history. The Tiergarten is Berlin\'s central park — 210 hectares of woodland in the city center.',
+        detail: 'A stroll through the historic district connecting the landmarks at the heart of Berlin\'s divided and reunified history. The Tiergarten is Berlin\'s central park — 210 hectares of woodland in the city center. Route: Reichstag → Brandenburg Gate → Holocaust Memorial → Tiergarten. If you\'d rather limit walking, talk to the tour leader about an alternative regrouping point.',
         icon: '🚶', group: true,
       },
       {
         text: 'Farewell dinner — Tafelrunde Medieval Restaurant',
-        detail: 'Head back to the hotel first to recharge and freshen up; the group travels to dinner together by public transport. A festive send-off: period costumes on the staff, mead and ale, no modern cutlery (eat with hands and a knife), live entertainment. Loud, theatrical, and a genuinely fun final evening together after a week of heavy culture. "Tafelrunde" means Round Table.',
+        detail: 'Nachodstraße 21, 10779 Berlin · +49 30 211 21 41. Note the venue has some steps and isn\'t fully step-free — check with the group leader in advance if mobility is a concern. Head back to the hotel first to recharge and freshen up; the group travels to dinner together by public transport. A festive send-off: period costumes on the staff, mead and ale, no modern cutlery (eat with hands and a knife), live entertainment. Loud, theatrical, and a genuinely fun final evening together after a week of heavy culture. "Tafelrunde" means Round Table.',
         icon: '⚔️', group: true,
       },
     ],
@@ -266,7 +266,7 @@ const days = [
     icon: '🛫',
     activities: [
       { text: 'Final breakfast', icon: '🥐' },
-      { text: 'Early transfer to Berlin Brandenburg Airport (BER)', icon: '🚌' },
+      { text: 'Charter-bus transfer to Berlin Brandenburg Airport (BER)', detail: 'Allow about 45 minutes plus extra group time. Check out, settle any hotel charges and meet in the lobby at the agreed time. Keep your passport, travel documents and medications in your carry-on, and follow Departures signage on E1 at Terminal 1.', icon: '🚌' },
       { text: 'Depart BER — 9:55 AM', icon: '✈️' },
       { text: 'Arrive Newark (EWR) — 1:10 PM', detail: 'Plenty of time before the connecting flight.', icon: '🗽' },
       { text: 'Depart Newark (EWR) — 4:00 PM', icon: '✈️' },
@@ -297,6 +297,8 @@ const preTrip = [
 const tips = [
   { icon: '🎫', label: 'Berlin Welcome Card', detail: 'All travelers receive a Berlin Welcome Card — unlimited U-Bahn, S-Bahn, bus, and tram for the full trip. You won\'t need to buy any transit tickets.' },
   { icon: '🚶', label: 'Walking', detail: 'The trip requires moderate walking up to 1.5 miles / 35 minutes at a time. If needed, the group can pool together for an Uber or taxi between stops.' },
+  { icon: '🤝', label: 'Group rule', detail: 'Be at the agreed meeting point 10 minutes before the stated departure. Travel times are planning estimates unless a specific time is given.' },
+  { icon: '🚨', label: 'Emergency', detail: 'Dial 112 for emergency services in Germany.' },
   { icon: '🌧️', label: 'Weather', detail: 'Late October in Berlin: 8–13°C (46–55°F), overcast, occasional rain. Pack layers and a packable rain jacket. Daylight: ~7:30 AM–5:30 PM.' },
   { icon: '💶', label: 'Cash', detail: 'Berlin is unusually cash-heavy. Many restaurants, cafés, and shops don\'t take cards. Carry €50–100 at all times; ATMs are easy to find.' },
   { icon: '🗣️', label: 'Language', detail: 'German, but English is widely spoken in central Berlin and tourist areas. "Danke" (thank you) and "Bitte" (please) go a long way.' },
