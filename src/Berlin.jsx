@@ -17,13 +17,13 @@ const days = [
     icon: '✈️',
     activities: [
       {
-        text: 'Depart Cleveland Hopkins (CLE) — 2:00 PM',
-        detail: 'United Airlines, short flight to Newark (EWR).',
+        text: 'Depart Cleveland Hopkins (CLE) — 1:40 PM',
+        detail: 'United UA 1892, 1h 35m to Newark (EWR), arriving 3:15 PM. Chris & Christina: seats 31D / 31E.',
         icon: '🛫',
       },
       {
         text: 'Depart Newark (EWR) — 6:50 PM → Berlin Brandenburg (BER)',
-        detail: 'International overnight flight. Sit back, relax, and rest up — Berlin is 6 hours ahead.',
+        detail: 'United UA 962, 8h 5m, arriving BER 7:55 AM Mon Oct 26. Chris & Christina: seats 46E / 46F. International overnight flight. Sit back, relax, and rest up — Berlin is 6 hours ahead.',
         icon: '🌙',
       },
     ],
