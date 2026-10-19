@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const GOLD = '#c9a84c';
@@ -9,6 +9,69 @@ const CARD_BG = '#1a1a26';
 const CARD_BORDER = 'rgba(255,255,255,0.07)';
 const TEXT = '#e8e6e0';
 const MUTED = 'rgba(232,230,224,0.5)';
+
+const FORECAST_URL = 'https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41'
+  + '&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum'
+  + '&timezone=Europe%2FBerlin&start_date=2026-10-26&end_date=2026-11-02';
+
+const MONTHS = { Oct: '10', Nov: '11' };
+const dayIso = date => {
+  const [mon, d] = date.split('· ')[1].split(' ');
+  return `2026-${MONTHS[mon]}-${d.padStart(2, '0')}`;
+};
+
+const weatherIcon = code => {
+  if (code === 0) return '☀️';
+  if (code <= 2) return '🌤️';
+  if (code === 3) return '☁️';
+  if (code <= 48) return '🌫️';
+  if (code <= 57) return '🌦️';
+  if (code <= 67) return '🌧️';
+  if (code <= 77) return '🌨️';
+  if (code <= 82) return '🌦️';
+  if (code <= 86) return '🌨️';
+  return '⛈️';
+};
+
+const toF = c => Math.round(c * 9 / 5 + 32);
+
+// Fetches on every page load; returns { 'YYYY-MM-DD': {...} } or null if unavailable.
+function useForecast() {
+  const [forecast, setForecast] = useState(null);
+  useEffect(() => {
+    const ctrl = new AbortController();
+    fetch(FORECAST_URL, { signal: ctrl.signal })
+      .then(r => (r.ok ? r.json() : Promise.reject(new Error(r.status))))
+      .then(({ daily }) => {
+        const byDate = {};
+        daily.time.forEach((t, i) => {
+          byDate[t] = {
+            code: daily.weather_code[i],
+            hi: daily.temperature_2m_max[i],
+            lo: daily.temperature_2m_min[i],
+            pop: daily.precipitation_probability_max[i],
+            mm: daily.precipitation_sum[i],
+          };
+        });
+        setForecast(byDate);
+      })
+      .catch(() => {});
+    return () => ctrl.abort();
+  }, []);
+  return forecast;
+}
+
+function WeatherRow({ w }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14, padding: '8px 12px', background: 'rgba(255,255,255,0.04)', borderRadius: 10 }}>
+      <span style={{ fontSize: 20 }}>{weatherIcon(w.code)}</span>
+      <div style={{ fontSize: 13, color: TEXT }}>
+        <strong>{Math.round(w.hi)}° / {Math.round(w.lo)}°C</strong>
+        <span style={{ color: MUTED }}> ({toF(w.hi)}° / {toF(w.lo)}°F) · 💧 {w.pop}%{w.mm >= 0.1 ? ` · ${w.mm.toFixed(1)} mm` : ''}</span>
+      </div>
+    </div>
+  );
+}
 
 const days = [
   {
@@ -300,7 +363,7 @@ const tips = [
   { icon: '🚶', label: 'Walking', detail: 'The trip requires moderate walking up to 1.5 miles / 35 minutes at a time. If needed, the group can pool together for an Uber or taxi between stops.' },
   { icon: '🤝', label: 'Group rule', detail: 'Be at the agreed meeting point 10 minutes before the stated departure. Travel times are planning estimates unless a specific time is given.' },
   { icon: '🚨', label: 'Emergency', detail: 'Dial 112 for emergency services in Germany.' },
-  { icon: '🌧️', label: 'Weather', detail: 'Late October in Berlin: 8–13°C (46–55°F), overcast, occasional rain. Pack layers and a packable rain jacket. Daylight: ~7:30 AM–5:30 PM.' },
+  { icon: '🌧️', label: 'Weather', detail: 'Late October in Berlin is cool and changeable. Live day-by-day forecasts appear on each day below. Pack layers and a packable rain jacket. Daylight: ~7:30 AM–5:30 PM.' },
   { icon: '💶', label: 'Cash', detail: 'Berlin is unusually cash-heavy. Many restaurants, cafés, and shops don\'t take cards. Carry €50–100 at all times; ATMs are easy to find.' },
   { icon: '🗣️', label: 'Language', detail: 'German, but English is widely spoken in central Berlin and tourist areas. "Danke" (thank you) and "Bitte" (please) go a long way.' },
   { icon: '🍽️', label: 'Tipping', detail: 'Tell the server what to charge when paying — say a specific amount rather than leaving cash on the table. ~10% is generous.' },
@@ -410,7 +473,7 @@ function FreeBlock({ free }) {
   );
 }
 
-function DayCard({ day }) {
+function DayCard({ day, weather }) {
   const groupItems = day.activities.filter(a => a.group);
   const personalItems = day.activities.filter(a => !a.group);
 
@@ -423,6 +486,8 @@ function DayCard({ day }) {
           <div style={{ fontSize: 17, fontWeight: 700, color: TEXT, lineHeight: 1.2 }}>{day.label}</div>
         </div>
       </div>
+
+      {weather && <WeatherRow w={weather} />}
 
       {[...groupItems, ...personalItems].map((a, i) => (
         <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start', marginBottom: 12 }}>
@@ -452,6 +517,7 @@ function DayCard({ day }) {
 }
 
 export default function Berlin() {
+  const forecast = useForecast();
   return (
     <div style={{ fontFamily: "'Segoe UI', system-ui, sans-serif", background: BG, minHeight: '100vh', color: TEXT }}>
       <div style={{ background: 'linear-gradient(160deg, #1a1a2e 0%, #111118 100%)', borderBottom: `1px solid ${GOLD_BORDER}`, padding: '28px 20px 24px' }}>
@@ -482,7 +548,7 @@ export default function Berlin() {
         <GuideViewer />
         <PreTripCard />
         <TipCard />
-        {days.map((day, i) => <DayCard key={i} day={day} />)}
+        {days.map((day, i) => <DayCard key={i} day={day} weather={forecast?.[dayIso(day.date)]} />)}
       </div>
     </div>
   );
