@@ -205,6 +205,12 @@ const days = [
         icon: '🍽️', group: true,
         link: { label: 'Google Maps', href: 'https://www.google.com/maps/search/?api=1&query=Beba+Gropius+Bau+Berlin' },
       },
+      {
+        text: 'Night Watchman Tour — 10:00 PM (confirmed, English)',
+        detail: 'Costumed night walk with Berlin\'s night watchman through the Nikolaiviertel and old Berlin — medieval legends, ghosts, the White Lady of Cölln Castle, and the Court Arbor where a dead man was sentenced in 1390. About 1.5 hours, €18 per person. Meet at the main entrance of St. Nicholas Church (Propststraße, near Rotes Rathaus U-Bahn). Just the two of you — not a group activity.',
+        icon: '🕯️',
+        link: { label: 'Bärentouren', href: 'https://baerentouren.de/stadtf%C3%BChrung/nachtw%C3%A4chtertour-berlin' },
+      },
     ],
     free: {
       label: 'Free Time — Afternoon & Evening',
