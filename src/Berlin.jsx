@@ -337,10 +337,10 @@ const days = [
     activities: [
       { text: 'Final breakfast', icon: '🥐' },
       { text: 'Charter-bus transfer to Berlin Brandenburg Airport (BER)', detail: 'Allow about 45 minutes plus extra group time. Check out, settle any hotel charges and meet in the lobby at the agreed time. Keep your passport, travel documents and medications in your carry-on, and follow Departures signage on E1 at Terminal 1.', icon: '🚌' },
-      { text: 'Depart BER — 9:55 AM', icon: '✈️' },
-      { text: 'Arrive Newark (EWR) — 1:10 PM', detail: 'Plenty of time before the connecting flight.', icon: '🗽' },
-      { text: 'Depart Newark (EWR) — 4:00 PM', icon: '✈️' },
-      { text: 'Arrive Cleveland Hopkins (CLE) — 5:40 PM', detail: 'Home with a week of memories you won\'t forget.', icon: '🏠' },
+      { text: 'Depart BER — 9:55 AM', detail: 'United UA 963, 9h 10m to Newark. Chris & Christina: seats 49E / 49F.', icon: '✈️' },
+      { text: 'Arrive Newark (EWR) — 1:05 PM', detail: 'Plenty of time before the connecting flight.', icon: '🗽' },
+      { text: 'Depart Newark (EWR) — 4:00 PM', detail: 'United UA 2172, 1h 42m to Cleveland. Chris & Christina: seats 30D / 30E.', icon: '✈️' },
+      { text: 'Arrive Cleveland Hopkins (CLE) — 5:42 PM', detail: 'Home with a week of memories you won\'t forget.', icon: '🏠' },
     ],
   },
 ];
