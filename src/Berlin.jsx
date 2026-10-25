@@ -106,6 +106,7 @@ const days = [
         detail: 'Four-star hotel perfectly located for exploring the city\'s vibrant heart. Friedrichstraße 96, 10117 Berlin · +49 30 206 266 0, right beside Friedrichstraße station (your main transit hub). Official check-in is 3:00 PM, though rooms may be ready sooner. Either way you can drop your bags and head straight out — the whole day until dinner is yours to explore.',
         icon: '🏨',
         highlight: true,
+        link: { label: 'Hotel on Google Maps', href: 'https://www.google.com/maps/search/?api=1&query=NH+Collection+Berlin+Mitte+Friedrichstra%C3%9Fe+96+10117+Berlin' },
       },
       {
         text: 'Welcome dinner at Maximilians — 6:00 PM',
@@ -291,6 +292,7 @@ const days = [
         text: 'S-Bahn back to NH Collection Berlin Mitte',
         detail: 'S1/S2 from Potsdamer Platz — back in Mitte in about 10 minutes.',
         icon: '🚇', group: true,
+        link: { label: 'Hotel on Google Maps', href: 'https://www.google.com/maps/search/?api=1&query=NH+Collection+Berlin+Mitte+Friedrichstra%C3%9Fe+96+10117+Berlin' },
       },
     ],
   },
@@ -536,11 +538,18 @@ export default function Berlin() {
         <h1 style={{ margin: '0 0 4px', fontSize: 30, fontWeight: 800, letterSpacing: -0.5, color: '#fff' }}>Berlin 🇩🇪</h1>
         <p style={{ margin: '0 0 14px', fontSize: 15, color: MUTED }}>October 25 – November 2, 2026 · Chris & Christina</p>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-          {[['9 days', '📅'], ['4 free time blocks', '🕐'], ['30 travelers', '👥'], ['NH Collection Berlin Mitte', '🏨']].map(([label, icon]) => (
-            <span key={label} style={{ fontSize: 12, color: TEXT, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: '4px 11px' }}>
-              {icon} {label}
-            </span>
-          ))}
+          {[['9 days', '📅'], ['4 free time blocks', '🕐'], ['30 travelers', '👥'], ['NH Collection Berlin Mitte', '🏨', 'https://www.google.com/maps/search/?api=1&query=NH+Collection+Berlin+Mitte+Friedrichstra%C3%9Fe+96+10117+Berlin']].map(([label, icon, href]) => {
+            const style = { fontSize: 12, color: TEXT, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: '4px 11px', textDecoration: 'none' };
+            return href ? (
+              <a key={label} href={href} target="_blank" rel="noopener noreferrer" style={style}>
+                {icon} {label} · Map ↗
+              </a>
+            ) : (
+              <span key={label} style={style}>
+                {icon} {label}
+              </span>
+            );
+          })}
         </div>
       </div>
 
